@@ -31,7 +31,9 @@ namespace SnakeGame
 
         public SnakeElement(double size)
         {
-            Child = new Image() { Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/player.gif")) };
+            Background = new SolidColorBrush(Colors.Goldenrod);
+            CornerRadius = new Microsoft.UI.Xaml.CornerRadius(50);
+            //Child = new Image() { Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/collectible.gif")) };
             Width = size;
             Height = size;
         }

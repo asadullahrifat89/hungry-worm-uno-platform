@@ -10,7 +10,7 @@ namespace SnakeGame
 
         #region Measurements
 
-        public const double DEFAULT_FRAME_TIME = 500;
+        public const double DEFAULT_FRAME_TIME = 18;
 
         public const double CAR_WIDTH = 60 * 1.5;
         public const double CAR_HEIGHT = 120 * 1.5;

@@ -318,7 +318,7 @@ namespace SnakeGame
             if (Apple != null)
                 return;
 
-            Apple = new Apple(ElementSize / 2)
+            Apple = new Apple(ElementSize)
             {
                 X = _random.Next(100, (int)_windowWidth - 100),
                 Y = _random.Next(100, (int)_windowHeight - 100),
@@ -333,10 +333,11 @@ namespace SnakeGame
             SnakeElement head = Snake.Head;
             //return (head.X == Apple.X && head.Y == Apple.Y);
 
-            if (head.GetHitBox(_scale).IntersectsWith(Apple.GetHitBox(_scale)))
+            if (head.Width >= 0.0 && head.Width >= 0.0
+               && Apple.X <= head.X + head.Width && Apple.X + Apple.Width >= head.X
+               && Apple.Y <= head.Y + head.Height)
             {
-                Console.WriteLine("ATE APPLE");
-                return true;
+                return Apple.Y + Apple.Height >= head.Y;
             }
 
             return false;
