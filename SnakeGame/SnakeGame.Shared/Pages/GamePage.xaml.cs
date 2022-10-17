@@ -831,8 +831,8 @@ namespace SnakeGame
         //private PowerUpType _powerUpType;
 
         private Player _player;
-        private List<PlayerTrail> _playerTrails;
         private int _length;
+        private int _maxLength = 50;
 
         #endregion
 
@@ -1135,9 +1135,7 @@ namespace SnakeGame
 
             //    RandomizeCarPosition(car);
             //    GameView.Children.Add(car);
-            //}
-
-            _playerTrails = new List<PlayerTrail>();
+            //}            
 
             // add player
             _player = new Player(Constants.PLAYER_WIDTH * _scale);
@@ -1424,7 +1422,7 @@ namespace SnakeGame
             GameView.Children.Add(playerTrail);
             _length++;
 
-            if (_length > 50)
+            if (_length > _maxLength)
             {
                 GameView.Children.Remove(GameView.Children.OfType<PlayerTrail>().First());
                 _length--;
@@ -1542,7 +1540,7 @@ namespace SnakeGame
             //            break;
             //    }
             //}
-
+            _maxLength += 5;
             _score += score;
         }
 
