@@ -27,17 +27,17 @@ namespace SnakeGame
 
         #region Methods
 
-        public override bool Equals(object obj)
-        {
-            if (obj is Collectible apple)
-                return X == apple.X && Y == apple.Y;
-            else
-                return false;
-        }
+        //public override bool Equals(object obj)
+        //{
+        //    if (obj is Collectible apple)
+        //        return X == apple.X && Y == apple.Y;
+        //    else
+        //        return false;
+        //}
 
-        public override int GetHashCode() => base.GetHashCode();
+        //public override int GetHashCode() => base.GetHashCode();
 
-        public override string ToString() => base.ToString(); 
+        //public override string ToString() => base.ToString(); 
 
         #endregion
     }

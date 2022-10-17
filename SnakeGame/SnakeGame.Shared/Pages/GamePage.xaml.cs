@@ -1269,7 +1269,14 @@ namespace SnakeGame
 
         private void SpawnGameObjects()
         {
+            _collectibleSpawnCounter--;
 
+
+            if (_collectibleSpawnCounter < 1)
+            {
+                SpawnCollectible();
+                _collectibleSpawnCounter = _random.Next(200, 300);
+            }
         }
 
         private void UpdateGameObjects()
@@ -1353,6 +1360,10 @@ namespace SnakeGame
             return speed;
         }
 
+
+
+        #endregion
+
         #region Player
 
         private void UpdatePlayer()
@@ -1423,6 +1434,84 @@ namespace SnakeGame
         }
 
         #endregion
+
+        #region Collectible
+
+        private void SpawnCollectible()
+        {
+            //double top = GameView.Height * -1;
+            //double left = _random.Next(0, (int)(GameView.Width - 55));
+
+            //double xDir = _random.Next(-1, 2);
+
+            //var speed = (double)_gameSpeed - (double)_gameSpeed / 2;
+
+            //Collectible collectible = new(Constants.COLLECTIBLE_HEIGHT * _scale)
+            //{
+            //    Speed = speed,
+            //};
+
+            //for (int i = 0; i < 5; i++)
+            //{
+            //    Collectible collectible = new(Constants.COLLECTIBLE_HEIGHT * _scale)
+            //    {                  
+            //        //Speed = speed,
+            //    };
+
+            //    collectible.SetPosition(left: left, top: top);
+            //    GameView.Children.Add(collectible);
+
+            //    switch (xDir)
+            //    {
+            //        case -1:
+            //            {
+            //                left -= collectible.Width;
+            //            }
+            //            break;
+            //        case 1:
+            //            {
+            //                left += collectible.Width;
+            //            }
+            //            break;
+            //        default:
+            //            break;
+            //    }
+
+            //    if (left < 0)
+            //        left = 0;
+
+            //    if (left + collectible.Width >= GameView.Width)
+            //        left = GameView.Width - collectible.Width;
+
+            //    top += collectible.Height;
+            //}
+        }
+
+        private void UpdateCollectible(GameObject collectible)
+        {
+            //var speed = collectible.Speed;
+            //speed = DecreaseSpeed(speed);
+
+            //collectible.SetTop(collectible.GetTop() + speed);
+
+            //if (_playerHitBox.IntersectsWith(collectible.GetHitBox(_scale)))
+            //{
+            //    GameView.AddDestroyableGameObject(collectible);
+            //    Collectible();
+            //}
+
+            //if (collectible.GetTop() > GameView.Height)
+            //{
+            //    GameView.AddDestroyableGameObject(collectible);
+            //}
+        }
+
+        private void Collectible()
+        {
+            AddScore(1); // increase the score by 1 if collectible is collected
+            _collectiblesCollected++;
+            SoundHelper.PlaySound(SoundType.COLLECTIBLE_COLLECTED);
+        }
 
         #endregion        
 
