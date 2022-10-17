@@ -1,5 +1,7 @@
 ﻿using Microsoft.UI;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,8 +14,7 @@ namespace SnakeGame
 
         public Apple(double size)
         {
-            CornerRadius = new Microsoft.UI.Xaml.CornerRadius(50);
-            Background = new SolidColorBrush(Colors.Crimson);
+            Child = new Image() { Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/collectible.gif")) };
             Height = size;
             Width = size;
         } 

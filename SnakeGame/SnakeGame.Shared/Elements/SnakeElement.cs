@@ -1,5 +1,7 @@
 ﻿using Microsoft.UI;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,7 +20,7 @@ namespace SnakeGame
             set
             {
                 _IsHead = value;
-                Background = _IsHead ? new SolidColorBrush(Colors.Purple) : new SolidColorBrush(Colors.Green);
+                //Background = _IsHead ? new SolidColorBrush(Colors.Purple) : new SolidColorBrush(Colors.Green);
             }
         }
 
@@ -29,8 +31,7 @@ namespace SnakeGame
 
         public SnakeElement(double size)
         {
-            Background = new SolidColorBrush(Colors.Green);
-            CornerRadius = new Microsoft.UI.Xaml.CornerRadius(50);
+            Child = new Image() { Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/player.gif")) };
             Width = size;
             Height = size;
         }
