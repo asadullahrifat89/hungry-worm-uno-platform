@@ -17,6 +17,15 @@ namespace SnakeGame
 
         private Image _content = new() { Stretch = Stretch.Uniform, Visibility = Microsoft.UI.Xaml.Visibility.Collapsed };
 
+        private readonly CompositeTransform _compositeTransform = new()
+        {
+            CenterX = 0.5,
+            CenterY = 0.5,
+            Rotation = 0,
+            ScaleX = 1,
+            ScaleY = 1,
+        };
+
         //private Border _hitBoxborder;
 
         #endregion
@@ -34,6 +43,9 @@ namespace SnakeGame
         {
             Child = _content;
             RenderTransformOrigin = new Point(0.5, 0.5);
+
+            RenderTransform = _compositeTransform;
+            CanDrag = false;
 
             #region HitBox Debug
 
@@ -102,6 +114,23 @@ namespace SnakeGame
             _content.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
         }
 
+        public void SetDirection(XDirection xDirection)
+        {
+            switch (xDirection)
+            {
+                case XDirection.NONE:
+                    break;
+                case XDirection.LEFT:
+                    _compositeTransform.ScaleX = -1;
+                    break;
+                case XDirection.RIGHT:
+                    _compositeTransform.ScaleX = 1;
+                    break;
+                default:
+                    break;
+            }
+        }
+
         public void SetHitBoxBorder(Rect rect)
         {
             //_hitBoxborder.Height = rect.Height;
@@ -122,6 +151,13 @@ namespace SnakeGame
         CLOUD,
         ISLAND,
         COLLECTIBLE,
+    }
+
+    public enum XDirection
+    {
+        NONE,
+        LEFT,
+        RIGHT,
     }
 }
 

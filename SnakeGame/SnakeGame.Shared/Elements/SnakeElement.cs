@@ -22,6 +22,13 @@ namespace SnakeGame
             {
                 _IsHead = value;
                 BorderBrush = _IsHead ? new SolidColorBrush(Colors.Crimson) : new SolidColorBrush(Colors.Goldenrod);                
+
+                //if (_IsHead)
+                //    SetContent(new Uri("ms-appx:///Assets/Images/character_maleAdventurer_run0.png"));
+                //else                
+                //    Background = new SolidColorBrush(Colors.Crimson);
+                
+                //character_maleAdventurer_run0
             }
         }
 

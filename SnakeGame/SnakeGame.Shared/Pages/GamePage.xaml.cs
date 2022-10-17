@@ -29,7 +29,7 @@ namespace SnakeGame
         private readonly TimeSpan _frameTime = TimeSpan.FromMilliseconds(Constants.DEFAULT_FRAME_TIME);
 
         private readonly Random _random = new();
-        
+
         private bool _isGameOver;
         private bool _isPointerActivated;
 
@@ -196,7 +196,7 @@ namespace SnakeGame
 
             score = 0;
             scoreText.Text = "0";
-          
+
             InitializeSnake();
             StartGameSounds();
             RunGame();
@@ -264,9 +264,7 @@ namespace SnakeGame
                 ProcessCollisionWithApple();
 
             if (Snake.CollisionWithSelf() || CollisionWithWorldBounds())
-            {
                 StopGame();
-            }
         }
 
         private void ProcessCollisionWithApple()

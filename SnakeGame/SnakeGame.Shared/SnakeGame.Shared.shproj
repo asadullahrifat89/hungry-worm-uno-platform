@@ -24,6 +24,7 @@
     <_Globbed_Compile Remove="Pages\GamePage2.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
+    <_Globbed_Content Remove="Assets\Images\character_maleAdventurer_run0.png" />
     <_Globbed_Content Remove="Assets\SplashScreen.png" />
   </ItemGroup>
   <ItemGroup>
