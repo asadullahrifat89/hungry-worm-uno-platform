@@ -64,9 +64,12 @@ namespace SnakeGame
         {
             for (int i = 0; i < 5; i++)
             {
-                Elements.Add(new SnakeElement(_elementSize) { X = TailBackup.X, Y = TailBackup.Y });
+                Elements.Add(new SnakeElement(_elementSize)
+                {
+                    X = TailBackup.X,
+                    Y = TailBackup.Y
+                });
             }
-
         }
 
         public bool CollisionWithSelf()
