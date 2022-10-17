@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Uno.Extensions;
 using Windows.Foundation;
 using Windows.System;
 
@@ -831,6 +832,7 @@ namespace SnakeGame
 
         private Player _player;
         private List<SnakeElement> _playerTrails;
+        private int _length;
 
         #endregion
 
@@ -1344,20 +1346,23 @@ namespace SnakeGame
 
             }
 
-            //if (GameView.Children.OfType<SnakeElement>().Count() < 10)
+            //if (GameView.Children.OfType<SnakeElement>().Count() == 20)
             //{
+            //    GameView.Children.RemoveAt(20);
+            //}
+
             SnakeElement playerTrail = new(_player.Height);
             playerTrail.SetTop(top);
             playerTrail.SetLeft(left);
 
-            GameView.Children.Add(playerTrail);
+            GameView.Children.Insert(0, playerTrail);
+            _length++;
 
-            if (GameView.Children.OfType<SnakeElement>().Count() > 20)
+            if (_length > 20)
             {
                 GameView.Children.Remove(GameView.Children.OfType<SnakeElement>().Last());
+                _length--;
             }
-
-            //}
         }
 
         #endregion
