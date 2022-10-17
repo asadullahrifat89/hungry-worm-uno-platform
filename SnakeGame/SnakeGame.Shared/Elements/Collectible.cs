@@ -14,6 +14,8 @@ namespace SnakeGame
 
         public Collectible(double size)
         {
+            Tag = ElementType.COLLECTIBLE;
+
             Background = new SolidColorBrush(Colors.Crimson);
             CornerRadius = new Microsoft.UI.Xaml.CornerRadius(50);
             

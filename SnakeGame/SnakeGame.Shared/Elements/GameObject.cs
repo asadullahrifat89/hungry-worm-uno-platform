@@ -148,7 +148,7 @@ namespace SnakeGame
         NONE,
         PLAYER,
         PLAYER_POWER_MODE,
-        CAR,
+        PLAYER_TRAIL,
         POWERUP,
         HEALTH,
         CLOUD,

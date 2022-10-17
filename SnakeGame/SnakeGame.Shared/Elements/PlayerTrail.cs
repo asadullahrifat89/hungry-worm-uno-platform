@@ -44,7 +44,8 @@ namespace SnakeGame
 
         public PlayerTrail(double size)
         {
-            Tag = ElementType.CAR;
+            Tag = ElementType.PLAYER_TRAIL;
+
             Background = new SolidColorBrush(Colors.Goldenrod);
             CornerRadius = new Microsoft.UI.Xaml.CornerRadius(50);
             
