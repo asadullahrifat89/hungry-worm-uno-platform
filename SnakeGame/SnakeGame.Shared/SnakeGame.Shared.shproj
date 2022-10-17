@@ -19,4 +19,7 @@
     <_Globbed_Compile Remove="Elements\SnakeElement.cs" />
     <_Globbed_Compile Remove="Elements\Sound.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <_Globbed_Content Remove="Assets\SplashScreen.png" />
+  </ItemGroup>
 </Project>

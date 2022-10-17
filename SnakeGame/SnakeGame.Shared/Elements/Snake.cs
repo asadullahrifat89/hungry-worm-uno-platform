@@ -116,16 +116,16 @@ namespace SnakeGame
             switch (MovementDirection)
             {
                 case MovementDirection.Right:
-                    tail.X += _gameSpeed;
+                    tail.X += _elementSize;
                     break;
                 case MovementDirection.Left:
-                    tail.X -= _gameSpeed;
+                    tail.X -= _elementSize;
                     break;
                 case MovementDirection.Up:
-                    tail.Y -= _gameSpeed;
+                    tail.Y -= _elementSize;
                     break;
                 case MovementDirection.Down:
-                    tail.Y += _gameSpeed;
+                    tail.Y += _elementSize;
                     break;
                 default:
                     break;

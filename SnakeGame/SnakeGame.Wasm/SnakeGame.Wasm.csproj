@@ -73,5 +73,8 @@
 		<PackageReference Include="Uno.Wasm.Bootstrap" Version="3.3.1" />
 		<PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="3.3.1" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Assets\" />
+	</ItemGroup>
 	<Import Project="..\SnakeGame.Shared\SnakeGame.Shared.projitems" Label="Shared" Condition="Exists('..\SnakeGame.Shared\SnakeGame.Shared.projitems')" />
 </Project>

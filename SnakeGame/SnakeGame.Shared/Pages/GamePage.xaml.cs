@@ -131,18 +131,22 @@ namespace SnakeGame
             if (e.Key == VirtualKey.Left)
             {
                 UpdateMovementDirection(MovementDirection.Left);
+                return;
             }
             if (e.Key == VirtualKey.Right)
             {
                 UpdateMovementDirection(MovementDirection.Right);
+                return;
             }
             if (e.Key == VirtualKey.Up)
             {
                 UpdateMovementDirection(MovementDirection.Up);
+                return;
             }
             if (e.Key == VirtualKey.Down)
             {
                 UpdateMovementDirection(MovementDirection.Down);
+                return;
             }
         }
 
@@ -307,8 +311,8 @@ namespace SnakeGame
 
             Apple = new Apple(ElementSize)
             {
-                X = _random.Next(0, (int)_windowWidth) * ElementSize,
-                Y = _random.Next(0, (int)_windowHeight) * ElementSize
+                X = _random.Next(100, (int)_windowWidth - 100),
+                Y = _random.Next(100, (int)_windowHeight - 100),
             };
         }
 
@@ -318,7 +322,8 @@ namespace SnakeGame
                 return false;
 
             SnakeElement head = Snake.Head;
-            return (head.X == Apple.X && head.Y == Apple.Y);
+            //return (head.X == Apple.X && head.Y == Apple.Y);
+            return head.GetHitBox(_scale).IntersectsWith(Apple.GetHitBox(_scale));
         }
 
         private bool CollisionWithWorldBounds()
@@ -328,9 +333,31 @@ namespace SnakeGame
 
             var snakeHead = Snake.Head;
 
-            return (snakeHead.X > _windowWidth - ElementSize ||
-                snakeHead.Y > _windowHeight - ElementSize ||
-                snakeHead.X < 0 || snakeHead.Y < 0);
+            //return (snakeHead.X > _windowWidth - ElementSize ||
+            //    snakeHead.Y > _windowHeight - ElementSize ||
+            //    snakeHead.X < 0 || snakeHead.Y < 0);
+
+            if (snakeHead.X > _windowWidth)
+            {
+                snakeHead.X = 0;
+            }
+
+            if (snakeHead.X < 0)
+            {
+                snakeHead.X = _windowWidth;
+            }
+
+            if (snakeHead.Y > _windowHeight)
+            {
+                snakeHead.Y = 0;
+            }
+
+            if (snakeHead.Y < 0)
+            {
+                snakeHead.Y = _windowHeight;
+            }
+
+            return false;
         }
 
         private void PauseGame()
