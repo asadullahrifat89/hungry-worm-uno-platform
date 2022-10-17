@@ -13,10 +13,10 @@ namespace SnakeGame
         public const double DEFAULT_FRAME_TIME = 18;
 
         public const double CAR_WIDTH = 60 * 1.5;
-        public const double CAR_HEIGHT = 120 * 1.5;
+        public const double CAR_HEIGHT = 60 * 1.5;
 
         public const double PLAYER_WIDTH = 60 * 1.5;
-        public const double PLAYER_HEIGHT = 120 * 1.5;
+        public const double PLAYER_HEIGHT = 60 * 1.5;
 
         public const double POWERUP_WIDTH = 80;
         public const double POWERUP_HEIGHT = 80;
@@ -25,18 +25,7 @@ namespace SnakeGame
         public const double COLLECTIBLE_HEIGHT = 60;
 
         public const double HEALTH_WIDTH = 80;
-        public const double HEALTH_HEIGHT = 80;
-
-        public const double ROADMARK_WIDTH = 30;
-        public const double ROADMARK_HEIGHT = 80;
-
-        public const double CLOUD_WIDTH = 100;
-        public const double CLOUD_HEIGHT = 100;
-
-        public const double ISLAND_WIDTH = 600;
-        public const double ISLAND_HEIGHT = 600;
-
-        public const double ROADDIVIDER_WIDTH = 30;
+        public const double HEALTH_HEIGHT = 80;      
 
         #endregion
 

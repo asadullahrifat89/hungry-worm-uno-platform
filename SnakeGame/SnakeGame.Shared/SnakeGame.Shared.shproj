@@ -18,6 +18,7 @@
     <_Globbed_Compile Remove="Elements\Apple.cs" />
     <_Globbed_Compile Remove="Elements\GameEnvironment.cs" />
     <_Globbed_Compile Remove="Elements\GameObject.cs" />
+    <_Globbed_Compile Remove="Elements\Player.cs" />
     <_Globbed_Compile Remove="Elements\Snake.cs" />
     <_Globbed_Compile Remove="Elements\SnakeElement.cs" />
     <_Globbed_Compile Remove="Elements\Sound.cs" />

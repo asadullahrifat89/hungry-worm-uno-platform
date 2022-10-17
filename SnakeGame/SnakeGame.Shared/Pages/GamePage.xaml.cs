@@ -786,8 +786,8 @@ namespace SnakeGame
         private int _gameSpeed;
         private readonly int _defaultGameSpeed = 5;
 
-        private int _playerSpeed = 4;
-        private int _defaultPlayerSpeed = 9;
+        private int _playerSpeed = 5;
+        private int _defaultPlayerSpeed = 5;
         private int _markNum;
 
         private int _powerUpSpawnCounter = 30;
@@ -828,6 +828,8 @@ namespace SnakeGame
 
         //private PowerUpType _powerUpType;
 
+        private Player _player;
+
         #endregion
 
         #region Ctor
@@ -842,6 +844,7 @@ namespace SnakeGame
             _windowHeight = Window.Current.Bounds.Height;
             _windowWidth = Window.Current.Bounds.Width;
 
+            SoundHelper.LoadGameSounds();
             LoadGameElements();
             PopulateGameViews();
 
@@ -997,9 +1000,9 @@ namespace SnakeGame
 
             SetViewSize();
 
-            PopulateUnderView();
+            //PopulateUnderView();
             PopulateGameView();
-            PopulateOverView();
+            //PopulateOverView();
         }
 
         private void PopulateUnderView()
@@ -1061,18 +1064,18 @@ namespace SnakeGame
             //    GameView.Children.Add(car);
             //}
 
-            //// add player
-            //_player = new Player()
-            //{
-            //    Width = Constants.PLAYER_WIDTH * _scale,
-            //    Height = Constants.PLAYER_HEIGHT * _scale,
-            //};
+            // add player
+            _player = new Player()
+            {
+                Width = Constants.PLAYER_WIDTH * _scale,
+                Height = Constants.PLAYER_HEIGHT * _scale,
+            };
 
-            //_player.SetPosition(
-            //    left: GameView.Width / 2 - _player.Width / 2,
-            //    top: GameView.Height - _player.Height - (50 * _scale));
+            _player.SetPosition(
+                left: GameView.Width / 2 - _player.Width / 2,
+                top: GameView.Height - _player.Height - (50 * _scale));
 
-            //GameView.Children.Add(_player);
+            GameView.Children.Add(_player);
         }
 
         private void PopulateOverView()
@@ -1119,7 +1122,7 @@ namespace SnakeGame
 
             _gameSpeed = _defaultGameSpeed;
             _playerSpeed = _defaultPlayerSpeed;
-            //_player.Opacity = 1;
+            _player.Opacity = 1;
 
             ResetControls();
 
@@ -1159,7 +1162,7 @@ namespace SnakeGame
 
         private void RecycleGameObjects()
         {
-           
+
         }
 
         private void ResetControls()
@@ -1173,10 +1176,10 @@ namespace SnakeGame
 
         private void GameViewLoop()
         {
-            AddScore(0.05d); // increase the score by .5 each tick of the timer
-            scoreText.Text = _score.ToString("#");
+            //AddScore(0.05d); // increase the score by .5 each tick of the timer
+            //scoreText.Text = _score.ToString("#");
 
-            //_playerHitBox = _player.GetHitBox(_scale);
+            _playerHitBox = _player.GetHitBox(_scale);
 
             SpawnGameObjects();
             UpdateGameObjects();
@@ -1184,19 +1187,34 @@ namespace SnakeGame
 
             if (_isGameOver)
                 return;
-         
+
             // as you progress in the game you will score higher and game speed will go up
-            ScaleDifficulty();
+            //ScaleDifficulty();
         }
 
         private void SpawnGameObjects()
         {
-          
+
         }
 
         private void UpdateGameObjects()
         {
-            
+            foreach (GameObject x in GameView.Children.OfType<GameObject>())
+            {
+                switch ((ElementType)x.Tag)
+                {                   
+                    case ElementType.PLAYER:
+                        {
+                            if (_moveLeft || _moveRight || _moveUp || _moveDown || _isPointerActivated)
+                            {
+                                UpdatePlayer();
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         private void RemoveGameObjects()
@@ -1259,6 +1277,59 @@ namespace SnakeGame
 
             return speed;
         }
+
+        #region Player
+
+        private void UpdatePlayer()
+        {
+            double effectiveSpeed = _accelerationCounter >= _playerSpeed ? _playerSpeed : _accelerationCounter / 1.3;
+
+            // increase acceleration and stop when player speed is reached
+            if (_accelerationCounter <= _playerSpeed)
+                _accelerationCounter++;
+
+            double left = _player.GetLeft();
+            double top = _player.GetTop();
+
+            double playerMiddleX = left + _player.Width / 2;
+            double playerMiddleY = top + _player.Height / 2;
+
+            if (_isPointerActivated)
+            {
+                // move up
+                if (_pointerPosition.Y < playerMiddleY - _playerSpeed)
+                    _player.SetTop(top - effectiveSpeed);
+
+                // move left
+                if (_pointerPosition.X < playerMiddleX - _playerSpeed && left > 0)
+                    _player.SetLeft(left - effectiveSpeed);
+
+                // move down
+                if (_pointerPosition.Y > playerMiddleY + _playerSpeed)
+                    _player.SetTop(top + effectiveSpeed);
+
+                // move right
+                if (_pointerPosition.X > playerMiddleX + _playerSpeed && left + _player.Width < GameView.Width)
+                    _player.SetLeft(left + effectiveSpeed);
+            }
+            else
+            {
+                if (_moveLeft && left > 0)
+                    _player.SetLeft(left - effectiveSpeed);
+
+                if (_moveRight && left + _player.Width < GameView.Width)
+                    _player.SetLeft(left + effectiveSpeed);
+
+                if (_moveUp && top > 0 + (50 * _scale))
+                    _player.SetTop(top - effectiveSpeed);
+
+                if (_moveDown && top < GameView.Height - (100 * _scale))
+                    _player.SetTop(top + effectiveSpeed);
+
+            }
+        }
+
+        #endregion
 
         #endregion        
 

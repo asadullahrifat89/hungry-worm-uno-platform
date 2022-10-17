@@ -22,6 +22,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Elements\Apple.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\GameEnvironment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\GameObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Elements\Player.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\Snake.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\SnakeElement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\Sound.cs" />
