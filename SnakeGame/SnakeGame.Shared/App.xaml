@@ -88,7 +88,7 @@
             <SolidColorBrush x:Key="ProgressBarForegroundColor" Color="#ff6852" />
             <SolidColorBrush x:Key="ProgressBarOkColor" Color="LightGreen" />
 
-            <SolidColorBrush x:Key="SeaBackgroundColor" Color="LightSkyBlue" />
+            <SolidColorBrush x:Key="GameBackgroundColor" Color="LightSkyBlue" />
             <!--#endregion-->
 
         </ResourceDictionary>
