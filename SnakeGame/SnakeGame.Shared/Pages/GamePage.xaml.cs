@@ -1135,10 +1135,10 @@ namespace SnakeGame
             _collectiblesCollected = 0;
             scoreText.Text = "0";
 
-            foreach (GameObject x in SeaView.Children.OfType<GameObject>())
-            {
-                SeaView.AddDestroyableGameObject(x);
-            }
+            //foreach (GameObject x in SeaView.Children.OfType<GameObject>())
+            //{
+            //    SeaView.AddDestroyableGameObject(x);
+            //}
 
             RecycleGameObjects();
             RemoveGameObjects();
@@ -1201,10 +1201,10 @@ namespace SnakeGame
 
         private void RemoveGameObjects()
         {
-            SeaView.RemoveDestroyableGameObjects();
-            UnderView.RemoveDestroyableGameObjects();
+            //SeaView.RemoveDestroyableGameObjects();
+            //UnderView.RemoveDestroyableGameObjects();
             GameView.RemoveDestroyableGameObjects();
-            OverView.RemoveDestroyableGameObjects();
+            //OverView.RemoveDestroyableGameObjects();
         }
 
         private void PauseGame()
@@ -1260,15 +1260,7 @@ namespace SnakeGame
             return speed;
         }
 
-        #endregion
-
-     
-
-        
-
-        
-
-        
+        #endregion        
 
         #endregion
 
@@ -1493,17 +1485,17 @@ namespace SnakeGame
         {
             _scale = ScalingHelper.GetGameObjectScale(_windowWidth);
 
-            SeaView.Width = _windowWidth;
-            SeaView.Height = _windowHeight;
+            //SeaView.Width = _windowWidth;
+            //SeaView.Height = _windowHeight;
 
-            UnderView.Width = _windowWidth;
-            UnderView.Height = _windowHeight;
+            //UnderView.Width = _windowWidth;
+            //UnderView.Height = _windowHeight;
 
             GameView.Width = _windowWidth;
             GameView.Height = _windowHeight;
 
-            OverView.Width = _windowWidth;
-            OverView.Height = _windowHeight;
+            //OverView.Width = _windowWidth;
+            //OverView.Height = _windowHeight;
         }
 
         private void NavigateToPage(Type pageType)
@@ -1535,27 +1527,27 @@ namespace SnakeGame
         #endregion
     }
 
-    public enum SnakeSize
-    {
-        Thin = 15,
-        Normal = 25,
-        Thick = 50
-    };
+    //public enum SnakeSize
+    //{
+    //    Thin = 15,
+    //    Normal = 25,
+    //    Thick = 50
+    //};
 
-    public enum Movingdirection
-    {
-        Upwards = 8,
-        Downwards = 2,
-        Toleft = 4,
-        Toright = 6
-    };
+    //public enum Movingdirection
+    //{
+    //    Upwards = 8,
+    //    Downwards = 2,
+    //    Toleft = 4,
+    //    Toright = 6
+    //};
 
-    //TimeSpan values
-    public enum GameSpeed
-    {
-        Fast = 10,
-        Moderate = 18,
-        Slow = 50,
-        DamnSlow = 100
-    };
+    ////TimeSpan values
+    //public enum GameSpeed
+    //{
+    //    Fast = 10,
+    //    Moderate = 18,
+    //    Slow = 50,
+    //    DamnSlow = 100
+    //};
 }

@@ -13,16 +13,16 @@
         <!--#region Animation-->
 
         <!--  This hosts the islands  -->
-        <GameEnvironment x:Name="SeaView" Background="Transparent" />
+        <!--<GameEnvironment x:Name="SeaView" Background="Transparent" />-->
 
         <!--  This hosts clouds and cars that do not collide  -->
-        <GameEnvironment x:Name="UnderView" Background="Transparent" />
+        <!--<GameEnvironment x:Name="UnderView" Background="Transparent" />-->
 
         <!--  This hosts the player and game elements  -->
         <GameEnvironment x:Name="GameView" Background="Transparent" />
 
         <!--  This hosts clouds and cars that do not collide  -->
-        <GameEnvironment x:Name="OverView" Background="Transparent" />
+        <!--<GameEnvironment x:Name="OverView" Background="Transparent" />-->
         <!--#endregion-->
 
         <!--#region Game Score-->
