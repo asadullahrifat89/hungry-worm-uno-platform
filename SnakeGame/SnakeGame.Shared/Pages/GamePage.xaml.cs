@@ -130,27 +130,23 @@ namespace SnakeGame
 
         private void OnKeyUP(object sender, KeyRoutedEventArgs e)
         {
-            // when the player releases the left or right key it will set the designated boolean to false
-            if (e.Key == VirtualKey.Left)
-            {
-                UpdateMovementDirection(MovementDirection.Left);
-                return;
-            }
-            if (e.Key == VirtualKey.Right)
-            {
-                UpdateMovementDirection(MovementDirection.Right);
-                return;
-            }
-            if (e.Key == VirtualKey.Up)
-            {
-                UpdateMovementDirection(MovementDirection.Up);
-                return;
-            }
-            if (e.Key == VirtualKey.Down)
-            {
-                UpdateMovementDirection(MovementDirection.Down);
-                return;
-            }
+            switch (e.Key)
+            {                
+                case VirtualKey.Left:
+                    UpdateMovementDirection(MovementDirection.Left);
+                    break;
+                case VirtualKey.Up:
+                    UpdateMovementDirection(MovementDirection.Up);
+                    break;
+                case VirtualKey.Right:
+                    UpdateMovementDirection(MovementDirection.Right);
+                    break;
+                case VirtualKey.Down:
+                    UpdateMovementDirection(MovementDirection.Down);
+                    break;               
+                default:
+                    break;
+            }          
         }
 
         #endregion
@@ -246,6 +242,10 @@ namespace SnakeGame
 
                 Canvas.SetLeft(snakeElement, snakeElement.X);
                 Canvas.SetTop(snakeElement, snakeElement.Y);
+                Canvas.SetZIndex(snakeElement, 1);
+
+                if (snakeElement.IsHead)
+                    Canvas.SetZIndex(snakeElement, Snake.Elements.Count + 1);
             }
         }
 

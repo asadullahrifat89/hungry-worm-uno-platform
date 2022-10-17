@@ -21,14 +21,20 @@ namespace SnakeGame
             set
             {
                 _IsHead = value;
-                BorderBrush = _IsHead ? new SolidColorBrush(Colors.Crimson) : new SolidColorBrush(Colors.Goldenrod);                
+                //BorderBrush = _IsHead ? new SolidColorBrush(Colors.Crimson) : new SolidColorBrush(Colors.Goldenrod);
 
                 //if (_IsHead)
+                //{
+                //    CornerRadius = new Microsoft.UI.Xaml.CornerRadius(0);
+                //    Background = new SolidColorBrush(Colors.Transparent);
                 //    SetContent(new Uri("ms-appx:///Assets/Images/character_maleAdventurer_run0.png"));
-                //else                
-                //    Background = new SolidColorBrush(Colors.Crimson);
-                
-                //character_maleAdventurer_run0
+                //}
+                //else
+                //{
+                //    HideContent();
+                //    Background = new SolidColorBrush(Colors.Goldenrod);
+                //    CornerRadius = new Microsoft.UI.Xaml.CornerRadius(50);
+                //}
             }
         }
 
@@ -40,7 +46,7 @@ namespace SnakeGame
         {
             Background = new SolidColorBrush(Colors.Goldenrod);
             CornerRadius = new Microsoft.UI.Xaml.CornerRadius(50);
-            //Child = new Image() { Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/collectible.gif")) };
+            
             Width = size;
             Height = size;
         }

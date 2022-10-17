@@ -62,14 +62,18 @@ namespace SnakeGame
 
         internal void Grow()
         {
-            for (int i = 0; i < 5; i++)
+            //for (int i = 0; i < 5; i++)
+            //{
+
+            var newElement = new SnakeElement(_elementSize)
             {
-                Elements.Add(new SnakeElement(_elementSize)
-                {
-                    X = TailBackup.X,
-                    Y = TailBackup.Y
-                });
-            }
+                X = TailBackup.X,
+                Y = TailBackup.Y
+            };
+
+
+            Elements.Add(newElement);
+            //}
         }
 
         public bool CollisionWithSelf()
@@ -123,23 +127,28 @@ namespace SnakeGame
             {
                 case MovementDirection.Right:
                     tail.X += _speed;
-                    tail.BorderThickness = new Microsoft.UI.Xaml.Thickness(0, 0, 5, 0);
+                    //tail.BorderThickness = new Microsoft.UI.Xaml.Thickness(0, 0, 5, 0);
+
                     break;
                 case MovementDirection.Left:
                     tail.X -= _speed;
-                    tail.BorderThickness = new Microsoft.UI.Xaml.Thickness(5, 0, 0, 0);
+                    //tail.BorderThickness = new Microsoft.UI.Xaml.Thickness(5, 0, 0, 0);
+
                     break;
                 case MovementDirection.Up:
                     tail.Y -= _speed;
-                    tail.BorderThickness = new Microsoft.UI.Xaml.Thickness(0, 5, 0, 0);
+                    //tail.BorderThickness = new Microsoft.UI.Xaml.Thickness(0, 5, 0, 0);
+
                     break;
                 case MovementDirection.Down:
                     tail.Y += _speed;
-                    tail.BorderThickness = new Microsoft.UI.Xaml.Thickness(0, 0, 0, 5);
+                    //tail.BorderThickness = new Microsoft.UI.Xaml.Thickness(0, 0, 0, 5);
+
                     break;
                 default:
                     break;
-            }
+            }            
+
             Elements.RemoveAt(Elements.Count - 1);
             Elements.Insert(0, tail);
         }

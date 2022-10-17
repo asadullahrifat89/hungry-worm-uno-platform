@@ -114,22 +114,25 @@ namespace SnakeGame
             _content.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
         }
 
-        public void SetDirection(XDirection xDirection)
+        public void HideContent() 
         {
-            switch (xDirection)
-            {
-                case XDirection.NONE:
-                    break;
-                case XDirection.LEFT:
-                    _compositeTransform.ScaleX = -1;
-                    break;
-                case XDirection.RIGHT:
-                    _compositeTransform.ScaleX = 1;
-                    break;
-                default:
-                    break;
-            }
+            _content.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
         }
+
+        //public void SetDirection(MovementDirection xDirection)
+        //{
+        //    switch (xDirection)
+        //    {
+        //        case MovementDirection.Left:
+        //            _compositeTransform.ScaleX = -1;
+        //            break;
+        //        case MovementDirection.Right:
+        //            _compositeTransform.ScaleX = 1;
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //}
 
         public void SetHitBoxBorder(Rect rect)
         {
