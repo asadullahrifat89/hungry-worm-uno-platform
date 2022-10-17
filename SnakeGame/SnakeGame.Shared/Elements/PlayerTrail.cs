@@ -46,8 +46,10 @@ namespace SnakeGame
         {
             Tag = ElementType.PLAYER_TRAIL;
 
-            Background = new SolidColorBrush(Colors.Goldenrod);
+            Background = new SolidColorBrush(Colors.Crimson);
             CornerRadius = new Microsoft.UI.Xaml.CornerRadius(50);
+            BorderBrush = new SolidColorBrush(Colors.Transparent);
+            BorderThickness = new Microsoft.UI.Xaml.Thickness(10);
             
             Width = size;
             Height = size;

@@ -12,17 +12,14 @@ namespace SnakeGame
 
         public const double DEFAULT_FRAME_TIME = 18;
 
-        public const double CAR_WIDTH = 60;
-        public const double CAR_HEIGHT = 60;
+        public const double PLAYER_TRAIL_SIZE = 60;
 
-        public const double PLAYER_WIDTH = 60;
-        public const double PLAYER_HEIGHT = 60;
+        public const double PLAYER_SIZE = 90;
 
         public const double POWERUP_WIDTH = 80;
         public const double POWERUP_HEIGHT = 80;
 
-        public const double COLLECTIBLE_WIDTH = 60;
-        public const double COLLECTIBLE_HEIGHT = 60;
+        public const double COLLECTIBLE_SIZE = 60;
 
         public const double HEALTH_WIDTH = 80;
         public const double HEALTH_HEIGHT = 80;
@@ -33,6 +30,7 @@ namespace SnakeGame
 
         public static KeyValuePair<ElementType, Uri>[] ELEMENT_TEMPLATES = new KeyValuePair<ElementType, Uri>[]
         {
+            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER, new Uri("ms-appx:///Assets/Images/player.gif")),
             new KeyValuePair<ElementType, Uri>(ElementType.PLAYER_TRAIL, new Uri("ms-appx:///Assets/Images/car1.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.PLAYER_TRAIL, new Uri("ms-appx:///Assets/Images/car2.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.PLAYER_TRAIL, new Uri("ms-appx:///Assets/Images/car3.png")),
@@ -49,7 +47,6 @@ namespace SnakeGame
             new KeyValuePair<ElementType, Uri>(ElementType.ISLAND, new Uri("ms-appx:///Assets/Images/island1.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.ISLAND, new Uri("ms-appx:///Assets/Images/island2.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.ISLAND, new Uri("ms-appx:///Assets/Images/island3.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER, new Uri("ms-appx:///Assets/Images/player.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.PLAYER_POWER_MODE, new Uri("ms-appx:///Assets/Images/player-power-mode.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.POWERUP, new Uri("ms-appx:///Assets/Images/powerup1.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.POWERUP, new Uri("ms-appx:///Assets/Images/powerup2.png")),

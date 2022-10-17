@@ -14,13 +14,13 @@ namespace SnakeGame
         {
             Tag = ElementType.PLAYER;
 
-            Background = new SolidColorBrush(Colors.Purple);
-            CornerRadius = new CornerRadius(50);
+            //Background = new SolidColorBrush(Colors.Purple);
+            //CornerRadius = new CornerRadius(50);
 
             Width = size;
             Height = size;
 
-            //SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.PLAYER).Value);
+            SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.PLAYER).Value);
         }
 
         public MovementDirection MovementDirection { get; set; }
@@ -31,21 +31,35 @@ namespace SnakeGame
             {
                 case MovementDirection.Up:
                     if (MovementDirection != MovementDirection.Down)
+                    {
                         MovementDirection = MovementDirection.Up;
+                        SetDirection(up);
+                    }
                     break;
                 case MovementDirection.Left:
                     if (MovementDirection != MovementDirection.Right)
+                    {
                         MovementDirection = MovementDirection.Left;
+                        SetDirection(up);
+                    }
                     break;
                 case MovementDirection.Down:
                     if (MovementDirection != MovementDirection.Up)
+                    {
                         MovementDirection = MovementDirection.Down;
+                        SetDirection(up);
+                    }
                     break;
                 case MovementDirection.Right:
                     if (MovementDirection != MovementDirection.Left)
+                    {
                         MovementDirection = MovementDirection.Right;
+                        SetDirection(up);
+                    }
                     break;
             }
+
+
         }
-    }   
+    }
 }

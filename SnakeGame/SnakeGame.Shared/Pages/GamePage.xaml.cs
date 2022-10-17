@@ -351,7 +351,7 @@ namespace SnakeGame
             //}            
 
             // add player
-            _player = new Player(Constants.PLAYER_WIDTH * _scale);
+            _player = new Player(Constants.PLAYER_SIZE * _scale);
 
             _player.SetPosition(
                 left: GameView.Width / 2,
@@ -429,7 +429,7 @@ namespace SnakeGame
             RemoveGameObjects();
 
             SpawnCollectible();
-           
+
             StartGameSounds();
             RunGame();
             UpdateMovementDirection(MovementDirection.Up);
@@ -603,17 +603,6 @@ namespace SnakeGame
                     break;
             }
 
-            //if (_moveLeft && left > 0)
-
-
-            //if (_moveRight && left + _player.Width < GameView.Width)
-
-
-            //if (_moveUp && top > 0 + (50 * _scale))
-
-
-            //if (_moveDown && top < GameView.Height - (100 * _scale))
-
             if (_player.GetLeft() > _windowWidth)
                 _player.SetLeft(0);
 
@@ -626,7 +615,7 @@ namespace SnakeGame
             if (_player.GetTop() < 0)
                 _player.SetTop(_windowHeight);
 
-            PlayerTrail playerTrail = new(_player.Height);
+            PlayerTrail playerTrail = new(Constants.PLAYER_TRAIL_SIZE * _scale);
             playerTrail.SetTop(top);
             playerTrail.SetLeft(left);
 
@@ -677,7 +666,7 @@ namespace SnakeGame
 
             //var speed = (double)_gameSpeed - (double)_gameSpeed / 2;
 
-            Collectible collectible = new(Constants.COLLECTIBLE_HEIGHT * _scale);
+            Collectible collectible = new(Constants.COLLECTIBLE_SIZE * _scale);
 
             collectible.SetPosition(_random.Next(50, (int)_windowWidth - 50), _random.Next(50, (int)_windowHeight - 50));
             GameView.Children.Add(collectible);
