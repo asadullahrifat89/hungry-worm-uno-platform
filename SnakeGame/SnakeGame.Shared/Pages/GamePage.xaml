@@ -11,8 +11,18 @@
     <Grid x:Name="RootGrid">
 
         <!--#region Animation-->
+
+        <!--  This hosts the islands  -->
+        <GameEnvironment x:Name="SeaView" Background="Transparent" />
+
+        <!--  This hosts clouds and cars that do not collide  -->
+        <GameEnvironment x:Name="UnderView" Background="Transparent" />
+
         <!--  This hosts the player and game elements  -->
         <GameEnvironment x:Name="GameView" Background="Transparent" />
+
+        <!--  This hosts clouds and cars that do not collide  -->
+        <GameEnvironment x:Name="OverView" Background="Transparent" />
         <!--#endregion-->
 
         <!--#region Game Score-->
@@ -81,6 +91,36 @@
             PointerMoved="InputView_PointerMoved"
             PointerPressed="InputView_PointerPressed"
             PointerReleased="InputView_PointerReleased" />
+        <!--#endregion-->
+
+        <!--#region Pause & Quit game-->
+        <StackPanel
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Orientation="Horizontal">
+
+            <!--  Quit game  -->
+            <ToggleButton
+                x:Name="QuitGameButton"
+                Width="50"
+                Height="50"
+                Margin="5"
+                Checked="QuitGameButton_Checked"
+                CornerRadius="100"
+                Unchecked="QuitGameButton_Unchecked">
+                <SymbolIcon Symbol="Pause" />
+            </ToggleButton>
+
+            <!--  Confirm quit game  -->
+            <Button
+                x:Name="ConfirmQuitGameButton"
+                Height="50"
+                Margin="5"
+                Click="ConfirmQuitGameButton_Click"
+                Content="Quit Game?"
+                Visibility="{x:Bind Path=QuitGameButton.IsChecked, Mode=TwoWay}" />
+
+        </StackPanel>
         <!--#endregion-->
 
     </Grid>
