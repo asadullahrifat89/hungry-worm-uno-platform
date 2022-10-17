@@ -8,7 +8,7 @@ namespace SnakeGame
     {
         #region Fields
 
-        private readonly int _elementSize;
+        private readonly double _elementSize;
         private double _speed = 4;
 
         #endregion
@@ -27,7 +27,7 @@ namespace SnakeGame
 
         #region Ctor
 
-        public Snake(int elementSize)
+        public Snake(double elementSize)
         {
             Elements = new List<PlayerTrail>();
             _elementSize = elementSize;
@@ -82,6 +82,7 @@ namespace SnakeGame
                     {
                         if (target.X == source.X && target.Y == source.Y)
                         {
+                            Console.WriteLine("COLLISION WITH SELF");
                             return true;
                         }
                     }
@@ -149,13 +150,5 @@ namespace SnakeGame
         }
 
         #endregion
-    }
-
-    public enum MovementDirection
-    {
-        Right,
-        Left,
-        Up,
-        Down
-    }
+    }  
 }

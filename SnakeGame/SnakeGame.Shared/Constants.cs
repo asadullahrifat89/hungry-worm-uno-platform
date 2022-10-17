@@ -130,4 +130,12 @@ namespace SnakeGame
 
         #endregion
     }
+
+    public enum MovementDirection
+    {
+        Right,
+        Left,
+        Up,
+        Down
+    }
 }

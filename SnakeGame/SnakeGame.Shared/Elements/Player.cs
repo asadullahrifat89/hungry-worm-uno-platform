@@ -22,13 +22,5 @@ namespace SnakeGame
 
             //SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.PLAYER).Value);
         }
-    }
-
-    public enum MovementDirection
-    {
-        Right,
-        Left,
-        Up,
-        Down
-    }
+    }   
 }
