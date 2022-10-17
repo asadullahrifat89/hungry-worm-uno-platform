@@ -21,6 +21,13 @@ namespace SnakeGame
 
         #endregion
 
+        #region Properties
+
+        public int X { get; set; }
+        public int Y { get; set; }
+
+        #endregion
+
         #region Ctor
 
         public GameObject()
@@ -51,19 +58,9 @@ namespace SnakeGame
             //Child = grid;
 
             #endregion
-
-
         }
 
-        #endregion
-
-        #region Properties
-
-        public double Speed { get; set; } = 0;
-
-        public bool IsCollidable { get; set; } = false;
-
-        #endregion
+        #endregion        
 
         #region Methods
 
@@ -121,7 +118,7 @@ namespace SnakeGame
         PLAYER_POWER_MODE,
         CAR,
         POWERUP,
-        HEALTH,        
+        HEALTH,
         CLOUD,
         ISLAND,
         COLLECTIBLE,
