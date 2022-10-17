@@ -31,15 +31,6 @@ namespace SnakeGame
 
         public void RemoveDestroyableGameObjects()
         {
-            //if (Parallel.ForEach(destroyableGameObjects, destroyable =>
-            //{
-            //    RemoveGameObject(destroyable);
-
-            //}).IsCompleted)
-            //{
-            //    ClearDestroyableGameObjects();
-            //}
-
             foreach (var destroyable in destroyableGameObjects)
             {
                 RemoveGameObject(destroyable);

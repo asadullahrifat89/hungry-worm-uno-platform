@@ -948,7 +948,7 @@ namespace SnakeGame
                         //if (_isMoveDown <= 0)
                         //    _moveDown = false;
 
-                        
+
                     }
                     break;
                 case VirtualKey.Up:
@@ -1140,15 +1140,11 @@ namespace SnakeGame
             _playerTrails = new List<PlayerTrail>();
 
             // add player
-            _player = new Player()
-            {
-                Width = Constants.PLAYER_WIDTH * _scale,
-                Height = Constants.PLAYER_HEIGHT * _scale,
-            };
+            _player = new Player(Constants.PLAYER_WIDTH * _scale);
 
             _player.SetPosition(
-                left: GameView.Width / 2 - _player.Width / 2,
-                top: GameView.Height - _player.Height - (50 * _scale));
+                left: GameView.Width / 2,
+                top: GameView.Height / 2);
 
             GameView.Children.Add(_player);
         }
@@ -1254,8 +1250,6 @@ namespace SnakeGame
             //AddScore(0.05d); // increase the score by .5 each tick of the timer
             //scoreText.Text = _score.ToString("#");
 
-            _playerHitBox = _player.GetHitBox(_scale);
-
             SpawnGameObjects();
             UpdateGameObjects();
             RemoveGameObjects();
@@ -1270,7 +1264,6 @@ namespace SnakeGame
         private void SpawnGameObjects()
         {
             _collectibleSpawnCounter--;
-
 
             if (_collectibleSpawnCounter < 1)
             {
@@ -1291,6 +1284,11 @@ namespace SnakeGame
                             //{
                             UpdatePlayer();
                             //}
+                        }
+                        break;
+                    case ElementType.COLLECTIBLE:
+                        {
+                            UpdateCollectible(x);
                         }
                         break;
                     default:
@@ -1431,6 +1429,9 @@ namespace SnakeGame
                 GameView.Children.Remove(GameView.Children.OfType<PlayerTrail>().First());
                 _length--;
             }
+
+            _playerHitBox = _player.GetHitBox(_scale);
+
         }
 
         #endregion
@@ -1446,10 +1447,10 @@ namespace SnakeGame
 
             //var speed = (double)_gameSpeed - (double)_gameSpeed / 2;
 
-            //Collectible collectible = new(Constants.COLLECTIBLE_HEIGHT * _scale)
-            //{
-            //    Speed = speed,
-            //};
+            Collectible collectible = new(Constants.COLLECTIBLE_HEIGHT * _scale);
+
+            collectible.SetPosition(_random.Next(100, (int)_windowWidth), _random.Next(100, (int)_windowHeight));
+            GameView.Children.Add(collectible);
 
             //for (int i = 0; i < 5; i++)
             //{
@@ -1504,6 +1505,12 @@ namespace SnakeGame
             //{
             //    GameView.AddDestroyableGameObject(collectible);
             //}
+
+            if (_playerHitBox.IntersectsWith(collectible.GetHitBox(_scale)))
+            {
+                GameView.AddDestroyableGameObject(collectible);
+                Collectible();
+            }
         }
 
         private void Collectible()
