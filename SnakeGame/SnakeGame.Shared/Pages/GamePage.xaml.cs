@@ -52,10 +52,6 @@ namespace SnakeGame
 
         private int _islandSpawnCounter;
 
-        //private bool _moveLeft;
-        //private bool _moveRight;
-        //private bool _moveUp;
-        //private bool _moveDown;
         private bool _isGameOver;
         private bool _isPowerMode;
 
@@ -113,7 +109,7 @@ namespace SnakeGame
 
             //TODO: remove this to start page
             await LocalizationHelper.LoadLocalizationKeys();
-           
+
         }
 
         private void GamePage_Unloaded(object sender, RoutedEventArgs e)
@@ -150,47 +146,22 @@ namespace SnakeGame
                 PointerPoint point = e.GetCurrentPoint(GameView);
                 _pointerPosition = point.Position;
 
-
                 double left = _player.GetLeft();
                 double top = _player.GetTop();
 
                 double playerMiddleX = left + _player.Width / 2;
                 double playerMiddleY = top + _player.Height / 2;
 
-                //_moveRight = false;
-                //_moveLeft = false;
-                //_moveDown = false;
-                //_moveUp = false;
+                // move right
+                if (_player.MovementDirection != MovementDirection.Right && _pointerPosition.X > playerMiddleX + _playerSpeed && left + _player.Width < GameView.Width)
+                {
+                    //_moveRight = true;
+                    UpdateMovementDirection(MovementDirection.Right);
+                    return;
+                }
 
-                //// move up
-                //if (_pointerPosition.Y < _windowHeight / 2)
-                //{
-                //    //_moveUp = true;
-                //    UpdateMovementDirection(MovementDirection.Up);                   
-                //}
-
-                //// move left
-                //if (_pointerPosition.X < _windowWidth / 2)
-                //{
-                //    //_moveLeft = true;
-                //    UpdateMovementDirection(MovementDirection.Left);                   
-                //}
-
-                //// move down
-                //if (_pointerPosition.Y > _windowHeight / 2)
-                //{
-                //    //_moveDown = true;
-                //    UpdateMovementDirection(MovementDirection.Down);                  
-                //}
-
-                //// move right
-                //if (_pointerPosition.X > _windowWidth / 2)
-                //{
-                //    //_moveRight = true;
-                //    UpdateMovementDirection(MovementDirection.Right);                  
-                //}
-
-                if (_pointerPosition.Y < playerMiddleY - _playerSpeed)
+                // move up
+                if (_player.MovementDirection != MovementDirection.Up && _pointerPosition.Y < playerMiddleY - _playerSpeed)
                 {
                     //_moveUp = true;
                     UpdateMovementDirection(MovementDirection.Up);
@@ -198,7 +169,7 @@ namespace SnakeGame
                 }
 
                 // move left
-                if (_pointerPosition.X < playerMiddleX - _playerSpeed && left > 0)
+                if (_player.MovementDirection != MovementDirection.Left && _pointerPosition.X < playerMiddleX - _playerSpeed && left > 0)
                 {
                     //_moveLeft = true;
                     UpdateMovementDirection(MovementDirection.Left);
@@ -206,31 +177,22 @@ namespace SnakeGame
                 }
 
                 // move down
-                if (_pointerPosition.Y > playerMiddleY + _playerSpeed)
+                if (_player.MovementDirection != MovementDirection.Down && _pointerPosition.Y > playerMiddleY + _playerSpeed)
                 {
                     //_moveDown = true;
                     UpdateMovementDirection(MovementDirection.Down);
                     return;
                 }
-
-                // move right
-                if (_pointerPosition.X > playerMiddleX + _playerSpeed && left + _player.Width < GameView.Width)
-                {
-                    //_moveRight = true;
-                    UpdateMovementDirection(MovementDirection.Right);
-                    return;
-                }
-
             }
         }
 
         private void InputView_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            //if (_isPointerActivated)
-            //{
-            //    PointerPoint point = e.GetCurrentPoint(GameView);
-            //    _pointerPosition = point.Position;
-            //}
+            if (_isPointerActivated)
+            {
+                PointerPoint point = e.GetCurrentPoint(GameView);
+                _pointerPosition = point.Position;
+            }
         }
 
         private void InputView_PointerReleased(object sender, PointerRoutedEventArgs e)
@@ -286,32 +248,7 @@ namespace SnakeGame
 
         private void OnKeyUP(object sender, KeyRoutedEventArgs e)
         {
-            // when the player releases the left or right key it will set the designated boolean to false
-            //if (e.Key == VirtualKey.Left)
-            //{
-            //    _moveLeft = false;
-            //}
-            //if (e.Key == VirtualKey.Right)
-            //{
-            //    _moveRight = false;
-            //}
-            //if (e.Key == VirtualKey.Up)
-            //{
-            //    _moveUp = false;
-            //}
-            //if (e.Key == VirtualKey.Down)
-            //{
-            //    _moveDown = false;
-            //}
 
-            //if (!_moveLeft && !_moveRight && !_moveUp && !_moveDown)
-            //    _accelerationCounter = 0;
-
-            // in this case we will listen for the enter key aswell but for this to execute we will need the game over boolean to be true
-            //if (e.Key == VirtualKey.Enter && _isGameOver == true)
-            //{
-            //    StartGame();
-            //}
         }
 
         #endregion
@@ -492,9 +429,10 @@ namespace SnakeGame
             RemoveGameObjects();
 
             SpawnCollectible();
-
+           
             StartGameSounds();
             RunGame();
+            UpdateMovementDirection(MovementDirection.Up);
         }
 
         private async void RunGame()
@@ -514,10 +452,6 @@ namespace SnakeGame
 
         private void ResetControls()
         {
-            //_moveLeft = false;
-            //_moveRight = false;
-            //_moveUp = false;
-            //_moveDown = false;
             _player.MovementDirection = MovementDirection.None;
             _isPointerActivated = false;
         }
@@ -617,13 +551,13 @@ namespace SnakeGame
         {
             _isGameOver = true;
 
-            //PlayerScoreHelper.PlayerScore = new SkyRacerGameScore()
-            //{
-            //    Score = Math.Ceiling(_score),
-            //    CollectiblesCollected = _collectiblesCollected
-            //};
+            PlayerScoreHelper.PlayerScore = new SnakeGameScore()
+            {
+                Score = Math.Ceiling(_score),
+                CollectiblesCollected = _collectiblesCollected
+            };
 
-            //SoundHelper.PlaySound(SoundType.GAME_OVER);
+            SoundHelper.PlaySound(SoundType.GAME_OVER);
             //NavigateToPage(typeof(GameOverPage));
         }
 
