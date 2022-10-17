@@ -77,7 +77,7 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Background="Transparent"
-            KeyUp="OnKeyUP"
+            KeyDown="GamePage_KeyDown"
             PointerMoved="InputView_PointerMoved"
             PointerPressed="InputView_PointerPressed"
             PointerReleased="InputView_PointerReleased" />
