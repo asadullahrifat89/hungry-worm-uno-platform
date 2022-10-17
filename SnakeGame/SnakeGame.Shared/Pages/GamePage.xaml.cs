@@ -75,7 +75,7 @@ namespace SnakeGame
 
         private Player _player;
         private int _length;
-        private int _maxLength = 50;
+        private int _maxLength = 10;
 
         #endregion
 
@@ -91,7 +91,9 @@ namespace SnakeGame
             _windowHeight = Window.Current.Bounds.Height;
             _windowWidth = Window.Current.Bounds.Width;
 
-            SoundHelper.LoadGameSounds();
+            //TODO: remove this to start page
+            SoundHelper.LoadGameSounds();            
+
             LoadGameElements();
             PopulateGameViews();
 
@@ -105,9 +107,12 @@ namespace SnakeGame
 
         #region Page
 
-        private void GamePage_Loaded(object sender, RoutedEventArgs e)
+        private async void GamePage_Loaded(object sender, RoutedEventArgs e)
         {
             SizeChanged += GamePage_SizeChanged;
+
+            //TODO: remove this to start page
+            await LocalizationHelper.LoadLocalizationKeys();
         }
 
         private void GamePage_Unloaded(object sender, RoutedEventArgs e)
@@ -156,7 +161,34 @@ namespace SnakeGame
                 //_moveDown = false;
                 //_moveUp = false;
 
-                // move up
+                //// move up
+                //if (_pointerPosition.Y < _windowHeight / 2)
+                //{
+                //    //_moveUp = true;
+                //    UpdateMovementDirection(MovementDirection.Up);                   
+                //}
+
+                //// move left
+                //if (_pointerPosition.X < _windowWidth / 2)
+                //{
+                //    //_moveLeft = true;
+                //    UpdateMovementDirection(MovementDirection.Left);                   
+                //}
+
+                //// move down
+                //if (_pointerPosition.Y > _windowHeight / 2)
+                //{
+                //    //_moveDown = true;
+                //    UpdateMovementDirection(MovementDirection.Down);                  
+                //}
+
+                //// move right
+                //if (_pointerPosition.X > _windowWidth / 2)
+                //{
+                //    //_moveRight = true;
+                //    UpdateMovementDirection(MovementDirection.Right);                  
+                //}
+
                 if (_pointerPosition.Y < playerMiddleY - _playerSpeed)
                 {
                     //_moveUp = true;
