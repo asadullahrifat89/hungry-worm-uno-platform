@@ -485,7 +485,7 @@ namespace SnakeGame
         private bool _isPointerActivated;
 
         // This list describes the Bonus Red pieces of Food on the Canvas
-        private readonly List<Point> _bonusPoints = new List<Point>();
+        private readonly List<Point> _applePoints = new List<Point>();
 
         // This list describes the body of the snake on the Canvas
         private readonly List<Point> _snakePoints = new List<Point>();
@@ -634,12 +634,12 @@ namespace SnakeGame
             PaintSnake(_startingPoint);
             _currentPosition = _startingPoint;
 
-            if (_bonusPoints.Count == 0)
+            if (_applePoints.Count == 0)
             {
                 // Instantiate Food Objects
                 for (var n = 0; n < 10; n++)
                 {
-                    PaintBonus(n);
+                    PaintApple(n);
                 }
             }
 
@@ -689,7 +689,7 @@ namespace SnakeGame
 
             // Hitting a bonus Point causes the lengthen-Snake Effect
             int n = 0;
-            foreach (Point point in _bonusPoints)
+            foreach (Point point in _applePoints)
             {
                 if ((Math.Abs(point.X - _currentPosition.X) < _headSize) &&
                     (Math.Abs(point.Y - _currentPosition.Y) < _headSize))
@@ -701,9 +701,9 @@ namespace SnakeGame
 
                     // In the case of food consumption, erase the food object
                     // from the list of bonuses as well as from the canvas
-                    _bonusPoints.RemoveAt(n);
+                    _applePoints.RemoveAt(n);
                     GameView.Children.RemoveAt(n);
-                    PaintBonus(n);
+                    PaintApple(n);
                     break;
                 }
                 n++;
@@ -727,14 +727,7 @@ namespace SnakeGame
         {
             // This method is used to paint a frame of the snake´s body each time it is called.
 
-            Border newEllipse = new()
-            {
-                //Child = new Image() { Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/player.gif")) },
-                Width = _headSize,
-                Height = _headSize,
-                Background = new SolidColorBrush(Colors.Goldenrod),
-                CornerRadius = new Microsoft.UI.Xaml.CornerRadius(50),
-            };
+            SnakeElement newEllipse = new(_headSize);
 
             Canvas.SetTop(newEllipse, currentposition.Y);
             Canvas.SetLeft(newEllipse, currentposition.X);
@@ -751,7 +744,7 @@ namespace SnakeGame
             }
         }
 
-        private void PaintBonus(int index)
+        private void PaintApple(int index)
         {
             Point bonusPoint = new Point(_rnd.Next(5, (int)_windowWidth), _rnd.Next(5, (int)_windowHeight));
 
@@ -765,8 +758,9 @@ namespace SnakeGame
 
             Canvas.SetTop(newEllipse, bonusPoint.Y);
             Canvas.SetLeft(newEllipse, bonusPoint.X);
+
             GameView.Children.Insert(index, newEllipse);
-            _bonusPoints.Insert(index, bonusPoint);
+            _applePoints.Insert(index, bonusPoint);
         }
 
         private void StopGame()
