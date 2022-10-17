@@ -62,18 +62,13 @@ namespace SnakeGame
 
         internal void Grow()
         {
-            //for (int i = 0; i < 5; i++)
-            //{
-
             var newElement = new SnakeElement(_elementSize)
             {
                 X = TailBackup.X,
                 Y = TailBackup.Y
             };
 
-
             Elements.Add(newElement);
-            //}
         }
 
         public bool CollisionWithSelf()
@@ -147,7 +142,7 @@ namespace SnakeGame
                     break;
                 default:
                     break;
-            }            
+            }
 
             Elements.RemoveAt(Elements.Count - 1);
             Elements.Insert(0, tail);
