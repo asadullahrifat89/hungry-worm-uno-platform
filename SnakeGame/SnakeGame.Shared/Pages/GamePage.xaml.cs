@@ -86,13 +86,13 @@ namespace SnakeGame
             InitializeComponent();
 
             _isGameOver = true;
-            ShowInGameTextMessage("TAP_ON_SCREEN_TO_BEGIN");
+            //ShowInGameTextMessage("TAP_ON_SCREEN_TO_BEGIN");
 
             _windowHeight = Window.Current.Bounds.Height;
             _windowWidth = Window.Current.Bounds.Width;
 
             //TODO: remove this to start page
-            SoundHelper.LoadGameSounds();            
+            SoundHelper.LoadGameSounds();
 
             LoadGameElements();
             PopulateGameViews();
@@ -113,6 +113,7 @@ namespace SnakeGame
 
             //TODO: remove this to start page
             await LocalizationHelper.LoadLocalizationKeys();
+            ShowInGameTextMessage("TAP_ON_SCREEN_TO_BEGIN");
         }
 
         private void GamePage_Unloaded(object sender, RoutedEventArgs e)
@@ -490,6 +491,8 @@ namespace SnakeGame
             RecycleGameObjects();
             RemoveGameObjects();
 
+            SpawnCollectible();
+
             StartGameSounds();
             RunGame();
         }
@@ -522,7 +525,7 @@ namespace SnakeGame
         private void GameViewLoop()
         {
             //AddScore(0.05d); // increase the score by .5 each tick of the timer
-            //scoreText.Text = _score.ToString("#");
+            scoreText.Text = _score.ToString("#");
 
             SpawnGameObjects();
             UpdateGameObjects();
@@ -537,13 +540,13 @@ namespace SnakeGame
 
         private void SpawnGameObjects()
         {
-            _collectibleSpawnCounter--;
+            //_collectibleSpawnCounter--;
 
-            if (_collectibleSpawnCounter < 1)
-            {
-                SpawnCollectible();
-                _collectibleSpawnCounter = _random.Next(200, 300);
-            }
+            //if (_collectibleSpawnCounter < 1)
+            //{
+            //SpawnCollectible();
+            //    _collectibleSpawnCounter = _random.Next(200, 300);
+            //}
         }
 
         private void UpdateGameObjects()
@@ -570,8 +573,6 @@ namespace SnakeGame
                 }
             }
         }
-
-
 
         private void RemoveGameObjects()
         {
@@ -679,6 +680,25 @@ namespace SnakeGame
 
             //if (_moveDown && top < GameView.Height - (100 * _scale))
 
+            if (_player.GetLeft() > _windowWidth)
+            {
+                _player.SetLeft(0);
+            }
+
+            if (_player.GetLeft() < 0)
+            {
+                _player.SetLeft(_windowWidth);
+            }
+
+            if (_player.GetTop() > _windowHeight)
+            {
+                _player.SetTop(0);
+            }
+
+            if (_player.GetTop() < 0)
+            {
+                _player.SetTop(_windowHeight);
+            }
 
             PlayerTrail playerTrail = new(_player.Height);
             playerTrail.SetTop(top);
@@ -733,7 +753,7 @@ namespace SnakeGame
 
             Collectible collectible = new(Constants.COLLECTIBLE_HEIGHT * _scale);
 
-            collectible.SetPosition(_random.Next(100, (int)_windowWidth), _random.Next(100, (int)_windowHeight));
+            collectible.SetPosition(_random.Next(50, (int)_windowWidth - 50), _random.Next(50, (int)_windowHeight - 50));
             GameView.Children.Add(collectible);
 
             //for (int i = 0; i < 5; i++)
@@ -802,6 +822,7 @@ namespace SnakeGame
             AddScore(1); // increase the score by 1 if collectible is collected
             _collectiblesCollected++;
             SoundHelper.PlaySound(SoundType.COLLECTIBLE_COLLECTED);
+            SpawnCollectible();
         }
 
         #endregion
