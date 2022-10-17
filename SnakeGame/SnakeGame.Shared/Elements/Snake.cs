@@ -66,17 +66,23 @@ namespace SnakeGame
 
         public bool CollisionWithSelf()
         {
-            SnakeElement snakeHead = Head;
-            if (snakeHead != null)
+            SnakeElement source = Head;
+            if (source != null)
             {
-                foreach (var snakeElement in Elements)
+                foreach (var target in Elements)
                 {
-                    if (!snakeElement.IsHead)
+                    if (!target.IsHead)
                     {
-                        if (snakeElement.X == snakeHead.X && snakeElement.Y == snakeHead.Y)
+                        if (target.X == source.X && target.Y == source.Y)
                         {
                             return true;
                         }
+                        //if (source.Width >= 0.0 && source.Width >= 0.0
+                        //&& target.X <= source.X + source.Width && target.X + target.Width >= source.X
+                        //&& target.Y <= source.Y + source.Height)
+                        //{
+                        //    return target.Y + target.Height >= source.Y;
+                        //}
                     }
                 }
             }

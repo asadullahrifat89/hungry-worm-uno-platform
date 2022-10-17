@@ -330,14 +330,16 @@ namespace SnakeGame
             if (Apple == null || Snake == null || Snake.Head == null)
                 return false;
 
-            SnakeElement head = Snake.Head;
+            SnakeElement source = Snake.Head;
+            var target = Apple;
+
             //return (head.X == Apple.X && head.Y == Apple.Y);
 
-            if (head.Width >= 0.0 && head.Width >= 0.0
-               && Apple.X <= head.X + head.Width && Apple.X + Apple.Width >= head.X
-               && Apple.Y <= head.Y + head.Height)
+            if (source.Width >= 0.0 && source.Width >= 0.0
+               && target.X <= source.X + source.Width && target.X + target.Width >= source.X
+               && target.Y <= source.Y + source.Height)
             {
-                return Apple.Y + Apple.Height >= head.Y;
+                return target.Y + target.Height >= source.Y;
             }
 
             return false;
