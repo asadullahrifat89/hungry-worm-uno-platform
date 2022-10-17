@@ -715,7 +715,7 @@ namespace SnakeGame
             {
                 foreach (var target in GameView.Children.OfType<PlayerTrail>())
                 {
-                    if (target.GetLeft() + 10 == _player.GetLeft() + 10 && target.GetTop() + 10 == _player.GetTop() + 10)
+                    if (target.GetLeft() == _player.GetLeft() && target.GetTop() == _player.GetTop())
                     {
                         Console.WriteLine("COLLIDED WITH SELF");
                         return true;
