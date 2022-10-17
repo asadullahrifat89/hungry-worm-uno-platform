@@ -138,4 +138,28 @@ namespace SnakeGame
         Up,
         Down
     }
+
+    //public enum SnakeSize
+    //{
+    //    Thin = 15,
+    //    Normal = 25,
+    //    Thick = 50
+    //};
+
+    //public enum Movingdirection
+    //{
+    //    Upwards = 8,
+    //    Downwards = 2,
+    //    Toleft = 4,
+    //    Toright = 6
+    //};
+
+    ////TimeSpan values
+    //public enum GameSpeed
+    //{
+    //    Fast = 10,
+    //    Moderate = 18,
+    //    Slow = 50,
+    //    DamnSlow = 100
+    //};
 }
