@@ -897,6 +897,10 @@ namespace SnakeGame
             else
             {
                 _isPointerActivated = true;
+
+                PointerPoint point = e.GetCurrentPoint(GameView);
+                _pointerPosition = point.Position;
+
                 _moveRight = false;
                 _moveLeft = false;
                 _moveDown = false;
@@ -906,48 +910,91 @@ namespace SnakeGame
 
         private void InputView_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            if (_isPointerActivated)
-            {
-                PointerPoint point = e.GetCurrentPoint(GameView);
-                _pointerPosition = point.Position;
-            }
+            //if (_isPointerActivated)
+            //{
+            //    PointerPoint point = e.GetCurrentPoint(GameView);
+            //    _pointerPosition = point.Position;
+            //}
         }
 
         private void InputView_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            _isPointerActivated = false;
-            _pointerPosition = null;
+            //_isPointerActivated = false;
+            //_pointerPosition = null;
         }
+
+        private int _isMoveUp;
+        private int _isMoveDown;
+        private int _isMoveLeft;
+        private int _isMoveRight;
 
         private void OnKeyDown(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Key == VirtualKey.Left)
+            switch (e.Key)
             {
-                _moveLeft = true;
-                _moveRight = false;
-                _moveDown = false;
-                _moveUp = false;
-            }
-            if (e.Key == VirtualKey.Right)
-            {
-                _moveRight = true;
-                _moveLeft = false;
-                _moveDown = false;
-                _moveUp = false;
-            }
-            if (e.Key == VirtualKey.Up)
-            {
-                _moveUp = true;
-                _moveDown = false;
-                _moveLeft = false;
-                _moveRight = false;
-            }
-            if (e.Key == VirtualKey.Down)
-            {
-                _moveDown = true;
-                _moveUp = false;
-                _moveLeft = false;
-                _moveRight = false;
+                case VirtualKey.Left:
+                    {
+                        _moveLeft = true;
+                        _moveRight = false;
+
+                        //_isMoveLeft = 2;
+                        //_isMoveUp--;
+                        //_isMoveDown--;
+
+                        //if (_isMoveUp <= 0)
+                        //    _moveUp = false;
+                        //if (_isMoveDown <= 0)
+                        //    _moveDown = false;
+                    }
+                    break;
+                case VirtualKey.Up:
+                    {
+                        _moveUp = true;
+                        _moveDown = false;
+
+                        //_isMoveUp = 2;
+                        //_isMoveLeft--;
+                        //_isMoveRight--;
+
+                        //if (_isMoveLeft <= 0)
+                        //    _moveLeft = false;
+                        //if (_isMoveRight <= 0)
+                        //    _moveRight = false;
+                    }
+                    break;
+                case VirtualKey.Right:
+                    {
+                        _moveRight = true;
+                        _moveLeft = false;
+
+                        //_isMoveRight = 2;
+                        //_isMoveUp--;
+                        //_isMoveDown--;
+
+                        //if (_isMoveUp <= 0)
+                        //    _moveUp = false;
+                        //if (_isMoveDown <= 0)
+                        //    _moveDown = false;
+                    }
+                    break;
+                case VirtualKey.Down:
+                    {
+                        _moveDown = true;
+                        _moveUp = false;
+
+                        //_isMoveDown = 2;
+                        //_isMoveLeft--;
+                        //_isMoveRight--;
+
+                        //if (_isMoveLeft <= 0)
+                        //    _moveLeft = false;
+                        //if (_isMoveRight <= 0)
+                        //    _moveRight = false;
+                    }
+                    break;
+
+                default:
+                    break;
             }
         }
 
@@ -1355,12 +1402,12 @@ namespace SnakeGame
             playerTrail.SetTop(top);
             playerTrail.SetLeft(left);
 
-            GameView.Children.Insert(0, playerTrail);
+            GameView.Children.Add(playerTrail);
             _length++;
 
-            if (_length > 20)
+            if (_length > 50)
             {
-                GameView.Children.Remove(GameView.Children.OfType<SnakeElement>().Last());
+                GameView.Children.Remove(GameView.Children.OfType<SnakeElement>().First());
                 _length--;
             }
         }
