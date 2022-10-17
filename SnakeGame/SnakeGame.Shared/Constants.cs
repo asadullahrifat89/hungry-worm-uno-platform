@@ -133,6 +133,7 @@ namespace SnakeGame
 
     public enum MovementDirection
     {
+        None,
         Right,
         Left,
         Up,

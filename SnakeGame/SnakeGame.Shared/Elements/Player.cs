@@ -22,5 +22,30 @@ namespace SnakeGame
 
             //SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.PLAYER).Value);
         }
+
+        public MovementDirection MovementDirection { get; set; }
+
+        internal void UpdateMovementDirection(MovementDirection up)
+        {
+            switch (up)
+            {
+                case MovementDirection.Up:
+                    if (MovementDirection != MovementDirection.Down)
+                        MovementDirection = MovementDirection.Up;
+                    break;
+                case MovementDirection.Left:
+                    if (MovementDirection != MovementDirection.Right)
+                        MovementDirection = MovementDirection.Left;
+                    break;
+                case MovementDirection.Down:
+                    if (MovementDirection != MovementDirection.Up)
+                        MovementDirection = MovementDirection.Down;
+                    break;
+                case MovementDirection.Right:
+                    if (MovementDirection != MovementDirection.Left)
+                        MovementDirection = MovementDirection.Right;
+                    break;
+            }
+        }
     }   
 }
