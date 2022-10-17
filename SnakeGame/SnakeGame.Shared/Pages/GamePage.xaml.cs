@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Uno.Extensions;
 using Windows.Foundation;
 using Windows.System;
@@ -17,7 +18,7 @@ namespace SnakeGame
 {
     public sealed partial class GamePage : Page
     {
-        #region First
+        #region Object
 
         //        #region Fields
 
@@ -473,7 +474,7 @@ namespace SnakeGame
 
         #endregion
 
-        #region Second
+        #region Functional
 
         //#region Fields
 
@@ -901,10 +902,46 @@ namespace SnakeGame
                 PointerPoint point = e.GetCurrentPoint(GameView);
                 _pointerPosition = point.Position;
 
-                //_moveRight = false;
-                //_moveLeft = false;
-                //_moveDown = false;
-                //_moveUp = false;
+
+                double left = _player.GetLeft();
+                double top = _player.GetTop();
+
+                double playerMiddleX = left + _player.Width / 2;
+                double playerMiddleY = top + _player.Height / 2;
+
+                _moveRight = false;
+                _moveLeft = false;
+                _moveDown = false;
+                _moveUp = false;
+
+                // move up
+                if (_pointerPosition.Y < playerMiddleY - _playerSpeed)
+                {
+                    _moveUp = true;
+                    return;
+                }
+
+                // move left
+                if (_pointerPosition.X < playerMiddleX - _playerSpeed && left > 0)
+                {
+                    _moveLeft = true;
+                    return;
+                }
+
+                // move down
+                if (_pointerPosition.Y > playerMiddleY + _playerSpeed)
+                {
+                    _moveDown = true;
+                    return;
+                }
+
+                // move right
+                if (_pointerPosition.X > playerMiddleX + _playerSpeed && left + _player.Width < GameView.Width)
+                {
+                    _moveRight = true;
+                    return;
+                }
+
             }
         }
 
@@ -923,13 +960,13 @@ namespace SnakeGame
             //_pointerPosition = null;
         }
 
-        private int _isMoveUp;
-        private int _isMoveDown;
-        private int _isMoveLeft;
-        private int _isMoveRight;
-
         private void OnKeyDown(object sender, KeyRoutedEventArgs e)
         {
+            _moveRight = false;
+            _moveLeft = false;
+            _moveDown = false;
+            _moveUp = false;
+
             switch (e.Key)
             {
                 case VirtualKey.Left:
@@ -937,18 +974,7 @@ namespace SnakeGame
                         _isPointerActivated = false;
 
                         _moveLeft = true;
-                        _moveRight = false;
-
-                        //_isMoveLeft = 2;
-                        //_isMoveUp--;
-                        //_isMoveDown--;
-
-                        //if (_isMoveUp <= 0)
-                        //    _moveUp = false;
-                        //if (_isMoveDown <= 0)
-                        //    _moveDown = false;
-
-
+                        //_moveRight = false;
                     }
                     break;
                 case VirtualKey.Up:
@@ -956,16 +982,7 @@ namespace SnakeGame
                         _isPointerActivated = false;
 
                         _moveUp = true;
-                        _moveDown = false;
-
-                        //_isMoveUp = 2;
-                        //_isMoveLeft--;
-                        //_isMoveRight--;
-
-                        //if (_isMoveLeft <= 0)
-                        //    _moveLeft = false;
-                        //if (_isMoveRight <= 0)
-                        //    _moveRight = false;
+                        //_moveDown = false;
                     }
                     break;
                 case VirtualKey.Right:
@@ -973,16 +990,7 @@ namespace SnakeGame
                         _isPointerActivated = false;
 
                         _moveRight = true;
-                        _moveLeft = false;
-
-                        //_isMoveRight = 2;
-                        //_isMoveUp--;
-                        //_isMoveDown--;
-
-                        //if (_isMoveUp <= 0)
-                        //    _moveUp = false;
-                        //if (_isMoveDown <= 0)
-                        //    _moveDown = false;
+                        //_moveLeft = false;
                     }
                     break;
                 case VirtualKey.Down:
@@ -990,16 +998,7 @@ namespace SnakeGame
                         _isPointerActivated = false;
 
                         _moveDown = true;
-                        _moveUp = false;
-
-                        //_isMoveDown = 2;
-                        //_isMoveLeft--;
-                        //_isMoveRight--;
-
-                        //if (_isMoveLeft <= 0)
-                        //    _moveLeft = false;
-                        //if (_isMoveRight <= 0)
-                        //    _moveRight = false;
+                        //_moveUp = false;
                     }
                     break;
 
@@ -1295,6 +1294,26 @@ namespace SnakeGame
             }
         }
 
+        public bool CollisionWithSelf()
+        {
+            //PlayerTrail source = Head;
+            //if (source != null)
+            //{
+            foreach (var target in GameView.Children.OfType<PlayerTrail>())
+            {
+                //if (!target.IsHead)
+                //{
+                if (target.GetLeft() == _player.GetLeft() && target.GetTop() == _player.GetTop())
+                {
+                    Console.WriteLine("COLLIDED WITH SELF");
+                    return true;
+                }
+                //}
+            }
+            //}
+            return false;
+        }
+
         private void RemoveGameObjects()
         {
             //SeaView.RemoveDestroyableGameObjects();
@@ -1373,42 +1392,52 @@ namespace SnakeGame
             double left = _player.GetLeft();
             double top = _player.GetTop();
 
-            double playerMiddleX = left + _player.Width / 2;
-            double playerMiddleY = top + _player.Height / 2;
+            //double playerMiddleX = left + _player.Width / 2;
+            //double playerMiddleY = top + _player.Height / 2;
 
-            if (_isPointerActivated)
-            {
-                // move up
-                if (_pointerPosition.Y < playerMiddleY - _playerSpeed)
-                    _player.SetTop(top - effectiveSpeed);
+            //if (_isPointerActivated)
+            //{
+            //    _moveRight = false;
+            //    _moveLeft = false;
+            //    _moveDown = false;
+            //    _moveUp = false;
 
-                // move left
-                if (_pointerPosition.X < playerMiddleX - _playerSpeed && left > 0)
-                    _player.SetLeft(left - effectiveSpeed);
+            //    // move up
+            //    if (_pointerPosition.Y < playerMiddleY - _playerSpeed)
+            //        _moveUp = true;
+            //    //_player.SetTop(top - effectiveSpeed);
 
-                // move down
-                if (_pointerPosition.Y > playerMiddleY + _playerSpeed)
-                    _player.SetTop(top + effectiveSpeed);
+            //    // move left
+            //    if (_pointerPosition.X < playerMiddleX - _playerSpeed && left > 0)
+            //        //_player.SetLeft(left - effectiveSpeed);
+            //        _moveLeft = true;
 
-                // move right
-                if (_pointerPosition.X > playerMiddleX + _playerSpeed && left + _player.Width < GameView.Width)
-                    _player.SetLeft(left + effectiveSpeed);
-            }
-            else
-            {
-                if (_moveLeft && left > 0)
-                    _player.SetLeft(left - effectiveSpeed);
+            //    // move down
+            //    if (_pointerPosition.Y > playerMiddleY + _playerSpeed)
+            //        //_player.SetTop(top + effectiveSpeed);
+            //        _moveDown = true;
 
-                if (_moveRight && left + _player.Width < GameView.Width)
-                    _player.SetLeft(left + effectiveSpeed);
+            //    // move right
+            //    if (_pointerPosition.X > playerMiddleX + _playerSpeed && left + _player.Width < GameView.Width)
+            //        //_player.SetLeft(left + effectiveSpeed);
+            //        _moveRight = true;
+            //}
 
-                if (_moveUp && top > 0 + (50 * _scale))
-                    _player.SetTop(top - effectiveSpeed);
+            //else
+            //{
+            if (_moveLeft && left > 0)
+                _player.SetLeft(left - effectiveSpeed);
 
-                if (_moveDown && top < GameView.Height - (100 * _scale))
-                    _player.SetTop(top + effectiveSpeed);
+            if (_moveRight && left + _player.Width < GameView.Width)
+                _player.SetLeft(left + effectiveSpeed);
 
-            }
+            if (_moveUp && top > 0 + (50 * _scale))
+                _player.SetTop(top - effectiveSpeed);
+
+            if (_moveDown && top < GameView.Height - (100 * _scale))
+                _player.SetTop(top + effectiveSpeed);
+
+            //}
 
             //if (GameView.Children.OfType<PlayerTrail>().Count() == 20)
             //{
@@ -1426,10 +1455,12 @@ namespace SnakeGame
             {
                 GameView.Children.Remove(GameView.Children.OfType<PlayerTrail>().First());
                 _length--;
+
+                //if (CollisionWithSelf())
+                //    StopGame();
             }
 
-            _playerHitBox = _player.GetHitBox(_scale);
-
+            _playerHitBox = _player.GetHitBox(_scale);          
         }
 
         #endregion

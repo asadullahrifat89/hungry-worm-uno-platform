@@ -14,7 +14,7 @@ namespace SnakeGame
         {
             Tag = ElementType.PLAYER;
 
-            Background = new SolidColorBrush(Colors.Goldenrod);
+            Background = new SolidColorBrush(Colors.Purple);
             CornerRadius = new CornerRadius(50);
 
             Width = size;
