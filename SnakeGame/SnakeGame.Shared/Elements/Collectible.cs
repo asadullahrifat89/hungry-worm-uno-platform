@@ -8,15 +8,15 @@ using System.Text;
 
 namespace SnakeGame
 {
-    public class Apple : GameObject
+    public class Collectible : GameObject
     {
         #region Ctor
 
-        public Apple(double size)
+        public Collectible(double size)
         {
             Background = new SolidColorBrush(Colors.Crimson);
             CornerRadius = new Microsoft.UI.Xaml.CornerRadius(50);
-            //Child = new Image() { Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/collectible.gif")) };
+            
             Height = size;
             Width = size;
         } 
@@ -27,7 +27,7 @@ namespace SnakeGame
 
         public override bool Equals(object obj)
         {
-            if (obj is Apple apple)
+            if (obj is Collectible apple)
                 return X == apple.X && Y == apple.Y;
             else
                 return false;

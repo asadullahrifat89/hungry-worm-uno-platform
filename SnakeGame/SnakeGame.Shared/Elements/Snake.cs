@@ -15,13 +15,13 @@ namespace SnakeGame
 
         #region Properties
 
-        public SnakeElement TailBackup { get; set; }
+        public PlayerTrail TailBackup { get; set; }
 
-        public List<SnakeElement> Elements { get; set; }
+        public List<PlayerTrail> Elements { get; set; }
 
         public MovementDirection MovementDirection { get; set; }
 
-        public SnakeElement Head => Elements.Any() ? Elements[0] : null;
+        public PlayerTrail Head => Elements.Any() ? Elements[0] : null;
 
         #endregion
 
@@ -29,7 +29,7 @@ namespace SnakeGame
 
         public Snake(int elementSize)
         {
-            Elements = new List<SnakeElement>();
+            Elements = new List<PlayerTrail>();
             _elementSize = elementSize;
         }
 
@@ -62,7 +62,7 @@ namespace SnakeGame
 
         internal void Grow()
         {
-            var newElement = new SnakeElement(_elementSize)
+            var newElement = new PlayerTrail(_elementSize)
             {
                 X = TailBackup.X,
                 Y = TailBackup.Y
@@ -73,7 +73,7 @@ namespace SnakeGame
 
         public bool CollisionWithSelf()
         {
-            SnakeElement source = Head;
+            PlayerTrail source = Head;
             if (source != null)
             {
                 foreach (var target in Elements)
@@ -92,7 +92,7 @@ namespace SnakeGame
 
         internal void PositionFirstElement(double x, double y, MovementDirection initialDirection)
         {
-            Elements.Add(new SnakeElement(_elementSize)
+            Elements.Add(new PlayerTrail(_elementSize)
             {
                 X = x,
                 Y = y,
@@ -103,10 +103,10 @@ namespace SnakeGame
 
         internal void MoveSnake()
         {
-            SnakeElement head = Elements[0];
-            SnakeElement tail = Elements[Elements.Count - 1];
+            PlayerTrail head = Elements[0];
+            PlayerTrail tail = Elements[Elements.Count - 1];
 
-            TailBackup = new SnakeElement(_elementSize)
+            TailBackup = new PlayerTrail(_elementSize)
             {
                 X = tail.X,
                 Y = tail.Y

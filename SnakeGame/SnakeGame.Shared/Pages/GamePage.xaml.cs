@@ -41,7 +41,7 @@ namespace SnakeGame
 
         //        public int ElementSize { get; set; } = 80;
 
-        //        public Apple Apple { get; set; }
+        //        public Collectible Collectible { get; set; }
 
         //        public Snake Snake { get; set; }
 
@@ -231,27 +231,27 @@ namespace SnakeGame
 
         //        private void DrawSnake()
         //        {
-        //            foreach (var snakeElement in Snake.Elements)
+        //            foreach (var PlayerTrail in Snake.Elements)
         //            {
-        //                if (!GameView.Children.Contains(snakeElement))
-        //                    GameView.Children.Add(snakeElement);
+        //                if (!GameView.Children.Contains(PlayerTrail))
+        //                    GameView.Children.Add(PlayerTrail);
 
-        //                Canvas.SetLeft(snakeElement, snakeElement.X);
-        //                Canvas.SetTop(snakeElement, snakeElement.Y);
-        //                Canvas.SetZIndex(snakeElement, 1);
+        //                Canvas.SetLeft(PlayerTrail, PlayerTrail.X);
+        //                Canvas.SetTop(PlayerTrail, PlayerTrail.Y);
+        //                Canvas.SetZIndex(PlayerTrail, 1);
 
-        //                if (snakeElement.IsHead)
-        //                    Canvas.SetZIndex(snakeElement, Snake.Elements.Count + 1);
+        //                if (PlayerTrail.IsHead)
+        //                    Canvas.SetZIndex(PlayerTrail, Snake.Elements.Count + 1);
         //            }
         //        }
 
         //        private void DrawApple()
         //        {
-        //            if (!GameView.Children.Contains(Apple))
-        //                GameView.Children.Add(Apple);
+        //            if (!GameView.Children.Contains(Collectible))
+        //                GameView.Children.Add(Collectible);
 
-        //            Canvas.SetLeft(Apple, Apple.X);
-        //            Canvas.SetTop(Apple, Apple.Y);
+        //            Canvas.SetLeft(Collectible, Collectible.X);
+        //            Canvas.SetTop(Collectible, Collectible.Y);
         //        }
 
         //        private void CheckCollision()
@@ -268,8 +268,8 @@ namespace SnakeGame
         //            Console.WriteLine("APPLE REMOVED");
 
         //            IncrementScore();
-        //            GameView.Children.Remove(Apple);
-        //            Apple = null;
+        //            GameView.Children.Remove(Collectible);
+        //            Collectible = null;
         //            Snake.Grow();
         //            //IncreaseGameSpeed();
         //        }
@@ -297,10 +297,10 @@ namespace SnakeGame
 
         //        private void CreateApple()
         //        {
-        //            if (Apple != null)
+        //            if (Collectible != null)
         //                return;
 
-        //            Apple = new Apple(ElementSize)
+        //            Collectible = new Collectible(ElementSize)
         //            {
         //                X = _random.Next(100, (int)_windowWidth - 100),
         //                Y = _random.Next(100, (int)_windowHeight - 100),
@@ -309,13 +309,13 @@ namespace SnakeGame
 
         //        private bool CollisionWithApple()
         //        {
-        //            if (Apple == null || Snake == null || Snake.Head == null)
+        //            if (Collectible == null || Snake == null || Snake.Head == null)
         //                return false;
 
-        //            SnakeElement source = Snake.Head;
-        //            var target = Apple;
+        //            PlayerTrail source = Snake.Head;
+        //            var target = Collectible;
 
-        //            //return (head.X == Apple.X && head.Y == Apple.Y);
+        //            //return (head.X == Collectible.X && head.Y == Collectible.Y);
 
         //            if (source.Width >= 0.0 && source.Width >= 0.0
         //               && target.X <= source.X + source.Width && target.X + target.Width >= source.X
@@ -723,7 +723,7 @@ namespace SnakeGame
         //{
         //    // This method is used to paint a frame of the snake´s body each time it is called.
 
-        //    SnakeElement newEllipse = new(_headSize);
+        //    PlayerTrail newEllipse = new(_headSize);
 
         //    Canvas.SetTop(newEllipse, currentposition.Y);
         //    Canvas.SetLeft(newEllipse, currentposition.X);
@@ -831,7 +831,7 @@ namespace SnakeGame
         //private PowerUpType _powerUpType;
 
         private Player _player;
-        private List<SnakeElement> _playerTrails;
+        private List<PlayerTrail> _playerTrails;
         private int _length;
 
         #endregion
@@ -901,10 +901,10 @@ namespace SnakeGame
                 PointerPoint point = e.GetCurrentPoint(GameView);
                 _pointerPosition = point.Position;
 
-                _moveRight = false;
-                _moveLeft = false;
-                _moveDown = false;
-                _moveUp = false;
+                //_moveRight = false;
+                //_moveLeft = false;
+                //_moveDown = false;
+                //_moveUp = false;
             }
         }
 
@@ -934,6 +934,8 @@ namespace SnakeGame
             {
                 case VirtualKey.Left:
                     {
+                        _isPointerActivated = false;
+
                         _moveLeft = true;
                         _moveRight = false;
 
@@ -945,10 +947,14 @@ namespace SnakeGame
                         //    _moveUp = false;
                         //if (_isMoveDown <= 0)
                         //    _moveDown = false;
+
+                        
                     }
                     break;
                 case VirtualKey.Up:
                     {
+                        _isPointerActivated = false;
+
                         _moveUp = true;
                         _moveDown = false;
 
@@ -964,6 +970,8 @@ namespace SnakeGame
                     break;
                 case VirtualKey.Right:
                     {
+                        _isPointerActivated = false;
+
                         _moveRight = true;
                         _moveLeft = false;
 
@@ -979,6 +987,8 @@ namespace SnakeGame
                     break;
                 case VirtualKey.Down:
                     {
+                        _isPointerActivated = false;
+
                         _moveDown = true;
                         _moveUp = false;
 
@@ -1127,7 +1137,7 @@ namespace SnakeGame
             //    GameView.Children.Add(car);
             //}
 
-            _playerTrails = new List<SnakeElement>();
+            _playerTrails = new List<PlayerTrail>();
 
             // add player
             _player = new Player()
@@ -1393,12 +1403,12 @@ namespace SnakeGame
 
             }
 
-            //if (GameView.Children.OfType<SnakeElement>().Count() == 20)
+            //if (GameView.Children.OfType<PlayerTrail>().Count() == 20)
             //{
             //    GameView.Children.RemoveAt(20);
             //}
 
-            SnakeElement playerTrail = new(_player.Height);
+            PlayerTrail playerTrail = new(_player.Height);
             playerTrail.SetTop(top);
             playerTrail.SetLeft(left);
 
@@ -1407,7 +1417,7 @@ namespace SnakeGame
 
             if (_length > 50)
             {
-                GameView.Children.Remove(GameView.Children.OfType<SnakeElement>().First());
+                GameView.Children.Remove(GameView.Children.OfType<PlayerTrail>().First());
                 _length--;
             }
         }

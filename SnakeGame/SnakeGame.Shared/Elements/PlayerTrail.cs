@@ -9,7 +9,7 @@ using Windows.UI;
 
 namespace SnakeGame
 {
-    public class SnakeElement : GameObject
+    public class PlayerTrail : GameObject
     {
         #region Properties
 
@@ -42,7 +42,7 @@ namespace SnakeGame
 
         #region Ctor
 
-        public SnakeElement(double size)
+        public PlayerTrail(double size)
         {
             Tag = ElementType.CAR;
             Background = new SolidColorBrush(Colors.Goldenrod);

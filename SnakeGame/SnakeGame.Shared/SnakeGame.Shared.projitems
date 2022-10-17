@@ -19,12 +19,12 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Elements\Apple.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Elements\Collectible.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\GameEnvironment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\GameObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\Player.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\Snake.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Elements\SnakeElement.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Elements\PlayerTrail.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\Sound.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\GameObjectExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\HttpServiceExtensions.cs" />
