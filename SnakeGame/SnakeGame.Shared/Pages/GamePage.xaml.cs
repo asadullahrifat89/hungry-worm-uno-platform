@@ -86,7 +86,7 @@ namespace SnakeGame
             InitializeComponent();
 
             _isGameOver = true;
-            //ShowInGameTextMessage("TAP_ON_SCREEN_TO_BEGIN");
+            ShowInGameTextMessage("TAP_ON_SCREEN_TO_BEGIN");
 
             _windowHeight = Window.Current.Bounds.Height;
             _windowWidth = Window.Current.Bounds.Width;
@@ -113,7 +113,7 @@ namespace SnakeGame
 
             //TODO: remove this to start page
             await LocalizationHelper.LoadLocalizationKeys();
-            ShowInGameTextMessage("TAP_ON_SCREEN_TO_BEGIN");
+           
         }
 
         private void GamePage_Unloaded(object sender, RoutedEventArgs e)
