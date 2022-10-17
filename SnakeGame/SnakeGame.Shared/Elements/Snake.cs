@@ -9,6 +9,7 @@ namespace SnakeGame
         #region Fields
 
         private readonly int _elementSize;
+        private readonly double _gameSpeed;
 
         #endregion
 
@@ -26,10 +27,11 @@ namespace SnakeGame
 
         #region Ctor
 
-        public Snake(int elementSize)
+        public Snake(int elementSize, double gameSpeed)
         {
             Elements = new List<SnakeElement>();
             _elementSize = elementSize;
+            _gameSpeed = gameSpeed;
         }
 
         #endregion
@@ -83,12 +85,12 @@ namespace SnakeGame
             return false;
         }
 
-        internal void PositionFirstElement(int cols, int rows, MovementDirection initialDirection)
+        internal void PositionFirstElement(double x, double y, MovementDirection initialDirection)
         {
             Elements.Add(new SnakeElement(_elementSize)
             {
-                X = (cols / 2) * _elementSize,
-                Y = (rows / 2) * _elementSize,
+                X = x,
+                Y = y,
                 IsHead = true
             });
             MovementDirection = initialDirection;
@@ -114,16 +116,16 @@ namespace SnakeGame
             switch (MovementDirection)
             {
                 case MovementDirection.Right:
-                    tail.X += _elementSize;
+                    tail.X += _gameSpeed;
                     break;
                 case MovementDirection.Left:
-                    tail.X -= _elementSize;
+                    tail.X -= _gameSpeed;
                     break;
                 case MovementDirection.Up:
-                    tail.Y -= _elementSize;
+                    tail.Y -= _gameSpeed;
                     break;
                 case MovementDirection.Down:
-                    tail.Y += _elementSize;
+                    tail.Y += _gameSpeed;
                     break;
                 default:
                     break;

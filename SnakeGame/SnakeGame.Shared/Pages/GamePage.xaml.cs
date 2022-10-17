@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Media;
 using System;
 using System.Linq;
 using System.Numerics;
+using System.Reflection.Emit;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
@@ -16,20 +17,15 @@ namespace SnakeGame
     public sealed partial class GamePage : Page
     {
         #region Fields
-        
+
         private PeriodicTimer _gameViewTimer;
         private readonly TimeSpan _frameTime = TimeSpan.FromMilliseconds(Constants.DEFAULT_FRAME_TIME);
 
         private readonly Random _random = new();
-        private Rect _playerHitBox;
 
         private int _gameSpeed;
         private readonly int _defaultGameSpeed = 5;
 
-        private bool _moveLeft;
-        private bool _moveRight;
-        private bool _moveUp;
-        private bool _moveDown;
         private bool _isGameOver;
         private bool _isPointerActivated;
 
@@ -38,7 +34,17 @@ namespace SnakeGame
         private double _scale;
         private Point _pointerPosition;
 
-        private double _score;
+        int apples, score, level;
+
+        #endregion
+
+        #region Properties
+
+        public int ElementSize { get; set; } = 50;
+
+        public Apple Apple { get; set; }
+
+        public Snake Snake { get; set; }
 
         #endregion
 
@@ -50,6 +56,8 @@ namespace SnakeGame
 
             _isGameOver = true;
             ShowInGameTextMessage("TAP_ON_SCREEN_TO_BEGIN");
+
+            SoundHelper.LoadGameSounds();
 
             _windowHeight = Window.Current.Bounds.Height;
             _windowWidth = Window.Current.Bounds.Width;
@@ -117,48 +125,24 @@ namespace SnakeGame
             _pointerPosition = null;
         }
 
-        private void OnKeyDown(object sender, KeyRoutedEventArgs e)
-        {
-            if (e.Key == VirtualKey.Left)
-            {
-                _moveLeft = true;
-                _moveRight = false;
-            }
-            if (e.Key == VirtualKey.Right)
-            {
-                _moveRight = true;
-                _moveLeft = false;
-            }
-            if (e.Key == VirtualKey.Up)
-            {
-                _moveUp = true;
-                _moveDown = false;
-            }
-            if (e.Key == VirtualKey.Down)
-            {
-                _moveDown = true;
-                _moveUp = false;
-            }
-        }
-
         private void OnKeyUP(object sender, KeyRoutedEventArgs e)
         {
             // when the player releases the left or right key it will set the designated boolean to false
             if (e.Key == VirtualKey.Left)
             {
-                _moveLeft = false;
+                UpdateMovementDirection(MovementDirection.Left);
             }
             if (e.Key == VirtualKey.Right)
             {
-                _moveRight = false;
+                UpdateMovementDirection(MovementDirection.Right);
             }
             if (e.Key == VirtualKey.Up)
             {
-                _moveUp = false;
+                UpdateMovementDirection(MovementDirection.Up);
             }
             if (e.Key == VirtualKey.Down)
             {
-                _moveDown = false;
+                UpdateMovementDirection(MovementDirection.Down);
             }
         }
 
@@ -197,28 +181,32 @@ namespace SnakeGame
             Console.WriteLine("GAME STARTED");
 #endif
             HideInGameTextMessage();
-            SoundHelper.PlaySound(SoundType.MENU_SELECT);
-          
+            //SoundHelper.PlaySound(SoundType.MENU_SELECT);
 
             _gameSpeed = _defaultGameSpeed;
-          
 
             ResetControls();
 
             _isGameOver = false;
 
-            _score = 0;         
+            score = 0;
             scoreText.Text = "0";
 
-            foreach (GameObject x in GameView.Children.OfType<GameObject>())
-            {
-                GameView.AddDestroyableGameObject(x);
-            }
-            
-            RemoveGameObjects();
+            //foreach (GameObject x in GameView.Children.OfType<GameObject>())
+            //{
+            //    GameView.AddDestroyableGameObject(x);
+            //}
 
+            //RemoveGameObjects();
+            InitializeSnake();
             StartGameSounds();
             RunGame();
+        }
+
+        private void InitializeSnake()
+        {
+            Snake = new Snake(ElementSize, _gameSpeed);
+            Snake.PositionFirstElement(_random.Next(100, (int)_windowWidth), _random.Next(100, (int)_windowHeight), MovementDirection.Right);
         }
 
         private void RemoveGameObjects()
@@ -236,9 +224,113 @@ namespace SnakeGame
             }
         }
 
-        private void GameViewLoop() 
+        private void GameViewLoop()
         {
-        
+            Snake.MoveSnake();
+            CheckCollision();
+            CreateApple();
+            Draw();
+        }
+
+        private void Draw()
+        {
+            DrawSnake();
+            DrawApple();
+        }
+
+        private void DrawSnake()
+        {
+            foreach (var snakeElement in Snake.Elements)
+            {
+                if (!GameView.Children.Contains(snakeElement))
+                    GameView.Children.Add(snakeElement);
+
+                Canvas.SetLeft(snakeElement, snakeElement.X);
+                Canvas.SetTop(snakeElement, snakeElement.Y);
+            }
+        }
+
+        private void DrawApple()
+        {
+            if (!GameView.Children.Contains(Apple))
+                GameView.Children.Add(Apple);
+
+            Canvas.SetLeft(Apple, Apple.X);
+            Canvas.SetTop(Apple, Apple.Y);
+        }
+
+        private void CheckCollision()
+        {
+            if (CollisionWithApple())
+                ProcessCollisionWithApple();
+
+            if (Snake.CollisionWithSelf() || CollisionWithWorldBounds())
+            {
+                StopGame();
+            }
+        }
+
+        private void ProcessCollisionWithApple()
+        {
+            IncrementScore();
+            GameView.Children.Remove(Apple);
+            Apple = null;
+            Snake.Grow();
+            IncreaseGameSpeed();
+        }
+
+        private void IncreaseGameSpeed()
+        {
+            _gameSpeed++;
+        }
+
+        internal void IncrementScore()
+        {
+            apples += 1;
+            if (apples % 3 == 0)
+                level += 1;
+            score += 10 * level;
+            UpdateScore();
+        }
+
+        internal void UpdateScore()
+        {
+            //ApplesLbl.Content = $"Apples: {apples}";
+            scoreText.Text = $"{score}";
+            //LevelLbl.Content = $"Level: {level}";
+        }
+
+        private void CreateApple()
+        {
+            if (Apple != null)
+                return;
+
+            Apple = new Apple(ElementSize)
+            {
+                X = _random.Next(0, (int)_windowWidth) * ElementSize,
+                Y = _random.Next(0, (int)_windowHeight) * ElementSize
+            };
+        }
+
+        private bool CollisionWithApple()
+        {
+            if (Apple == null || Snake == null || Snake.Head == null)
+                return false;
+
+            SnakeElement head = Snake.Head;
+            return (head.X == Apple.X && head.Y == Apple.Y);
+        }
+
+        private bool CollisionWithWorldBounds()
+        {
+            if (Snake == null || Snake.Head == null)
+                return false;
+
+            var snakeHead = Snake.Head;
+
+            return (snakeHead.X > _windowWidth - ElementSize ||
+                snakeHead.Y > _windowHeight - ElementSize ||
+                snakeHead.X < 0 || snakeHead.Y < 0);
         }
 
         private void PauseGame()
@@ -250,7 +342,7 @@ namespace SnakeGame
 
             ResetControls();
 
-            SoundHelper.PlaySound(SoundType.MENU_SELECT);
+            //SoundHelper.PlaySound(SoundType.MENU_SELECT);
             PauseGameSounds();
         }
 
@@ -259,9 +351,9 @@ namespace SnakeGame
             InputView.Focus(FocusState.Programmatic);
             HideInGameTextMessage();
 
-            SoundHelper.PlaySound(SoundType.MENU_SELECT);
-            SoundHelper.ResumeSound(SoundType.BACKGROUND);
-            SoundHelper.ResumeSound(SoundType.CAR_ENGINE);
+            //SoundHelper.PlaySound(SoundType.MENU_SELECT);
+            //SoundHelper.ResumeSound(SoundType.BACKGROUND);
+            //SoundHelper.ResumeSound(SoundType.CAR_ENGINE);
 
             RunGame();
         }
@@ -274,11 +366,13 @@ namespace SnakeGame
 
         private void ResetControls()
         {
-            _moveLeft = false;
-            _moveRight = false;
-            _moveUp = false;
-            _moveDown = false;
             _isPointerActivated = false;
+        }
+
+        internal void UpdateMovementDirection(MovementDirection movementDirection)
+        {
+            if (Snake != null)
+                Snake.UpdateMovementDirection(movementDirection);
         }
 
         #endregion 
@@ -289,26 +383,26 @@ namespace SnakeGame
 
         private async void StartGameSounds()
         {
-            SoundHelper.PlaySound(SoundType.CAR_START);
+            //SoundHelper.PlaySound(SoundType.CAR_START);
 
-            await Task.Delay(TimeSpan.FromSeconds(1));
+            //await Task.Delay(TimeSpan.FromSeconds(1));
 
-            SoundHelper.PlaySound(SoundType.CAR_ENGINE);
+            //SoundHelper.PlaySound(SoundType.CAR_ENGINE);
 
-            SoundHelper.RandomizeBackgroundSound();
-            SoundHelper.PlaySound(SoundType.BACKGROUND);
+            //SoundHelper.RandomizeBackgroundSound();
+            //SoundHelper.PlaySound(SoundType.BACKGROUND);
         }
 
         private void StopGameSounds()
         {
-            SoundHelper.StopSound(SoundType.BACKGROUND);
-            SoundHelper.StopSound(SoundType.CAR_ENGINE);
+            //SoundHelper.StopSound(SoundType.BACKGROUND);
+            //SoundHelper.StopSound(SoundType.CAR_ENGINE);
         }
 
         private void PauseGameSounds()
         {
-            SoundHelper.PauseSound(SoundType.BACKGROUND);
-            SoundHelper.PauseSound(SoundType.CAR_ENGINE);
+            //SoundHelper.PauseSound(SoundType.BACKGROUND);
+            //SoundHelper.PauseSound(SoundType.CAR_ENGINE);
         }
 
         #endregion
@@ -317,7 +411,7 @@ namespace SnakeGame
 
         private void SetViewSize()
         {
-            _scale = ScalingHelper.GetGameObjectScale(_windowWidth);          
+            _scale = ScalingHelper.GetGameObjectScale(_windowWidth);
 
             GameView.Width = _windowWidth;
             GameView.Height = _windowHeight;
@@ -325,7 +419,7 @@ namespace SnakeGame
 
         private void NavigateToPage(Type pageType)
         {
-            SoundHelper.PlaySound(SoundType.MENU_SELECT);
+            //SoundHelper.PlaySound(SoundType.MENU_SELECT);
             App.NavigateToPage(pageType);
         }
 
