@@ -44,6 +44,7 @@ namespace SnakeGame
 
         public SnakeElement(double size)
         {
+            Tag = ElementType.CAR;
             Background = new SolidColorBrush(Colors.Goldenrod);
             CornerRadius = new Microsoft.UI.Xaml.CornerRadius(50);
             

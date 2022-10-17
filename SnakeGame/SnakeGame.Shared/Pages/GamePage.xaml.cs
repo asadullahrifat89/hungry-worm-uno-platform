@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -829,6 +830,7 @@ namespace SnakeGame
         //private PowerUpType _powerUpType;
 
         private Player _player;
+        private List<SnakeElement> _playerTrails;
 
         #endregion
 
@@ -893,6 +895,10 @@ namespace SnakeGame
             else
             {
                 _isPointerActivated = true;
+                _moveRight = false;
+                _moveLeft = false;
+                _moveDown = false;
+                _moveUp = false;
             }
         }
 
@@ -917,46 +923,54 @@ namespace SnakeGame
             {
                 _moveLeft = true;
                 _moveRight = false;
+                _moveDown = false;
+                _moveUp = false;
             }
             if (e.Key == VirtualKey.Right)
             {
                 _moveRight = true;
                 _moveLeft = false;
+                _moveDown = false;
+                _moveUp = false;
             }
             if (e.Key == VirtualKey.Up)
             {
                 _moveUp = true;
                 _moveDown = false;
+                _moveLeft = false;
+                _moveRight = false;
             }
             if (e.Key == VirtualKey.Down)
             {
                 _moveDown = true;
                 _moveUp = false;
+                _moveLeft = false;
+                _moveRight = false;
             }
         }
 
         private void OnKeyUP(object sender, KeyRoutedEventArgs e)
         {
             // when the player releases the left or right key it will set the designated boolean to false
-            if (e.Key == VirtualKey.Left)
-            {
-                _moveLeft = false;
-            }
-            if (e.Key == VirtualKey.Right)
-            {
-                _moveRight = false;
-            }
-            if (e.Key == VirtualKey.Up)
-            {
-                _moveUp = false;
-            }
-            if (e.Key == VirtualKey.Down)
-            {
-                _moveDown = false;
-            }
+            //if (e.Key == VirtualKey.Left)
+            //{
+            //    _moveLeft = false;
+            //}
+            //if (e.Key == VirtualKey.Right)
+            //{
+            //    _moveRight = false;
+            //}
+            //if (e.Key == VirtualKey.Up)
+            //{
+            //    _moveUp = false;
+            //}
+            //if (e.Key == VirtualKey.Down)
+            //{
+            //    _moveDown = false;
+            //}
 
-            if (!_moveLeft && !_moveRight && !_moveUp && !_moveDown)
-                _accelerationCounter = 0;
+            //if (!_moveLeft && !_moveRight && !_moveUp && !_moveDown)
+            //    _accelerationCounter = 0;
 
             // in this case we will listen for the enter key aswell but for this to execute we will need the game over boolean to be true
             //if (e.Key == VirtualKey.Enter && _isGameOver == true)
@@ -1063,6 +1077,8 @@ namespace SnakeGame
             //    RandomizeCarPosition(car);
             //    GameView.Children.Add(car);
             //}
+
+            _playerTrails = new List<SnakeElement>();
 
             // add player
             _player = new Player()
@@ -1202,13 +1218,13 @@ namespace SnakeGame
             foreach (GameObject x in GameView.Children.OfType<GameObject>())
             {
                 switch ((ElementType)x.Tag)
-                {                   
+                {
                     case ElementType.PLAYER:
                         {
-                            if (_moveLeft || _moveRight || _moveUp || _moveDown || _isPointerActivated)
-                            {
-                                UpdatePlayer();
-                            }
+                            //if (_moveLeft || _moveRight || _moveUp || _moveDown || _isPointerActivated)
+                            //{
+                            UpdatePlayer();
+                            //}
                         }
                         break;
                     default:
@@ -1327,6 +1343,21 @@ namespace SnakeGame
                     _player.SetTop(top + effectiveSpeed);
 
             }
+
+            //if (GameView.Children.OfType<SnakeElement>().Count() < 10)
+            //{
+            SnakeElement playerTrail = new(_player.Height);
+            playerTrail.SetTop(top);
+            playerTrail.SetLeft(left);
+
+            GameView.Children.Add(playerTrail);
+
+            if (GameView.Children.OfType<SnakeElement>().Count() > 20)
+            {
+                GameView.Children.Remove(GameView.Children.OfType<SnakeElement>().Last());
+            }
+
+            //}
         }
 
         #endregion
