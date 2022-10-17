@@ -681,35 +681,27 @@ namespace SnakeGame
             //if (_moveDown && top < GameView.Height - (100 * _scale))
 
             if (_player.GetLeft() > _windowWidth)
-            {
                 _player.SetLeft(0);
-            }
 
             if (_player.GetLeft() < 0)
-            {
                 _player.SetLeft(_windowWidth);
-            }
 
             if (_player.GetTop() > _windowHeight)
-            {
                 _player.SetTop(0);
-            }
 
             if (_player.GetTop() < 0)
-            {
                 _player.SetTop(_windowHeight);
-            }
 
             PlayerTrail playerTrail = new(_player.Height);
             playerTrail.SetTop(top);
             playerTrail.SetLeft(left);
 
-            GameView.Children.Add(playerTrail);
+            GameView.Children.Insert(0, playerTrail);
             _length++;
 
             if (_length > _maxLength)
             {
-                GameView.Children.Remove(GameView.Children.OfType<PlayerTrail>().First());
+                GameView.Children.Remove(GameView.Children.OfType<PlayerTrail>().Last());
                 _length--;
             }
 
