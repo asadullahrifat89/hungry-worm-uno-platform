@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Windows.UI;
 
 namespace SnakeGame
 {
@@ -20,10 +21,9 @@ namespace SnakeGame
             set
             {
                 _IsHead = value;
-                //Background = _IsHead ? new SolidColorBrush(Colors.Purple) : new SolidColorBrush(Colors.Green);
+                BorderBrush = _IsHead ? new SolidColorBrush(Colors.Crimson) : new SolidColorBrush(Colors.Goldenrod);                
             }
         }
-
 
         #endregion
 

@@ -30,13 +30,13 @@
                 Margin="3,0,5,0"
                 VerticalAlignment="Center"
                 Orientation="Horizontal">
-                <Image
+                <!--<Image
                     Width="30"
                     Height="30"
                     Margin="0,2,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    Source="ms-appx:///Assets/Images/collectible.png" />
+                    Source="ms-appx:///Assets/Images/collectible.png" />-->
                 <TextBlock
                     Name="scoreText"
                     Margin="5,0,0,0"
@@ -77,7 +77,7 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Background="Transparent"
-            KeyUp="OnKeyUP"            
+            KeyUp="OnKeyUP"
             PointerMoved="InputView_PointerMoved"
             PointerPressed="InputView_PointerPressed"
             PointerReleased="InputView_PointerReleased" />

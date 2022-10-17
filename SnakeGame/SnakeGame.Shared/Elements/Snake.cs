@@ -9,6 +9,7 @@ namespace SnakeGame
         #region Fields
 
         private readonly int _elementSize;
+        private double _speed = 4;
 
         #endregion
 
@@ -61,7 +62,11 @@ namespace SnakeGame
 
         internal void Grow()
         {
-            Elements.Add(new SnakeElement(_elementSize) { X = TailBackup.X, Y = TailBackup.Y });
+            for (int i = 0; i < 5; i++)
+            {
+                Elements.Add(new SnakeElement(_elementSize) { X = TailBackup.X, Y = TailBackup.Y });
+            }
+
         }
 
         public bool CollisionWithSelf()
@@ -77,12 +82,6 @@ namespace SnakeGame
                         {
                             return true;
                         }
-                        //if (source.Width >= 0.0 && source.Width >= 0.0
-                        //&& target.X <= source.X + source.Width && target.X + target.Width >= source.X
-                        //&& target.Y <= source.Y + source.Height)
-                        //{
-                        //    return target.Y + target.Height >= source.Y;
-                        //}
                     }
                 }
             }
@@ -120,16 +119,20 @@ namespace SnakeGame
             switch (MovementDirection)
             {
                 case MovementDirection.Right:
-                    tail.X += Constants.DEFAULT_FRAME_TIME/2;
+                    tail.X += _speed;
+                    tail.BorderThickness = new Microsoft.UI.Xaml.Thickness(0, 0, 5, 0);
                     break;
                 case MovementDirection.Left:
-                    tail.X -= Constants.DEFAULT_FRAME_TIME/2;
+                    tail.X -= _speed;
+                    tail.BorderThickness = new Microsoft.UI.Xaml.Thickness(5, 0, 0, 0);
                     break;
                 case MovementDirection.Up:
-                    tail.Y -= Constants.DEFAULT_FRAME_TIME/2;
+                    tail.Y -= _speed;
+                    tail.BorderThickness = new Microsoft.UI.Xaml.Thickness(0, 5, 0, 0);
                     break;
                 case MovementDirection.Down:
-                    tail.Y += Constants.DEFAULT_FRAME_TIME/2;
+                    tail.Y += _speed;
+                    tail.BorderThickness = new Microsoft.UI.Xaml.Thickness(0, 0, 0, 5);
                     break;
                 default:
                     break;

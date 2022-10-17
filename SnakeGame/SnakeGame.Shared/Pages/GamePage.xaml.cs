@@ -29,13 +29,9 @@ namespace SnakeGame
         private readonly TimeSpan _frameTime = TimeSpan.FromMilliseconds(Constants.DEFAULT_FRAME_TIME);
 
         private readonly Random _random = new();
-
-        private int _gameSpeed;
-        private readonly int _defaultGameSpeed = 5;
-
+        
         private bool _isGameOver;
         private bool _isPointerActivated;
-
 
         private double _windowHeight, _windowWidth;
         private double _scale;
@@ -47,7 +43,7 @@ namespace SnakeGame
 
         #region Properties
 
-        public int ElementSize { get; set; } = 100;
+        public int ElementSize { get; set; } = 80;
 
         public Apple Apple { get; set; }
 
@@ -194,21 +190,13 @@ namespace SnakeGame
             HideInGameTextMessage();
             //SoundHelper.PlaySound(SoundType.MENU_SELECT);
 
-            _gameSpeed = _defaultGameSpeed;
-
             ResetControls();
 
             _isGameOver = false;
 
             score = 0;
             scoreText.Text = "0";
-
-            //foreach (GameObject x in GameView.Children.OfType<GameObject>())
-            //{
-            //    GameView.AddDestroyableGameObject(x);
-            //}
-
-            //RemoveGameObjects();
+          
             InitializeSnake();
             StartGameSounds();
             RunGame();
@@ -289,12 +277,12 @@ namespace SnakeGame
             GameView.Children.Remove(Apple);
             Apple = null;
             Snake.Grow();
-            IncreaseGameSpeed();
+            //IncreaseGameSpeed();
         }
 
         private void IncreaseGameSpeed()
         {
-            _gameSpeed++;
+            //_gameSpeed++;
         }
 
         internal void IncrementScore()
