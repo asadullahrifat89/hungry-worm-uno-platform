@@ -282,6 +282,8 @@ namespace SnakeGame
 
         //        private void ProcessCollisionWithApple()
         //        {
+        //            Console.WriteLine("APPLE REMOVED");
+
         //            IncrementScore();
         //            GameView.Children.Remove(Apple);
         //            Apple = null;
@@ -329,7 +331,14 @@ namespace SnakeGame
 
         //            SnakeElement head = Snake.Head;
         //            //return (head.X == Apple.X && head.Y == Apple.Y);
-        //            return head.GetHitBox(_scale).IntersectsWith(Apple.GetHitBox(_scale));
+
+        //            if (head.GetHitBox(_scale).IntersectsWith(Apple.GetHitBox(_scale)))
+        //            {
+        //                Console.WriteLine("ATE APPLE");
+        //                return true;
+        //            }
+
+        //            return false;
         //        }
 
         //        private bool CollisionWithWorldBounds()
@@ -408,7 +417,7 @@ namespace SnakeGame
         //                Snake.UpdateMovementDirection(movementDirection);
         //        }
 
-        //        #endregion 
+        //        #endregion
 
         //        #endregion
 
@@ -474,9 +483,11 @@ namespace SnakeGame
 
         //        #endregion
 
-        //        #endregion 
+        //        #endregion
 
         #endregion
+
+        #region Second
 
         #region Fields
 
@@ -517,6 +528,8 @@ namespace SnakeGame
 
         #endregion
 
+        #region Ctor
+
         public GamePage()
         {
             InitializeComponent();
@@ -529,6 +542,10 @@ namespace SnakeGame
             Loaded += GamePage_Loaded;
             Unloaded += GamePage_Unloaded;
         }
+
+        #endregion
+
+        #region Events
 
         private void GamePage_Loaded(object sender, RoutedEventArgs e)
         {
@@ -551,7 +568,7 @@ namespace SnakeGame
             Console.WriteLine($"WINDOWS SIZE: {_windowWidth}x{_windowHeight}");
         }
 
-        private void GamePage_KeyDown(object sender, KeyRoutedEventArgs e)
+        private void OnKeyUP(object sender, KeyRoutedEventArgs e)
         {
             Console.WriteLine("KEY DOWN");
             switch (e.Key)
@@ -578,6 +595,38 @@ namespace SnakeGame
             _previousDirection = _direction;
         }
 
+        private void InputView_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            if (_isGameOver)
+            {
+                InputView.Focus(FocusState.Programmatic);
+                StartGame();
+            }
+            else
+            {
+                _isPointerActivated = true;
+            }
+        }
+
+        private void InputView_PointerMoved(object sender, PointerRoutedEventArgs e)
+        {
+            if (_isPointerActivated)
+            {
+                PointerPoint point = e.GetCurrentPoint(GameView);
+                _pointerPosition = point.Position;
+            }
+        }
+
+        private void InputView_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            _isPointerActivated = false;
+            _pointerPosition = null;
+        }
+
+        #endregion
+
+        #region Methods
+
         private void SetViewSize()
         {
             _scale = ScalingHelper.GetGameObjectScale(_windowWidth);
@@ -589,6 +638,7 @@ namespace SnakeGame
         private void StartGame()
         {
             Console.WriteLine("START GAME");
+            _isGameOver = false;
 
             PaintSnake(_startingPoint);
             _currentPosition = _startingPoint;
@@ -649,6 +699,8 @@ namespace SnakeGame
                 {
                     _length += 10;
                     _score += 10;
+
+                    scoreText.Text = _score.ToString();
 
                     // In the case of food consumption, erase the food object
                     // from the list of bonuses as well as from the canvas
@@ -726,33 +778,9 @@ namespace SnakeGame
             //this.Close();
         }
 
-        private void InputView_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            if (_isGameOver)
-            {
-                InputView.Focus(FocusState.Programmatic);
-                StartGame();
-            }
-            else
-            {
-                _isPointerActivated = true;
-            }
-        }
+        #endregion
 
-        private void InputView_PointerMoved(object sender, PointerRoutedEventArgs e)
-        {
-            if (_isPointerActivated)
-            {
-                PointerPoint point = e.GetCurrentPoint(GameView);
-                _pointerPosition = point.Position;
-            }
-        }
-
-        private void InputView_PointerReleased(object sender, PointerRoutedEventArgs e)
-        {
-            _isPointerActivated = false;
-            _pointerPosition = null;
-        }
+        #endregion
     }
 
     public enum SnakeSize

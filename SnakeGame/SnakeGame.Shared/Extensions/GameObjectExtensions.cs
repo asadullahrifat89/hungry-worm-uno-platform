@@ -44,25 +44,22 @@ namespace SnakeGame
 
         public static Rect GetHitBox(this GameObject gameObject, double scale)
         {
+            //var rect = new Rect(
+            //    x: gameObject.GetLeft() + (gameObject.Width / 3) - 5 * scale,
+            //    y: gameObject.GetTop() + (gameObject.Height / 6) * scale,
+            //    width: gameObject.Width - (gameObject.Width / 3) - 5 * scale,
+            //    height: gameObject.Height - ((gameObject.Height / 6) * 3) * scale);
+
             var rect = new Rect(
-                x: gameObject.GetLeft() + (gameObject.Width / 3) - 5 * scale,
-                y: gameObject.GetTop() + (gameObject.Height / 6) * scale,
-                width: gameObject.Width - (gameObject.Width / 3) - 5 * scale,
-                height: gameObject.Height - ((gameObject.Height / 6) * 3) * scale);
+              x: gameObject.GetLeft(),
+              y: gameObject.GetTop(),
+              width: gameObject.Width,
+              height: gameObject.Height);
 
             gameObject.SetHitBoxBorder(rect);
 
             return rect;
-        }
-
-        public static Rect GetDistantHitBox(this GameObject gameObject, double scale)
-        {
-            return new Rect(
-                x: gameObject.GetLeft() - (gameObject.Width / 2) * scale,
-                y: gameObject.GetTop() - 50 * scale,
-                width: gameObject.Width + (gameObject.Width / 2) * scale,
-                height: gameObject.Height + 50 * scale);
-        }
+        }      
 
         #endregion
     }

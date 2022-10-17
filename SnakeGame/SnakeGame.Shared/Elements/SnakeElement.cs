@@ -19,7 +19,6 @@ namespace SnakeGame
             {
                 _IsHead = value;
                 Background = _IsHead ? new SolidColorBrush(Colors.Purple) : new SolidColorBrush(Colors.Green);
-
             }
         }
 
@@ -31,7 +30,7 @@ namespace SnakeGame
         public SnakeElement(double size)
         {
             Background = new SolidColorBrush(Colors.Green);
-            CornerRadius = new Microsoft.UI.Xaml.CornerRadius(0);
+            CornerRadius = new Microsoft.UI.Xaml.CornerRadius(50);
             Width = size;
             Height = size;
         }
