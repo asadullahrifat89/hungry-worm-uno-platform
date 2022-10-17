@@ -9,9 +9,80 @@
     mc:Ignorable="d">
 
     <Grid x:Name="RootGrid">
-        <TextBlock
-            Margin="20"
-            FontSize="30"
-            Text="Hello, world!" />
+
+        <!--#region Animation-->
+        <!--  This hosts the player and game elements  -->
+        <GameEnvironment x:Name="GameView" Background="Transparent" />
+        <!--#endregion-->
+
+        <!--#region Game Score-->
+        <Border
+            x:Name="scorePanel"
+            Height="40"
+            Margin="5"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Background="#ec6c63"
+            BorderBrush="White"
+            BorderThickness="3"
+            CornerRadius="50">
+            <StackPanel
+                Margin="3,0,5,0"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <Image
+                    Width="30"
+                    Height="30"
+                    Margin="0,2,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Source="ms-appx:///Assets/Images/collectible.png" />
+                <TextBlock
+                    Name="scoreText"
+                    Margin="5,0,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    FontWeight="Bold"
+                    Foreground="White"
+                    Text="0"
+                    TextAlignment="Left" />
+            </StackPanel>
+        </Border>
+        <!--#endregion-->
+
+        <!--#region In game message-->
+        <StackPanel
+            x:Name="InGameMessagePanel"
+            Margin="10"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Visibility="Collapsed">
+            <TextBlock
+                x:Name="InGameMessageText"
+                Margin="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="30"
+                FontWeight="Bold"
+                Foreground="White"
+                TextAlignment="Center"
+                TextWrapping="WrapWholeWords" />
+        </StackPanel>
+        <!--#endregion-->
+
+        <!--#region Input Border-->
+        <Border
+            x:Name="InputView"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Background="Transparent"
+            KeyDown="OnKeyDown"
+            KeyUp="OnKeyUP"
+            PointerMoved="InputView_PointerMoved"
+            PointerPressed="InputView_PointerPressed"
+            PointerReleased="InputView_PointerReleased" />
+        <!--#endregion-->
+
     </Grid>
 </Page>
