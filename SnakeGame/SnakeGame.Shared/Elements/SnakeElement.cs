@@ -9,8 +9,20 @@ namespace SnakeGame
     public class SnakeElement : GameObject
     {
         #region Properties
-        
-        public bool IsHead { get; set; }
+
+        private bool _IsHead;
+
+        public bool IsHead
+        {
+            get { return _IsHead; }
+            set
+            {
+                _IsHead = value;
+                Background = _IsHead ? new SolidColorBrush(Colors.Purple) : new SolidColorBrush(Colors.Green);
+
+            }
+        }
+
 
         #endregion
 
@@ -19,10 +31,10 @@ namespace SnakeGame
         public SnakeElement(double size)
         {
             Background = new SolidColorBrush(Colors.Green);
-            CornerRadius = new Microsoft.UI.Xaml.CornerRadius(15);
+            CornerRadius = new Microsoft.UI.Xaml.CornerRadius(0);
             Width = size;
             Height = size;
-        } 
+        }
 
         #endregion
     }
