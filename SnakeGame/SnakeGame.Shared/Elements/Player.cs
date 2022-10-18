@@ -40,8 +40,7 @@ namespace SnakeGame
                     if (MovementDirection != MovementDirection.Down)
                     {
                         MovementDirection = MovementDirection.Up;
-                        BorderThickness = new Thickness(5, 5, 5, 0);
-                        //CornerRadius = new CornerRadius(50, 50, 0, 0);
+                        BorderThickness = new Thickness(5, 5, 5, 0);                        
                     }
                     break;
                 case MovementDirection.Left:
@@ -49,7 +48,6 @@ namespace SnakeGame
                     {
                         MovementDirection = MovementDirection.Left;
                         BorderThickness = new Thickness(5, 5, 0, 5);
-                        //CornerRadius = new CornerRadius(50, 0, 0, 50);
                     }
                     break;
                 case MovementDirection.Down:
@@ -57,7 +55,6 @@ namespace SnakeGame
                     {
                         MovementDirection = MovementDirection.Down;
                         BorderThickness = new Thickness(5, 0, 5, 5);
-                        //CornerRadius = new CornerRadius(0, 0, 50, 50);
                     }
                     break;
                 case MovementDirection.Right:
@@ -65,7 +62,6 @@ namespace SnakeGame
                     {
                         MovementDirection = MovementDirection.Right;
                         BorderThickness = new Thickness(0, 5, 5, 5);
-                        //CornerRadius = new CornerRadius(0, 30, 30, 0);
                     }
                     break;
             }

@@ -682,7 +682,7 @@ namespace SnakeGame
 
         private void SpawnCollectible()
         {
-            var speed = _random.Next(2, 5);
+            var speed = 4;//_random.Next(2, 5);
 
             Collectible collectible = new(Constants.COLLECTIBLE_SIZE * _scale)
             {
