@@ -29,6 +29,8 @@
     <_Globbed_Content Remove="Assets\Images\kiss1.png" />
     <_Globbed_Content Remove="Assets\Images\kiss2.png" />
     <_Globbed_Content Remove="Assets\Images\laughing1.png" />
+    <_Globbed_Content Remove="Assets\Images\player13.png" />
+    <_Globbed_Content Remove="Assets\Images\player14.png" />
     <_Globbed_Content Remove="Assets\Images\player_trail.png" />
     <_Globbed_Content Remove="Assets\Images\smart.png" />
     <_Globbed_Content Remove="Assets\SplashScreen.png" />
