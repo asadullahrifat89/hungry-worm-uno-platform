@@ -60,8 +60,7 @@ namespace HungryWorm
         //private PowerUpType _powerUpType;
 
         private Player _player;
-        private int _length;
-        private int _maxLength;
+      
         private int _foodSpawnLimit;
         private int _foodCount;
 
@@ -75,6 +74,12 @@ namespace HungryWorm
         private double _healthGainPoint;
         private readonly double _defaultHealthDepletePoint = 0.5;
         private readonly double _defaultHealthGainPoint = 10;
+
+        private int _playerTrailCount;
+        private int _playerTrailLimit;
+
+        private int _playerTrailSpawnCounter;
+        private int _defaultPlayerTrailSpawnCounter = 1;
 
         #endregion
 
@@ -283,32 +288,11 @@ namespace HungryWorm
 
         private void PopulateUnderView()
         {
-            // add some cars underneath
-            for (int i = 0; i < 35; i++)
+            // add some dirt underneath
+            for (int i = 0; i < 25; i++)
             {
                 SpawnDirt();
             }
-
-            //// add some clouds underneath
-            //for (int i = 0; i < 15; i++)
-            //{
-            //    //var scaleFactor = _random.Next(1, 4);
-            //    //var scaleReverseFactor = _random.Next(-1, 2);
-
-            //    //var cloud = new Cloud()
-            //    //{
-            //    //    Width = Constants.CLOUD_WIDTH * _scale,
-            //    //    Height = Constants.CLOUD_HEIGHT * _scale,
-            //    //    RenderTransform = new CompositeTransform()
-            //    //    {
-            //    //        ScaleX = scaleFactor * scaleReverseFactor,
-            //    //        ScaleY = scaleFactor,
-            //    //    }
-            //    //};
-
-            //    //RandomizeCloudPosition(cloud);
-            //    //UnderView.Children.Add(cloud);
-            //}
         }
 
         private void PopulateGameView()
@@ -372,7 +356,7 @@ namespace HungryWorm
             _lives = _maxLives;
             //SetLives();
 
-            _maxLength = 40;
+            _playerTrailLimit = 30;
             _foodSpawnLimit = 10;
             _foodCount = 0;
 
@@ -397,6 +381,8 @@ namespace HungryWorm
             _health = 100;
             _healthGainPoint = _defaultHealthGainPoint;
             _healthDepleteCounter = 10;
+
+            _playerTrailSpawnCounter = _defaultPlayerTrailSpawnCounter;
 
             RemoveGameObjects();
             StartGameSounds();
@@ -635,16 +621,23 @@ namespace HungryWorm
 
         private void SpawnPlayerTrail()
         {
-            double left = _player.GetLeft();
-            double top = _player.GetTop();
+            _playerTrailSpawnCounter--;
 
-            PlayerTrail playerTrail = new(Constants.PLAYER_TRAIL_SIZE * _scale);
-            playerTrail.SetPosition(left, top);
-            playerTrail.SetZ(0);
-            playerTrail.UpdateMovementDirection(_player.MovementDirection);
+            if (_playerTrailSpawnCounter <= 0)
+            {
+                _playerTrailSpawnCounter = _defaultPlayerTrailSpawnCounter;
 
-            GameView.Children.Add(playerTrail);
-            _length++;
+                double left = _player.GetLeft();
+                double top = _player.GetTop();
+
+                PlayerTrail playerTrail = new(Constants.PLAYER_TRAIL_SIZE * _scale);
+                playerTrail.SetPosition(left, top);
+                playerTrail.SetZ(0);
+                playerTrail.UpdateMovementDirection(_player.MovementDirection);
+
+                GameView.Children.Add(playerTrail);
+                _playerTrailCount++;
+            }
         }
 
         private void UpdatePlayerTrail(GameObject playerTrail)
@@ -667,17 +660,17 @@ namespace HungryWorm
                     break;
             }
 
-            var playerTrails = GameView.GetGameObjects<PlayerTrail>().ToArray();
-
-            if (_length > _maxLength)
+            if (_playerTrailCount > _playerTrailLimit)
             {
-                GameView.AddDestroyableGameObject(playerTrails[0]);
-                _length--;
-            }
+                var playerTrails = GameView.GetGameObjects<PlayerTrail>().ToArray();
 
-            // give tail a proper border
-            var tail = playerTrails[1];
-            tail.BorderThickness = new Thickness(5);
+                GameView.AddDestroyableGameObject(playerTrails[0]);
+                _playerTrailCount--;
+
+                // give tail a proper border
+                var tail = playerTrails[1];
+                tail.BorderThickness = new Thickness(5);
+            }          
 
             //if (_length > _maxLength)
             //{
