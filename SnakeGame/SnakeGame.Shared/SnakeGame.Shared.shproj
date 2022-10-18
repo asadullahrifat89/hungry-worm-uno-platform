@@ -25,6 +25,12 @@
   <ItemGroup>
     <_Globbed_Content Remove="Assets\Images\angel.png" />
     <_Globbed_Content Remove="Assets\Images\character_maleAdventurer_run0.png" />
+    <_Globbed_Content Remove="Assets\Images\collectible1.png" />
+    <_Globbed_Content Remove="Assets\Images\collectible2.png" />
+    <_Globbed_Content Remove="Assets\Images\collectible3.png" />
+    <_Globbed_Content Remove="Assets\Images\collectible4.png" />
+    <_Globbed_Content Remove="Assets\Images\collectible5.png" />
+    <_Globbed_Content Remove="Assets\Images\collectible6.png" />
     <_Globbed_Content Remove="Assets\Images\happy1.png" />
     <_Globbed_Content Remove="Assets\Images\kiss1.png" />
     <_Globbed_Content Remove="Assets\Images\kiss2.png" />

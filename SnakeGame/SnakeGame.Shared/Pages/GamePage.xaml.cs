@@ -74,6 +74,7 @@ namespace SnakeGame
         private int _maxLength = 10;
 
         private Uri[] _playerTemplates;
+        private Uri[] _collectibleTemplates;
         private int _collectiblesFaceCounter;
 
         #endregion
@@ -390,8 +391,7 @@ namespace SnakeGame
         private void LoadGameElements()
         {
             _playerTemplates = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.PLAYER).Select(x => x.Value).ToArray();
-            //_islands = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.ISLAND).Select(x => x.Value).ToArray();
-            //_clouds = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.CLOUD).Select(x => x.Value).ToArray();
+            _collectibleTemplates = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.COLLECTIBLE).Select(x => x.Value).ToArray();
         }
 
         private void StartGame()
@@ -431,7 +431,7 @@ namespace SnakeGame
             RecycleGameObjects();
             RemoveGameObjects();
 
-            SpawnCollectible();
+            //SpawnCollectible();
 
             StartGameSounds();
             RunGame();
@@ -477,13 +477,13 @@ namespace SnakeGame
 
         private void SpawnGameObjects()
         {
-            //_collectibleSpawnCounter--;
+            _collectibleSpawnCounter--;
 
-            //if (_collectibleSpawnCounter < 1)
-            //{
-            //SpawnCollectible();
-            //    _collectibleSpawnCounter = _random.Next(200, 300);
-            //}
+            if (_collectibleSpawnCounter < 1)
+            {
+                SpawnCollectible();
+                _collectibleSpawnCounter = _random.Next(200, 300);
+            }
         }
 
         private void UpdateGameObjects()
@@ -681,10 +681,14 @@ namespace SnakeGame
 
             //double xDir = _random.Next(-1, 2);
 
-            //var speed = (double)_gameSpeed - (double)_gameSpeed / 2;
+            var speed = _random.Next(2, 5);
 
-            Collectible collectible = new(Constants.COLLECTIBLE_SIZE * _scale);
+            Collectible collectible = new(Constants.COLLECTIBLE_SIZE * _scale)
+            {
+                Speed = speed
+            };
 
+            collectible.SetContent(_collectibleTemplates[_random.Next(0, _collectibleTemplates.Length)]);
             collectible.SetPosition(_random.Next(50, (int)_windowWidth - 50), _random.Next(50, (int)_windowHeight - 50));
             GameView.Children.Add(collectible);
 
@@ -726,16 +730,38 @@ namespace SnakeGame
 
         private void UpdateCollectible(GameObject collectible)
         {
-            //var speed = collectible.Speed;
+            var speed = collectible.Speed;
             //speed = DecreaseSpeed(speed);
 
-            //collectible.SetTop(collectible.GetTop() + speed);
+            switch (collectible.MovementDirection)
+            {
+                case MovementDirection.Right:
+                    collectible.SetLeft(collectible.GetLeft() + speed);
+                    break;
+                case MovementDirection.Left:
+                    collectible.SetLeft(collectible.GetLeft() - speed);
+                    break;
+                case MovementDirection.Up:
+                    collectible.SetTop(collectible.GetTop() - speed);
+                    break;
+                case MovementDirection.Down:
+                    collectible.SetTop(collectible.GetTop() + speed);
+                    break;
+                default:
+                    break;
+            }
 
-            //if (_playerHitBox.IntersectsWith(collectible.GetHitBox(_scale)))
-            //{
-            //    GameView.AddDestroyableGameObject(collectible);
-            //    Collectible();
-            //}
+            if (collectible.GetLeft() > _windowWidth)
+                collectible.SetLeft(0);
+
+            if (collectible.GetLeft() < 0)
+                collectible.SetLeft(_windowWidth);
+
+            if (collectible.GetTop() > _windowHeight)
+                collectible.SetTop(0);
+
+            if (collectible.GetTop() < 0)
+                collectible.SetTop(_windowHeight);         
 
             //if (collectible.GetTop() > GameView.Height)
             //{
@@ -753,7 +779,7 @@ namespace SnakeGame
         {
             AddScore(10);
             SoundHelper.PlaySound(SoundType.COLLECTIBLE_COLLECTED);
-            SpawnCollectible();
+            //SpawnCollectible();
 
             _collectiblesCollected++;
             _collectiblesFaceCounter = 50;

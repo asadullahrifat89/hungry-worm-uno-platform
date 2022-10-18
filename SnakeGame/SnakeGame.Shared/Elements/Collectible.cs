@@ -16,9 +16,8 @@ namespace SnakeGame
         {
             Tag = ElementType.COLLECTIBLE;
 
-            Background = new SolidColorBrush(Colors.Goldenrod);
-            CornerRadius = new Microsoft.UI.Xaml.CornerRadius(50);
-            
+            MovementDirection = (MovementDirection)new Random().Next(1, Enum.GetNames<MovementDirection>().Length);
+
             Height = size;
             Width = size;
         } 

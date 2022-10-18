@@ -32,6 +32,8 @@ namespace SnakeGame
 
         #region Properties
 
+        public MovementDirection MovementDirection { get; set; }
+
         public double Speed { get; set; } = 0;
 
         public double X { get; set; }
