@@ -13,7 +13,7 @@ namespace SnakeGame
         public Player(double size)
         {
             Tag = ElementType.PLAYER;
-            CornerRadius = new CornerRadius(50);
+            //CornerRadius = new CornerRadius(50);
 
             Width = size;
             Height = size;

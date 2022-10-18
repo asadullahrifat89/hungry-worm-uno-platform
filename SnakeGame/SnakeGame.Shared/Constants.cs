@@ -12,8 +12,8 @@ namespace SnakeGame
 
         public const double DEFAULT_FRAME_TIME = 18;
 
-        public const double PLAYER_SIZE = 50;
-        public const double PLAYER_TRAIL_SIZE = 50;
+        public const double PLAYER_SIZE = 100;
+        public const double PLAYER_TRAIL_SIZE = 100;
 
         public const double POWERUP_WIDTH = 80;
         public const double POWERUP_HEIGHT = 80;
@@ -29,7 +29,7 @@ namespace SnakeGame
 
         public static KeyValuePair<ElementType, Uri>[] ELEMENT_TEMPLATES = new KeyValuePair<ElementType, Uri>[]
         {
-            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER, new Uri("ms-appx:///Assets/Images/angel.png")),
+            //new KeyValuePair<ElementType, Uri>(ElementType.PLAYER, new Uri("ms-appx:///Assets/Images/angel.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.PLAYER, new Uri("ms-appx:///Assets/Images/cute.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.PLAYER, new Uri("ms-appx:///Assets/Images/happy1.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.PLAYER, new Uri("ms-appx:///Assets/Images/happy2.png")),
@@ -42,6 +42,7 @@ namespace SnakeGame
             new KeyValuePair<ElementType, Uri>(ElementType.PLAYER, new Uri("ms-appx:///Assets/Images/surprised.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.PLAYER, new Uri("ms-appx:///Assets/Images/tongue.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.PLAYER, new Uri("ms-appx:///Assets/Images/wink.png")),
+
             new KeyValuePair<ElementType, Uri>(ElementType.PLAYER_TRAIL, new Uri("ms-appx:///Assets/Images/player_trail.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.COLLECTIBLE, new Uri("ms-appx:///Assets/Images/collectible.png")),
         };

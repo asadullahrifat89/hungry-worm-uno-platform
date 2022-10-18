@@ -73,6 +73,9 @@ namespace SnakeGame
         private int _length;
         private int _maxLength = 10;
 
+        private Uri[] _playerTemplates;
+
+
         #endregion
 
         #region Ctor
@@ -386,7 +389,7 @@ namespace SnakeGame
 
         private void LoadGameElements()
         {
-            //_cars = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.CAR).Select(x => x.Value).ToArray();
+            _playerTemplates = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.PLAYER).Select(x => x.Value).ToArray();
             //_islands = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.ISLAND).Select(x => x.Value).ToArray();
             //_clouds = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.CLOUD).Select(x => x.Value).ToArray();
         }
@@ -741,7 +744,8 @@ namespace SnakeGame
             SpawnCollectible();
 
             _collectiblesCollected++;
-            _player.SetContent(Constants.ELEMENT_TEMPLATES[_random.Next(0, Constants.ELEMENT_TEMPLATES.Length)].Value);
+
+            _player.SetContent(_playerTemplates[_random.Next(0, _playerTemplates.Length)]);
         }
 
         #endregion
