@@ -699,7 +699,7 @@ namespace SnakeGame
         {
             var speed = collectible.Speed;
 
-            switch (collectible.MovementDirection)
+            switch (_player.MovementDirection)
             {
                 case MovementDirection.Right:
                     collectible.SetLeft(collectible.GetLeft() + speed);

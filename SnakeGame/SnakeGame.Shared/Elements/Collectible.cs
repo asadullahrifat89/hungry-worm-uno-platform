@@ -16,7 +16,7 @@ namespace SnakeGame
         {
             Tag = ElementType.COLLECTIBLE;
 
-            MovementDirection = (MovementDirection)new Random().Next(1, Enum.GetNames<MovementDirection>().Length);
+            //MovementDirection = (MovementDirection)new Random().Next(1, Enum.GetNames<MovementDirection>().Length);
 
             Height = size;
             Width = size;
