@@ -667,27 +667,23 @@ namespace HungryWorm
                     break;
             }
 
-            //var playerTrails = GameView.GetGameObjects<PlayerTrail>().ToArray();
-
-            //if (_length > _maxLength)
-            //{
-            //    GameView.AddDestroyableGameObject(playerTrails[0]);
-            //    _length--;
-            //}
-
-            //// give tail a proper border
-            //var tail = playerTrails[1];
-            //tail.BorderThickness = new Thickness(5);
+            var playerTrails = GameView.GetGameObjects<PlayerTrail>().ToArray();
 
             if (_length > _maxLength)
             {
-                GameView.AddDestroyableGameObject(GameView.GetGameObjects<PlayerTrail>().First());
+                GameView.AddDestroyableGameObject(playerTrails[0]);
                 _length--;
             }
 
             // give tail a proper border
-            //var tail = GameView.Children.OfType<PlayerTrail>().First();
-            //tail.BorderThickness = new Thickness(5);
+            var tail = playerTrails[1];
+            tail.BorderThickness = new Thickness(5);
+
+            //if (_length > _maxLength)
+            //{
+            //    GameView.AddDestroyableGameObject(GameView.GetGameObjects<PlayerTrail>().First());
+            //    _length--;
+            //}         
         }
 
         #endregion
