@@ -74,7 +74,7 @@ namespace HungryWorm
 
         private int _playerTrailCount;
         private int _playerTrailLength;
-        private readonly int _playerTrailLengthLimit = 30;
+        private readonly int _playerTrailLengthLimit = 20;
 
         private int _playerYummyFaceCounter;
 
