@@ -67,14 +67,12 @@ namespace HungryWorm
     {
         MENU_SELECT,
         INTRO,
-        BACKGROUND,
-        CAR_START,
-        CAR_ENGINE,
+        BACKGROUND,        
         GAME_OVER,
         POWER_UP,
         POWER_DOWN,
         HEALTH_GAIN,
         HEALTH_LOSS,
-        COLLECTIBLE_COLLECTED,
+        ATE_FOOD,
     }
 }

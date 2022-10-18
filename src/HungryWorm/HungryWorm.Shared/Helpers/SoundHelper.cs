@@ -30,7 +30,7 @@ namespace HungryWorm
                     {
                         case SoundType.BACKGROUND:
                             {
-                                sound = new Sound(soundType: x.Key, soundSource: x.Value, volume: 0.8, loop: true);
+                                sound = new Sound(soundType: x.Key, soundSource: x.Value, volume: 0.7, loop: true);
                             }
                             break;
                         case SoundType.INTRO:
@@ -38,14 +38,9 @@ namespace HungryWorm
                                 sound = new Sound(soundType: x.Key, soundSource: x.Value, volume: 0.9, loop: true);
                             }
                             break;
-                        case SoundType.CAR_ENGINE:
+                        case SoundType.ATE_FOOD:
                             {
-                                sound = new Sound(soundType: x.Key, soundSource: x.Value, volume: 0.3, loop: true);
-                            }
-                            break;
-                        case SoundType.COLLECTIBLE_COLLECTED:
-                            {
-                                sound = new Sound(soundType: x.Key, soundSource: x.Value, volume: 0.7);
+                                sound = new Sound(soundType: x.Key, soundSource: x.Value, volume: 0.9);
                             }
                             break;
                         default:
@@ -76,31 +71,17 @@ namespace HungryWorm
 #endif
         }
 
-        public static void RandomizeBackgroundSound()
+        public static void RandomizeSound(SoundType soundType)
         {
-            foreach (var sound in _playingSounds.Where(x => x.SoundType == SoundType.BACKGROUND))
+            foreach (var sound in _playingSounds.Where(x => x.SoundType == soundType))
             {
                 sound.Stop();
             }
 
-            var backgroundSounds = _sounds.Where(x => x.SoundType == SoundType.BACKGROUND).ToArray();
-            var backgroundSound = backgroundSounds[_random.Next(0, backgroundSounds.Length)];
-
-            _playingSounds.RemoveAll(x => x.SoundType == SoundType.BACKGROUND);
-            _playingSounds.Add(backgroundSound);
-        }
-
-        public static void RandomizeIntroSound()
-        {
-            foreach (var sound in _playingSounds.Where(x => x.SoundType == SoundType.INTRO))
-            {
-                sound.Stop();
-            }
-
-            var introSounds = _sounds.Where(x => x.SoundType == SoundType.INTRO).ToArray();
+            var introSounds = _sounds.Where(x => x.SoundType == soundType).ToArray();
             var introSound = introSounds[_random.Next(0, introSounds.Length)];
 
-            _playingSounds.RemoveAll(x => x.SoundType == SoundType.INTRO);
+            _playingSounds.RemoveAll(x => x.SoundType == soundType);
             _playingSounds.Add(introSound);
         }
 
@@ -113,6 +94,22 @@ namespace HungryWorm
         {
             if (_playingSounds.FirstOrDefault(x => x.SoundType == soundType) is Sound playingSound)
                 playingSound.Play();
+        }
+
+        public static void PlayRandomSound(SoundType soundType)
+        {
+            var sounds = _playingSounds.Where(x => x.SoundType == soundType).ToArray();
+
+            if (sounds.Length > 1)
+            {
+                var sound = sounds[new Random().Next(0, sounds.Length)];
+                sound.Play();
+            }
+            else
+            {
+                if (sounds.FirstOrDefault(x => x.SoundType == soundType) is Sound playingSound)
+                    playingSound.Play();
+            }
         }
 
         public static void StopSound(SoundType soundType)

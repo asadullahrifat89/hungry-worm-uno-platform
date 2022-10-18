@@ -105,6 +105,10 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player8.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player9.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_trail.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\ate-food2.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\ate-food1.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\menu-select.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\background1.mp3" />
     <_Globbled_Page Include="$(MSBuildThisFileDirectory)**/*.xaml" Exclude="@(Page);@(ApplicationDefinition)">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

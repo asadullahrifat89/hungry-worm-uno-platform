@@ -61,9 +61,8 @@ namespace HungryWorm
             new KeyValuePair<SoundType, string>(SoundType.INTRO, "Assets/Sounds/intro2.mp3"),
 
             new KeyValuePair<SoundType, string>(SoundType.BACKGROUND, "Assets/Sounds/background1.mp3"),
-            new KeyValuePair<SoundType, string>(SoundType.BACKGROUND, "Assets/Sounds/background2.mp3"),
-            new KeyValuePair<SoundType, string>(SoundType.BACKGROUND, "Assets/Sounds/background3.mp3"),
-
+            //new KeyValuePair<SoundType, string>(SoundType.BACKGROUND, "Assets/Sounds/background2.mp3"),
+            //new KeyValuePair<SoundType, string>(SoundType.BACKGROUND, "Assets/Sounds/background3.mp3"),
 
             new KeyValuePair<SoundType, string>(SoundType.GAME_OVER, "Assets/Sounds/game-over.mp3"),
 
@@ -73,10 +72,8 @@ namespace HungryWorm
             new KeyValuePair<SoundType, string>(SoundType.HEALTH_GAIN, "Assets/Sounds/health-gain.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.HEALTH_LOSS, "Assets/Sounds/health-loss.mp3"),
 
-            new KeyValuePair<SoundType, string>(SoundType.COLLECTIBLE_COLLECTED, "Assets/Sounds/coin-pickup.mp3"),
-
-            new KeyValuePair<SoundType, string>(SoundType.CAR_START, "Assets/Sounds/car-start.mp3"),
-            new KeyValuePair<SoundType, string>(SoundType.CAR_ENGINE, "Assets/Sounds/car-engine.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.ATE_FOOD, "Assets/Sounds/ate-food1.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.ATE_FOOD, "Assets/Sounds/ate-food2.mp3"),
         };
 
         #endregion
