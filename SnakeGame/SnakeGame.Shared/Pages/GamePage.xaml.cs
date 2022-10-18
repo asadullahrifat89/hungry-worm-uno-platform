@@ -409,9 +409,6 @@ namespace SnakeGame
             scoreText.Text = "0";
 
             RemoveGameObjects();
-
-            //SpawnCollectible();
-
             StartGameSounds();
             RunGame();
             UpdateMovementDirection(MovementDirection.Right);
@@ -688,11 +685,9 @@ namespace SnakeGame
 
         private void SpawnCollectible()
         {
-            var speed = 4;//_random.Next(2, 5);
-
             Collectible collectible = new(Constants.COLLECTIBLE_SIZE * _scale)
             {
-                Speed = speed
+                Speed = 4
             };
 
             collectible.SetContent(_collectibleTemplates[_random.Next(0, _collectibleTemplates.Length)]);
@@ -811,7 +806,7 @@ namespace SnakeGame
             //}
 
             //TODO: decide if length effect to keep or not
-            _maxLength += 1;
+            //_maxLength += 1;
             _score += score;
         }
 
