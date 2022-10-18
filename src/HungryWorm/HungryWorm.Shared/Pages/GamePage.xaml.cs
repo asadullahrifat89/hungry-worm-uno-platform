@@ -144,6 +144,8 @@ namespace HungryWorm
         {
             if (_isGameOver)
             {
+                App.EnterFullScreen(true);
+
                 InputView.Focus(FocusState.Programmatic);
                 StartGame();
             }
@@ -705,40 +707,6 @@ namespace HungryWorm
             Collectible collectible = new(Constants.COLLECTIBLE_SIZE * _scale);
 
             collectible.SetContent(_collectibleTemplates[_random.Next(0, _collectibleTemplates.Length)]);
-
-            //switch (_player.MovementDirection)
-            //{
-            //    case MovementDirection.Right:
-            //        {
-            //            collectible.SetPosition(
-            //                left: _random.Next((int)_windowWidth, (int)_windowWidth * 2),
-            //                top: _random.Next(0, (int)_windowHeight));
-            //        }
-            //        break;
-            //    case MovementDirection.Left:
-            //        {
-            //            collectible.SetPosition(
-            //               left: _random.Next(0, (int)_windowWidth) * -1,
-            //               top: _random.Next(0, (int)_windowHeight));
-            //        }
-            //        break;
-            //    case MovementDirection.Up:
-            //        {
-            //            collectible.SetPosition(
-            //             left: _random.Next(0, (int)_windowWidth),
-            //             top: _random.Next(0, (int)_windowHeight) * -1);
-            //        }
-            //        break;
-            //    case MovementDirection.Down:
-            //        {
-            //            collectible.SetPosition(
-            //           left: _random.Next(0, (int)_windowWidth),
-            //           top: _random.Next((int)_windowHeight, (int)_windowHeight * 2));
-            //        }
-            //        break;
-            //    default:
-            //        break;
-            //}
 
             collectible.SetPosition(
                 left: _random.Next(0, (int)_windowWidth),
