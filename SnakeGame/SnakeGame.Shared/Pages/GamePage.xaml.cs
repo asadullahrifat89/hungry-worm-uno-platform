@@ -452,7 +452,7 @@ namespace SnakeGame
                 if (_collectibleSpawnCounter < 1)
                 {
                     SpawnCollectible();
-                    _collectibleSpawnCounter = _random.Next(60, 120);
+                    _collectibleSpawnCounter = _random.Next(30, 80);
                 }
             }
         }
@@ -702,16 +702,16 @@ namespace SnakeGame
             switch (_player.MovementDirection)
             {
                 case MovementDirection.Right:
-                    collectible.SetLeft(collectible.GetLeft() + speed);
-                    break;
-                case MovementDirection.Left:
                     collectible.SetLeft(collectible.GetLeft() - speed);
                     break;
+                case MovementDirection.Left:
+                    collectible.SetLeft(collectible.GetLeft() + speed);
+                    break;
                 case MovementDirection.Up:
-                    collectible.SetTop(collectible.GetTop() - speed);
+                    collectible.SetTop(collectible.GetTop() + speed);
                     break;
                 case MovementDirection.Down:
-                    collectible.SetTop(collectible.GetTop() + speed);
+                    collectible.SetTop(collectible.GetTop() - speed);
                     break;
                 default:
                     break;
@@ -756,7 +756,28 @@ namespace SnakeGame
 
         private void UpdateDirt(GameObject dirt)
         {
+            var speed = dirt.Speed;
 
+            switch (_player.MovementDirection)
+            {
+                case MovementDirection.Right:
+                    dirt.SetLeft(dirt.GetLeft() - speed);
+                    break;
+                case MovementDirection.Left:
+                    dirt.SetLeft(dirt.GetLeft() + speed);
+                    break;
+                case MovementDirection.Up:
+                    dirt.SetTop(dirt.GetTop() + speed);
+                    break;
+                case MovementDirection.Down:
+                    dirt.SetTop(dirt.GetTop() - speed);
+                    break;
+                default:
+                    break;
+            }
+
+            // if object goes out of bounds then make it reenter game view
+            RecycleGameObject(dirt);
         }
 
         #endregion
