@@ -26,8 +26,8 @@ namespace HungryWorm
 
         private Rect _playerHitBox;
 
-        private int _gameSpeed = 4;
-        private readonly int _defaultGameSpeed = 4;
+        private int _gameSpeed = 5;
+        private readonly int _defaultGameSpeed = 5;
 
         private int _playerSpeed = 5;
         private int _defaultPlayerSpeed = 5;
@@ -206,40 +206,27 @@ namespace HungryWorm
 
         private void OnKeyDown(object sender, KeyRoutedEventArgs e)
         {
-            //_moveRight = false;
-            //_moveLeft = false;
-            //_moveDown = false;
-            //_moveUp = false;
-
             _isPointerActivated = false;
 
             switch (e.Key)
             {
                 case VirtualKey.Left:
                     {
-                        //_moveLeft = true;
-                        //_moveRight = false;
                         UpdateMovementDirection(MovementDirection.Left);
                     }
                     break;
                 case VirtualKey.Up:
                     {
-                        //_moveUp = true;
-                        //_moveDown = false;
                         UpdateMovementDirection(MovementDirection.Up);
                     }
                     break;
                 case VirtualKey.Right:
                     {
-                        //_moveRight = true;
-                        //_moveLeft = false;
                         UpdateMovementDirection(MovementDirection.Right);
                     }
                     break;
                 case VirtualKey.Down:
                     {
-                        //_moveDown = true;
-                        //_moveUp = false;
                         UpdateMovementDirection(MovementDirection.Down);
                     }
                     break;
@@ -592,8 +579,8 @@ namespace HungryWorm
 
         private void UpdatePlayer()
         {
-            if (CollisionWithSelf())
-                GameOver();
+            //if (CollisionWithSelf())
+            //    GameOver();
 
             var effectiveSpeed = _playerSpeed;
 
@@ -665,7 +652,7 @@ namespace HungryWorm
 
         public void UpdateMovementDirection(MovementDirection movementDirection)
         {
-            if (_player != null)
+            if (_player != null && !_isGameOver)
                 _player.UpdateMovementDirection(movementDirection);
         }
 
@@ -833,157 +820,157 @@ namespace HungryWorm
         {
             if (_score >= 10 && _score < 20)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.5 * 1;
+                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 1;
                 _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 1;
             }
             if (_score >= 20 && _score < 30)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.5 * 2;
+                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 2;
                 _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 2;
             }
             if (_score >= 30 && _score < 40)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.5 * 3;
+                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 3;
                 _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 3;
             }
             if (_score >= 40 && _score < 50)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.5 * 4;
+                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 4;
                 _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 4;
             }
             if (_score >= 50 && _score < 80)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.5 * 5;
+                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 5;
                 _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 5;
             }
             if (_score >= 80 && _score < 100)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.5 * 6;
+                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 6;
                 _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 6;
             }
             if (_score >= 100 && _score < 130)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.5 * 7;
+                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 7;
                 _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 7;
             }
             if (_score >= 130 && _score < 150)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.5 * 8;
+                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 8;
                 _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 8;
             }
             if (_score >= 150 && _score < 180)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.5 * 9;
+                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 9;
                 _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 9;
             }
             if (_score >= 180 && _score < 200)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.5 * 10;
+                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 10;
                 _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 10;
             }
             if (_score >= 200 && _score < 220)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.5 * 11;
+                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 11;
                 _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 11;
             }
             if (_score >= 220 && _score < 250)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.5 * 12;
+                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 12;
                 _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 12;
             }
             if (_score >= 250 && _score < 300)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.5 * 13;
+                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 13;
                 _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 13;
             }
             if (_score >= 300 && _score < 350)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.5 * 14;
+                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 14;
                 _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 14;
             }
             if (_score >= 350 && _score < 400)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.5 * 15;
+                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 15;
                 _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 15;
             }
             if (_score >= 400 && _score < 500)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.5 * 16;
+                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 16;
                 _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 16;
             }
             if (_score >= 500 && _score < 600)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.5 * 17;
+                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 17;
                 _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 17;
             }
             if (_score >= 600 && _score < 700)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.5 * 18;
+                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 18;
                 _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 18;
             }
             if (_score >= 700 && _score < 800)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.5 * 19;
+                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 19;
                 _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 19;
             }
             if (_score >= 800 && _score < 900)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.5 * 20;
+                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 20;
                 _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 20;
             }
             if (_score >= 900 && _score < 1000)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.5 * 21;
+                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 21;
                 _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 21;
             }
             if (_score >= 1000 && _score < 1200)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.5 * 22;
+                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 22;
                 _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 22;
             }
             if (_score >= 1200 && _score < 1400)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.5 * 23;
+                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 23;
                 _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 23;
             }
             if (_score >= 1400 && _score < 1600)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.5 * 24;
+                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 24;
                 _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 24;
             }
             if (_score >= 1600 && _score < 1800)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.5 * 25;
+                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 25;
                 _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 25;
             }
             if (_score >= 1800 && _score < 2000)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.5 * 26;
+                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 26;
                 _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 26;
             }
             if (_score >= 2000 && _score < 2200)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.5 * 27;
+                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 27;
                 _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 27;
             }
             if (_score >= 2200 && _score < 2400)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.5 * 28;
+                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 28;
                 _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 28;
             }
             if (_score >= 2400 && _score < 2600)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.5 * 29;
+                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 29;
                 _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 29;
             }
             if (_score >= 2600 && _score < 2800)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.5 * 30;
+                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 30;
                 _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 30;
             }
             if (_score >= 2800 && _score < 3000)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.5 * 31;
+                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 31;
                 _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 31;
             }
         }
