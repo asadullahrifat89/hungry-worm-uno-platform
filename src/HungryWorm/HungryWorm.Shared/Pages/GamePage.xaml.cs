@@ -164,32 +164,28 @@ namespace HungryWorm
 
                 // move right
                 if (_player.MovementDirection != MovementDirection.Right && _pointerPosition.X > playerMiddleX + _playerSpeed && left + _player.Width < GameView.Width)
-                {
-                    //_moveRight = true;
+                {                  
                     UpdateMovementDirection(MovementDirection.Right);
                     return;
                 }
 
                 // move up
                 if (_player.MovementDirection != MovementDirection.Up && _pointerPosition.Y < playerMiddleY - _playerSpeed)
-                {
-                    //_moveUp = true;
+                {                   
                     UpdateMovementDirection(MovementDirection.Up);
                     return;
                 }
 
                 // move left
                 if (_player.MovementDirection != MovementDirection.Left && _pointerPosition.X < playerMiddleX - _playerSpeed && left > 0)
-                {
-                    //_moveLeft = true;
+                {                   
                     UpdateMovementDirection(MovementDirection.Left);
                     return;
                 }
 
                 // move down
                 if (_player.MovementDirection != MovementDirection.Down && _pointerPosition.Y > playerMiddleY + _playerSpeed)
-                {
-                    //_moveDown = true;
+                {                  
                     UpdateMovementDirection(MovementDirection.Down);
                     return;
                 }
