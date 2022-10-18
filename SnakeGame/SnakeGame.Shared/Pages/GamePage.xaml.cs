@@ -736,10 +736,12 @@ namespace SnakeGame
 
         private void Collectible()
         {
-            AddScore(1); // increase the score by 1 if collectible is collected
-            _collectiblesCollected++;
+            AddScore(10);
             SoundHelper.PlaySound(SoundType.COLLECTIBLE_COLLECTED);
             SpawnCollectible();
+
+            _collectiblesCollected++;
+            _player.SetContent(Constants.ELEMENT_TEMPLATES[_random.Next(0, Constants.ELEMENT_TEMPLATES.Length)].Value);
         }
 
         #endregion

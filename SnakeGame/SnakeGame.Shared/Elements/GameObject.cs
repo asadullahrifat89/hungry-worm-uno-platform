@@ -154,21 +154,11 @@ namespace SnakeGame
     public enum ElementType
     {
         NONE,
-        PLAYER,
-        PLAYER_POWER_MODE,
+        PLAYER,        
         PLAYER_TRAIL,
         POWERUP,
-        HEALTH,
-        CLOUD,
-        ISLAND,
+        HEALTH,        
         COLLECTIBLE,
-    }
-
-    public enum XDirection
-    {
-        NONE,
-        LEFT,
-        RIGHT,
-    }
+    }  
 }
 

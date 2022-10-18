@@ -86,7 +86,20 @@
 		 explicitly included in the projitem, so files can be added from vscode
 		 without manipulating the projitem file.
 	-->
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player.gif" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\angel.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\cute.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\happy1.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\happy2.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\happy3.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\kiss1.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\kiss2.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\laughing1.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\laughing2.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_trail.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\smart.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\surprised.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\tongue.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\wink.png" />
     <_Globbled_Page Include="$(MSBuildThisFileDirectory)**/*.xaml" Exclude="@(Page);@(ApplicationDefinition)">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

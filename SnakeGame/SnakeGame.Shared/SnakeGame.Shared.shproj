@@ -23,7 +23,21 @@
     <_Globbed_Compile Remove="Pages\GamePage2.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
+    <_Globbed_Content Remove="Assets\Images\angel.png" />
     <_Globbed_Content Remove="Assets\Images\character_maleAdventurer_run0.png" />
+    <_Globbed_Content Remove="Assets\Images\cute.png" />
+    <_Globbed_Content Remove="Assets\Images\happy1.png" />
+    <_Globbed_Content Remove="Assets\Images\happy2.png" />
+    <_Globbed_Content Remove="Assets\Images\happy3.png" />
+    <_Globbed_Content Remove="Assets\Images\kiss1.png" />
+    <_Globbed_Content Remove="Assets\Images\kiss2.png" />
+    <_Globbed_Content Remove="Assets\Images\laughing1.png" />
+    <_Globbed_Content Remove="Assets\Images\laughing2.png" />
+    <_Globbed_Content Remove="Assets\Images\player_trail.png" />
+    <_Globbed_Content Remove="Assets\Images\smart.png" />
+    <_Globbed_Content Remove="Assets\Images\surprised.png" />
+    <_Globbed_Content Remove="Assets\Images\tongue.png" />
+    <_Globbed_Content Remove="Assets\Images\wink.png" />
     <_Globbed_Content Remove="Assets\SplashScreen.png" />
   </ItemGroup>
   <ItemGroup>

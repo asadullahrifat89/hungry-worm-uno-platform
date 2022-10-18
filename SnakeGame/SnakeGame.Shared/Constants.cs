@@ -12,7 +12,7 @@ namespace SnakeGame
 
         public const double DEFAULT_FRAME_TIME = 18;
 
-        public const double PLAYER_SIZE = 100;
+        public const double PLAYER_SIZE = 50;
         public const double PLAYER_TRAIL_SIZE = 50;
 
         public const double POWERUP_WIDTH = 80;
@@ -29,29 +29,20 @@ namespace SnakeGame
 
         public static KeyValuePair<ElementType, Uri>[] ELEMENT_TEMPLATES = new KeyValuePair<ElementType, Uri>[]
         {
-            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER, new Uri("ms-appx:///Assets/Images/player.gif")),
-            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER_TRAIL, new Uri("ms-appx:///Assets/Images/car1.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER_TRAIL, new Uri("ms-appx:///Assets/Images/car2.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER_TRAIL, new Uri("ms-appx:///Assets/Images/car3.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER_TRAIL, new Uri("ms-appx:///Assets/Images/car4.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER_TRAIL, new Uri("ms-appx:///Assets/Images/car5.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER_TRAIL, new Uri("ms-appx:///Assets/Images/car6.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER_TRAIL, new Uri("ms-appx:///Assets/Images/car7.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER_TRAIL, new Uri("ms-appx:///Assets/Images/car8.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER_TRAIL, new Uri("ms-appx:///Assets/Images/car9.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER_TRAIL, new Uri("ms-appx:///Assets/Images/car10.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER_TRAIL, new Uri("ms-appx:///Assets/Images/car11.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.CLOUD, new Uri("ms-appx:///Assets/Images/cloud1.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.CLOUD, new Uri("ms-appx:///Assets/Images/cloud2.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.ISLAND, new Uri("ms-appx:///Assets/Images/island1.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.ISLAND, new Uri("ms-appx:///Assets/Images/island2.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.ISLAND, new Uri("ms-appx:///Assets/Images/island3.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER_POWER_MODE, new Uri("ms-appx:///Assets/Images/player-power-mode.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.POWERUP, new Uri("ms-appx:///Assets/Images/powerup1.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.POWERUP, new Uri("ms-appx:///Assets/Images/powerup2.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.POWERUP, new Uri("ms-appx:///Assets/Images/powerup3.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.POWERUP, new Uri("ms-appx:///Assets/Images/powerup4.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.HEALTH, new Uri("ms-appx:///Assets/Images/health.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER, new Uri("ms-appx:///Assets/Images/angel.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER, new Uri("ms-appx:///Assets/Images/cute.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER, new Uri("ms-appx:///Assets/Images/happy1.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER, new Uri("ms-appx:///Assets/Images/happy2.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER, new Uri("ms-appx:///Assets/Images/happy3.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER, new Uri("ms-appx:///Assets/Images/kiss1.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER, new Uri("ms-appx:///Assets/Images/kiss2.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER, new Uri("ms-appx:///Assets/Images/laughing1.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER, new Uri("ms-appx:///Assets/Images/laughing2.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER, new Uri("ms-appx:///Assets/Images/smart.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER, new Uri("ms-appx:///Assets/Images/surprised.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER, new Uri("ms-appx:///Assets/Images/tongue.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER, new Uri("ms-appx:///Assets/Images/wink.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER_TRAIL, new Uri("ms-appx:///Assets/Images/player_trail.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.COLLECTIBLE, new Uri("ms-appx:///Assets/Images/collectible.png")),
         };
 

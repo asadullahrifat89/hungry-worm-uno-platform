@@ -13,8 +13,6 @@ namespace SnakeGame
         public Player(double size)
         {
             Tag = ElementType.PLAYER;
-
-            //Background = new SolidColorBrush(Colors.Purple);
             CornerRadius = new CornerRadius(50);
 
             Width = size;
@@ -58,8 +56,6 @@ namespace SnakeGame
                     }
                     break;
             }
-
-
         }
     }
 }
