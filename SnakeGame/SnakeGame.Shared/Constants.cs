@@ -18,7 +18,7 @@ namespace SnakeGame
         public const double POWERUP_WIDTH = 80;
         public const double POWERUP_HEIGHT = 80;
 
-        public const double COLLECTIBLE_SIZE = 60;
+        public const double COLLECTIBLE_SIZE = 80;
 
         public const double HEALTH_WIDTH = 80;
         public const double HEALTH_HEIGHT = 80;
@@ -41,14 +41,15 @@ namespace SnakeGame
             new KeyValuePair<ElementType, Uri>(ElementType.PLAYER, new Uri("ms-appx:///Assets/Images/player10.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.PLAYER, new Uri("ms-appx:///Assets/Images/player11.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.PLAYER, new Uri("ms-appx:///Assets/Images/player12.png")),
-
-            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER_TRAIL, new Uri("ms-appx:///Assets/Images/player_trail.png")),
+                        
             new KeyValuePair<ElementType, Uri>(ElementType.COLLECTIBLE, new Uri("ms-appx:///Assets/Images/collectible1.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.COLLECTIBLE, new Uri("ms-appx:///Assets/Images/collectible2.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.COLLECTIBLE, new Uri("ms-appx:///Assets/Images/collectible3.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.COLLECTIBLE, new Uri("ms-appx:///Assets/Images/collectible4.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.COLLECTIBLE, new Uri("ms-appx:///Assets/Images/collectible5.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.COLLECTIBLE, new Uri("ms-appx:///Assets/Images/collectible6.png")),
+
+            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER_TRAIL, new Uri("ms-appx:///Assets/Images/player_trail.png")),
         };
 
         #endregion
