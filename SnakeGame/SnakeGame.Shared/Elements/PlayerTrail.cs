@@ -1,4 +1,5 @@
 ﻿using Microsoft.UI;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -17,10 +18,9 @@ namespace SnakeGame
         public PlayerTrail(double size)
         {
             Tag = ElementType.PLAYER_TRAIL;
+            CornerRadius = new Microsoft.UI.Xaml.CornerRadius(4);
 
-            Background = new SolidColorBrush(Colors.Goldenrod);
-            CornerRadius = new Microsoft.UI.Xaml.CornerRadius(5);
-
+            Background = Application.Current.Resources["SnakeBodyColor"] as SolidColorBrush;
             BorderBrush = new SolidColorBrush(Colors.Chocolate);
 
             //SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key == ElementType.PLAYER_TRAIL).Value);

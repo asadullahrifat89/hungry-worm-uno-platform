@@ -15,6 +15,10 @@ namespace SnakeGame
             Tag = ElementType.PLAYER;
             CornerRadius = new CornerRadius(5);
 
+            Background = Application.Current.Resources["SnakeBodyColor"] as SolidColorBrush;
+            BorderBrush = new SolidColorBrush(Colors.Chocolate);
+            BorderThickness = new Thickness(5);
+
             Width = size;
             Height = size;
 
@@ -23,36 +27,40 @@ namespace SnakeGame
 
         public MovementDirection MovementDirection { get; set; }
 
-        internal void UpdateMovementDirection(MovementDirection up)
+        internal void UpdateMovementDirection(MovementDirection movementDirection)
         {
-            switch (up)
+            switch (movementDirection)
             {
                 case MovementDirection.Up:
                     if (MovementDirection != MovementDirection.Down)
                     {
                         MovementDirection = MovementDirection.Up;
-                        SetDirection(up);
+                        SetDirection(movementDirection);
+                        BorderThickness = new Thickness(5, 5, 5, 0);
                     }
                     break;
                 case MovementDirection.Left:
                     if (MovementDirection != MovementDirection.Right)
                     {
                         MovementDirection = MovementDirection.Left;
-                        SetDirection(up);
+                        SetDirection(movementDirection);
+                        BorderThickness = new Thickness(0, 5, 5, 5);
                     }
                     break;
                 case MovementDirection.Down:
                     if (MovementDirection != MovementDirection.Up)
                     {
                         MovementDirection = MovementDirection.Down;
-                        SetDirection(up);
+                        SetDirection(movementDirection);
+                        BorderThickness = new Thickness(5, 0, 5, 5);
                     }
                     break;
                 case MovementDirection.Right:
                     if (MovementDirection != MovementDirection.Left)
                     {
                         MovementDirection = MovementDirection.Right;
-                        SetDirection(up);
+                        SetDirection(movementDirection);
+                        BorderThickness = new Thickness(0, 5, 5, 5);
                     }
                     break;
             }
