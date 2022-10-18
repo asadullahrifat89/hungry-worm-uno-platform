@@ -290,7 +290,7 @@ namespace SnakeGame
 
             SetViewSize();
 
-            //PopulateUnderView();
+            PopulateUnderView();
             PopulateGameView();
             //PopulateOverView();
         }
@@ -298,61 +298,40 @@ namespace SnakeGame
         private void PopulateUnderView()
         {
             // add some cars underneath
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 50; i++)
             {
-                //var car = new Car()
-                //{
-                //    Width = Constants.CAR_WIDTH * _scale,
-                //    Height = Constants.CAR_HEIGHT * _scale,
-                //    IsCollidable = false,
-                //    RenderTransform = new CompositeTransform()
-                //    {
-                //        ScaleX = 0.5,
-                //        ScaleY = 0.5,
-                //    }
-                //};
-
-                //RandomizeCarPosition(car);
-                //UnderView.Children.Add(car);
+                SpawnDirt();
             }
 
-            // add some clouds underneath
-            for (int i = 0; i < 15; i++)
-            {
-                //var scaleFactor = _random.Next(1, 4);
-                //var scaleReverseFactor = _random.Next(-1, 2);
+            //// add some clouds underneath
+            //for (int i = 0; i < 15; i++)
+            //{
+            //    //var scaleFactor = _random.Next(1, 4);
+            //    //var scaleReverseFactor = _random.Next(-1, 2);
 
-                //var cloud = new Cloud()
-                //{
-                //    Width = Constants.CLOUD_WIDTH * _scale,
-                //    Height = Constants.CLOUD_HEIGHT * _scale,
-                //    RenderTransform = new CompositeTransform()
-                //    {
-                //        ScaleX = scaleFactor * scaleReverseFactor,
-                //        ScaleY = scaleFactor,
-                //    }
-                //};
+            //    //var cloud = new Cloud()
+            //    //{
+            //    //    Width = Constants.CLOUD_WIDTH * _scale,
+            //    //    Height = Constants.CLOUD_HEIGHT * _scale,
+            //    //    RenderTransform = new CompositeTransform()
+            //    //    {
+            //    //        ScaleX = scaleFactor * scaleReverseFactor,
+            //    //        ScaleY = scaleFactor,
+            //    //    }
+            //    //};
 
-                //RandomizeCloudPosition(cloud);
-                //UnderView.Children.Add(cloud);
-            }
+            //    //RandomizeCloudPosition(cloud);
+            //    //UnderView.Children.Add(cloud);
+            //}
         }
 
         private void PopulateGameView()
         {
-            //// add 5 cars
-            //for (int i = 0; i < 5; i++)
-            //{
-            //    var car = new Car()
-            //    {
-            //        Width = Constants.CAR_WIDTH * _scale,
-            //        Height = Constants.CAR_HEIGHT * _scale,
-            //        IsCollidable = true,
-            //    };
-
-            //    RandomizeCarPosition(car);
-            //    GameView.Children.Add(car);
-            //}            
+            // add 5 collectibles
+            for (int i = 0; i < 5; i++)
+            {
+                SpawnCollectible();
+            }
 
             // add player
             _player = new Player(Constants.PLAYER_SIZE * _scale);
@@ -423,12 +402,6 @@ namespace SnakeGame
             _collectiblesCollected = 0;
             scoreText.Text = "0";
 
-            //foreach (GameObject x in SeaView.Children.OfType<GameObject>())
-            //{
-            //    SeaView.AddDestroyableGameObject(x);
-            //}
-
-            RecycleGameObjects();
             RemoveGameObjects();
 
             //SpawnCollectible();
@@ -446,11 +419,6 @@ namespace SnakeGame
             {
                 GameViewLoop();
             }
-        }
-
-        private void RecycleGameObjects()
-        {
-
         }
 
         private void ResetControls()
@@ -477,12 +445,15 @@ namespace SnakeGame
 
         private void SpawnGameObjects()
         {
-            _collectibleSpawnCounter--;
-
-            if (_collectibleSpawnCounter < 1)
+            if (GameView.Children.OfType<Collectible>().Count() < 10)
             {
-                SpawnCollectible();
-                _collectibleSpawnCounter = _random.Next(200, 300);
+                _collectibleSpawnCounter--;
+
+                if (_collectibleSpawnCounter < 1)
+                {
+                    SpawnCollectible();
+                    _collectibleSpawnCounter = _random.Next(60, 120);
+                }
             }
         }
 
@@ -509,6 +480,20 @@ namespace SnakeGame
                     case ElementType.COLLECTIBLE:
                         {
                             UpdateCollectible(x);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            foreach (GameObject x in UnderView.Children.OfType<GameObject>())
+            {
+                switch ((ElementType)x.Tag)
+                {
+                    case ElementType.DIRT:
+                        {
+                            UpdateDirt(x);
                         }
                         break;
                     default:
@@ -580,6 +565,25 @@ namespace SnakeGame
 
         #endregion
 
+        #region Game Object
+
+        private void RecycleGameObject(GameObject gameObject)
+        {
+            if (gameObject.GetLeft() > _windowWidth)
+                gameObject.SetLeft(0);
+
+            if (gameObject.GetLeft() < 0)
+                gameObject.SetLeft(_windowWidth);
+
+            if (gameObject.GetTop() > _windowHeight)
+                gameObject.SetTop(0);
+
+            if (gameObject.GetTop() < 0)
+                gameObject.SetTop(_windowHeight);
+        }
+
+        #endregion
+
         #region Player
 
         private void UpdatePlayer()
@@ -612,17 +616,19 @@ namespace SnakeGame
                     break;
             }
 
-            if (_player.GetLeft() > _windowWidth)
-                _player.SetLeft(0);
+            RecycleGameObject(_player);
 
-            if (_player.GetLeft() < 0)
-                _player.SetLeft(_windowWidth);
+            //if (_player.GetLeft() > _windowWidth)
+            //    _player.SetLeft(0);
 
-            if (_player.GetTop() > _windowHeight)
-                _player.SetTop(0);
+            //if (_player.GetLeft() < 0)
+            //    _player.SetLeft(_windowWidth);
 
-            if (_player.GetTop() < 0)
-                _player.SetTop(_windowHeight);
+            //if (_player.GetTop() > _windowHeight)
+            //    _player.SetTop(0);
+
+            //if (_player.GetTop() < 0)
+            //    _player.SetTop(_windowHeight);
 
             SpawnPlayerTrail(left, top);
 
@@ -676,11 +682,6 @@ namespace SnakeGame
 
         private void SpawnCollectible()
         {
-            //double top = GameView.Height * -1;
-            //double left = _random.Next(0, (int)(GameView.Width - 55));
-
-            //double xDir = _random.Next(-1, 2);
-
             var speed = _random.Next(2, 5);
 
             Collectible collectible = new(Constants.COLLECTIBLE_SIZE * _scale)
@@ -690,48 +691,13 @@ namespace SnakeGame
 
             collectible.SetContent(_collectibleTemplates[_random.Next(0, _collectibleTemplates.Length)]);
             collectible.SetPosition(_random.Next(50, (int)_windowWidth - 50), _random.Next(50, (int)_windowHeight - 50));
+
             GameView.Children.Add(collectible);
-
-            //for (int i = 0; i < 5; i++)
-            //{
-            //    Collectible collectible = new(Constants.COLLECTIBLE_HEIGHT * _scale)
-            //    {                  
-            //        //Speed = speed,
-            //    };
-
-            //    collectible.SetPosition(left: left, top: top);
-            //    GameView.Children.Add(collectible);
-
-            //    switch (xDir)
-            //    {
-            //        case -1:
-            //            {
-            //                left -= collectible.Width;
-            //            }
-            //            break;
-            //        case 1:
-            //            {
-            //                left += collectible.Width;
-            //            }
-            //            break;
-            //        default:
-            //            break;
-            //    }
-
-            //    if (left < 0)
-            //        left = 0;
-
-            //    if (left + collectible.Width >= GameView.Width)
-            //        left = GameView.Width - collectible.Width;
-
-            //    top += collectible.Height;
-            //}
         }
 
         private void UpdateCollectible(GameObject collectible)
         {
             var speed = collectible.Speed;
-            //speed = DecreaseSpeed(speed);
 
             switch (collectible.MovementDirection)
             {
@@ -751,22 +717,8 @@ namespace SnakeGame
                     break;
             }
 
-            if (collectible.GetLeft() > _windowWidth)
-                collectible.SetLeft(0);
-
-            if (collectible.GetLeft() < 0)
-                collectible.SetLeft(_windowWidth);
-
-            if (collectible.GetTop() > _windowHeight)
-                collectible.SetTop(0);
-
-            if (collectible.GetTop() < 0)
-                collectible.SetTop(_windowHeight);         
-
-            //if (collectible.GetTop() > GameView.Height)
-            //{
-            //    GameView.AddDestroyableGameObject(collectible);
-            //}
+            // if object goes out of bounds then make it reenter game view
+            RecycleGameObject(collectible);
 
             if (_playerHitBox.IntersectsWith(collectible.GetHitBox(_scale)))
             {
@@ -785,6 +737,26 @@ namespace SnakeGame
             _collectiblesFaceCounter = 50;
 
             _player.SetContent(_playerTemplates[_random.Next(0, _playerTemplates.Length)]);
+        }
+
+        #endregion
+
+        #region Dirt
+
+        private void SpawnDirt()
+        {
+            var dot = new Dirt((double)_random.Next(5, 100) * _scale)
+            {
+                Speed = 4
+            };
+
+            dot.SetPosition(_random.Next(50, (int)_windowWidth - 50), _random.Next(50, (int)_windowHeight - 50));
+            UnderView.Children.Add(dot);
+        }
+
+        private void UpdateDirt(GameObject dirt)
+        {
+
         }
 
         #endregion
@@ -1015,8 +987,8 @@ namespace SnakeGame
             //SeaView.Width = _windowWidth;
             //SeaView.Height = _windowHeight;
 
-            //UnderView.Width = _windowWidth;
-            //UnderView.Height = _windowHeight;
+            UnderView.Width = _windowWidth;
+            UnderView.Height = _windowHeight;
 
             GameView.Width = _windowWidth;
             GameView.Height = _windowHeight;

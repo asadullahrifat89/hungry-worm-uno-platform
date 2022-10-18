@@ -156,11 +156,12 @@ namespace SnakeGame
     public enum ElementType
     {
         NONE,
-        PLAYER,        
+        PLAYER,
         PLAYER_TRAIL,
         POWERUP,
-        HEALTH,        
+        HEALTH,
         COLLECTIBLE,
-    }  
+        DIRT,
+    }
 }
 

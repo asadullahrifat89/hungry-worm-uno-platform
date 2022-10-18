@@ -15,9 +15,6 @@ namespace SnakeGame
         public const double PLAYER_SIZE = 100;
         public const double PLAYER_TRAIL_SIZE = 100;
 
-        public const double POWERUP_WIDTH = 80;
-        public const double POWERUP_HEIGHT = 80;
-
         public const double COLLECTIBLE_SIZE = 80;
 
         public const double HEALTH_WIDTH = 80;

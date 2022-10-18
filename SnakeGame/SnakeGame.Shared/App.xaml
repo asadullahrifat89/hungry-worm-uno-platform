@@ -88,9 +88,12 @@
             <SolidColorBrush x:Key="ProgressBarForegroundColor" Color="#ff6852" />
             <SolidColorBrush x:Key="ProgressBarOkColor" Color="LightGreen" />
 
-            <SolidColorBrush x:Key="GameBackgroundColor" Color="#6ba101" />
             <SolidColorBrush x:Key="SnakeBodyColor" Color="#f7b239" />
             <SolidColorBrush x:Key="SnakeBorderColor" Color="Chocolate" />
+
+            <SolidColorBrush x:Key="GameBackgroundColor" Color="#723a23" />
+            <SolidColorBrush x:Key="DirtBackgroundColor1" Color="#602811" />
+            <SolidColorBrush x:Key="DirtBackgroundColor2" Color="#8c4831" />
             <!--#endregion-->
 
         </ResourceDictionary>
