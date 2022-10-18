@@ -18,12 +18,10 @@ namespace SnakeGame
         public PlayerTrail(double size)
         {
             Tag = ElementType.PLAYER_TRAIL;
-            CornerRadius = new Microsoft.UI.Xaml.CornerRadius(4);
+            CornerRadius = new CornerRadius(4);
 
             Background = Application.Current.Resources["SnakeBodyColor"] as SolidColorBrush;
-            BorderBrush = new SolidColorBrush(Colors.Chocolate);
-
-            //SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key == ElementType.PLAYER_TRAIL).Value);
+            BorderBrush = Application.Current.Resources["SnakeBorderColor"] as SolidColorBrush;
 
             Width = size;
             Height = size;
@@ -69,13 +67,13 @@ namespace SnakeGame
                 case MovementDirection.Up:
                 case MovementDirection.Down:
                     {
-                        BorderThickness = new Microsoft.UI.Xaml.Thickness(5, 0, 5, 0);
+                        BorderThickness = new Thickness(5, 0, 5, 0);
                     }
                     break;
                 case MovementDirection.Left:
                 case MovementDirection.Right:
                     {
-                        BorderThickness = new Microsoft.UI.Xaml.Thickness(0, 5, 0, 5);
+                        BorderThickness = new Thickness(0, 5, 0, 5);
                     }
                     break;
             }

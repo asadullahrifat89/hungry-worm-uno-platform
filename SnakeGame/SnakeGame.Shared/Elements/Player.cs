@@ -18,7 +18,8 @@ namespace SnakeGame
             CornerRadius = new CornerRadius(5);
 
             Background = Application.Current.Resources["SnakeBodyColor"] as SolidColorBrush;
-            BorderBrush = new SolidColorBrush(Colors.Chocolate);
+            BorderBrush = Application.Current.Resources["SnakeBorderColor"] as SolidColorBrush;
+
             BorderThickness = new Thickness(5);
 
             Width = size;
@@ -39,34 +40,30 @@ namespace SnakeGame
                     if (MovementDirection != MovementDirection.Down)
                     {
                         MovementDirection = MovementDirection.Up;
-                        //SetDirection(movementDirection);
                         BorderThickness = new Thickness(5, 5, 5, 0);
-                        //CornerRadius = new CornerRadius(30, 30, 0, 0);
+                        //CornerRadius = new CornerRadius(50, 50, 0, 0);
                     }
                     break;
                 case MovementDirection.Left:
                     if (MovementDirection != MovementDirection.Right)
                     {
                         MovementDirection = MovementDirection.Left;
-                        //SetDirection(movementDirection);
                         BorderThickness = new Thickness(5, 5, 0, 5);
-                        //CornerRadius = new CornerRadius(30, 0, 0, 30);
+                        //CornerRadius = new CornerRadius(50, 0, 0, 50);
                     }
                     break;
                 case MovementDirection.Down:
                     if (MovementDirection != MovementDirection.Up)
                     {
                         MovementDirection = MovementDirection.Down;
-                        //SetDirection(movementDirection);
                         BorderThickness = new Thickness(5, 0, 5, 5);
-                        //CornerRadius = new CornerRadius(0, 0, 30, 30);
+                        //CornerRadius = new CornerRadius(0, 0, 50, 50);
                     }
                     break;
                 case MovementDirection.Right:
                     if (MovementDirection != MovementDirection.Left)
                     {
                         MovementDirection = MovementDirection.Right;
-                        //SetDirection(movementDirection);
                         BorderThickness = new Thickness(0, 5, 5, 5);
                         //CornerRadius = new CornerRadius(0, 30, 30, 0);
                     }
