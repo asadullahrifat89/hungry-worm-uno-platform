@@ -12,8 +12,8 @@ namespace HungryWorm
 
         public const double DEFAULT_FRAME_TIME = 18;
 
-        public const double PLAYER_SIZE = 100;
-        public const double PLAYER_TRAIL_SIZE = 100;
+        public const double PLAYER_SIZE = 80;
+        public const double PLAYER_TRAIL_SIZE = 80;
 
         public const double COLLECTIBLE_SIZE = 80;
 

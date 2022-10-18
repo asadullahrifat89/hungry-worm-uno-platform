@@ -23,63 +23,63 @@ namespace HungryWorm
         private readonly TimeSpan _frameTime = TimeSpan.FromMilliseconds(Constants.DEFAULT_FRAME_TIME);
 
         private readonly Random _random = new();
-
-        private Rect _playerHitBox;
+        //private int _markNum;
 
         private double _gameSpeed = 6;
-        private readonly double _defaultGameSpeed = 6;
+        private readonly double _gameSpeedDefault = 6;
 
         private int _playerSpeed = 6;
-        private int _defaultPlayerSpeed = 6;
-        private int _markNum;
+        private int _playerSpeedDefault = 6;
 
-        private int _powerUpSpawnCounter = 30;
-
-        private int _powerModeCounter = 500;
+        //private int _powerUpSpawnCounter = 30;
+        //private int _powerModeCounter = 500;
         private readonly int _powerModeDelay = 500;
 
         private int _lives;
         private readonly int _maxLives = 3;
-        private int _healthSpawnCounter = 500;
-        private int _damageRecoveryOpacityFrameSkip;
 
-        private int _foodSpawnCounter;
+        private int _healthSpawnCounter = 500;
 
         private double _score;
         private int _foodCollected;
 
         private bool _isGameOver;
-        private bool _isPowerMode;
+        //private bool _isPowerMode;
 
-        private bool _isPointerActivated;
+        //private bool _isPointerActivated;
+        private Point _pointerPosition;
 
         private double _windowHeight, _windowWidth;
         private double _scale;
-        private Point _pointerPosition;
 
         //private PowerUpType _powerUpType;
 
         private Player _player;
+        private Rect _playerHitBox;
 
+        private int _foodSpawnCounter;
         private int _foodSpawnLimit;
         private int _foodCount;
 
         private Uri[] _playerTemplates;
         private Uri[] _collectibleTemplates;
-        private int _yummyFaceCounter;
 
-        private double _health;
-        private int _healthDepleteCounter;
-        private double _healthDepletePoint;
-        private double _healthGainPoint;
-        private readonly double _defaultHealthDepletePoint = 0.5;
-        private readonly double _defaultHealthGainPoint = 10;
+        private double _playerHealth;
+        private int _playerHealthDepletionCounter;
+        private double _playerHealthDepletionPoint;
+        private double _playerHealthRejuvenationPoint;
+
+        private readonly double _healthDepletePointDefault = 0.5;
+        private readonly double _healthGainPointDefault = 10;
 
         private int _playerTrailCount;
-        private int _playerTrailLimit;
+        private int _playerTrailLength;
+        private readonly int _playerTrailLengthLimit = 30;
+
+        private int _playerYummyFaceCounter;
 
         private int _playerTrailSpawnCounter;
-        private int _defaultPlayerTrailSpawnCounter = 1;
+        private int _playerTrailSpawnCounterDefault = 1;
 
         #endregion
 
@@ -151,7 +151,7 @@ namespace HungryWorm
             }
             else
             {
-                _isPointerActivated = true;
+                //_isPointerActivated = true;
 
                 PointerPoint point = e.GetCurrentPoint(GameView);
                 _pointerPosition = point.Position;
@@ -207,13 +207,13 @@ namespace HungryWorm
 
         private void InputView_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            _isPointerActivated = false;
+            //_isPointerActivated = false;
             _pointerPosition = null;
         }
 
         private void OnKeyDown(object sender, KeyRoutedEventArgs e)
         {
-            _isPointerActivated = false;
+            //_isPointerActivated = false;
 
             switch (e.Key)
             {
@@ -358,20 +358,20 @@ namespace HungryWorm
             _lives = _maxLives;
             //SetLives();
 
-            _playerTrailLimit = 2;
+            _playerTrailLength = 2;
             _foodSpawnLimit = 3;
             _foodCount = 0;
 
-            _gameSpeed = _defaultGameSpeed;
-            _playerSpeed = _defaultPlayerSpeed;
+            _gameSpeed = _gameSpeedDefault;
+            _playerSpeed = _playerSpeedDefault;
             _player.Opacity = 1;
 
             ResetControls();
 
             _isGameOver = false;
-            _isPowerMode = false;
+            //_isPowerMode = false;
             //_powerUpType = 0;
-            _powerModeCounter = _powerModeDelay;
+            //_powerModeCounter = _powerModeDelay;
 
             _score = 0;
             _foodCollected = 0;
@@ -379,12 +379,12 @@ namespace HungryWorm
 
             PlayerHealthBarPanel.Visibility = Visibility.Visible;
 
-            _healthDepletePoint = _defaultHealthDepletePoint;
-            _health = 100;
-            _healthGainPoint = _defaultHealthGainPoint;
-            _healthDepleteCounter = 10;
+            _playerHealthDepletionPoint = _healthDepletePointDefault;
+            _playerHealth = 100;
+            _playerHealthRejuvenationPoint = _healthGainPointDefault;
+            _playerHealthDepletionCounter = 10;
 
-            _playerTrailSpawnCounter = _defaultPlayerTrailSpawnCounter;
+            _playerTrailSpawnCounter = _playerTrailSpawnCounterDefault;
 
             UpdateMovementDirection(MovementDirection.Right);
             RemoveGameObjects();
@@ -405,14 +405,14 @@ namespace HungryWorm
         private void ResetControls()
         {
             _player.MovementDirection = MovementDirection.None;
-            _isPointerActivated = false;
+            //_isPointerActivated = false;
             _pointerPosition = null;
         }
 
         private void GameViewLoop()
         {
             ScoreText.Text = _score.ToString("#");
-            PlayerHealthBar.Value = _health;
+            PlayerHealthBar.Value = _playerHealth;
 
             SpawnGameObjects();
             UpdateGameObjects();
@@ -424,17 +424,6 @@ namespace HungryWorm
 
         private void SpawnGameObjects()
         {
-            //if (_foodCount < _foodSpawnLimit)
-            //{
-            //    _foodSpawnCounter--;
-
-            //    if (_foodSpawnCounter <= 0)
-            //    {
-            //        SpawnCollectible();
-            //        _foodSpawnCounter = _random.Next(30, 80);
-            //    }
-            //}
-
             if (_foodCount < _foodSpawnLimit)
             {
                 _foodSpawnCounter--;
@@ -614,17 +603,17 @@ namespace HungryWorm
 
         private void SetYummyFace()
         {
-            _yummyFaceCounter = 50;
+            _playerYummyFaceCounter = 50;
             _player.SetContent(_playerTemplates[_random.Next(0, _playerTemplates.Length)]);
         }
 
         private void YummyFaceCoolDown()
         {
-            if (_yummyFaceCounter > 0)
+            if (_playerYummyFaceCounter > 0)
             {
-                _yummyFaceCounter--;
+                _playerYummyFaceCounter--;
 
-                if (_yummyFaceCounter <= 0)
+                if (_playerYummyFaceCounter <= 0)
                     _player.SetContent(_playerTemplates.First());
             }
         }
@@ -639,7 +628,7 @@ namespace HungryWorm
 
             if (_playerTrailSpawnCounter <= 0)
             {
-                _playerTrailSpawnCounter = _defaultPlayerTrailSpawnCounter;
+                _playerTrailSpawnCounter = _playerTrailSpawnCounterDefault;
 
                 //double offset = 20 * _scale;
 
@@ -679,7 +668,7 @@ namespace HungryWorm
                     break;
             }
 
-            if (_playerTrailCount > _playerTrailLimit)
+            if (_playerTrailCount > _playerTrailLength)
             {
                 var playerTrails = GameView.GetGameObjects<PlayerTrail>().ToArray();
 
@@ -751,7 +740,7 @@ namespace HungryWorm
             SoundHelper.PlayRandomSound(SoundType.ATE_FOOD);
 
             AddScore(10);
-            AddHealth(_healthGainPoint);
+            AddHealth(_playerHealthRejuvenationPoint);
 
             _foodCount--;
             _foodCollected++;
@@ -802,26 +791,26 @@ namespace HungryWorm
 
         private void AddHealth(double health)
         {
-            if (_health < 100)
+            if (_playerHealth < 100)
             {
-                if (_health + health > 100)
-                    health = _health + health - 100;
+                if (_playerHealth + health > 100)
+                    health = _playerHealth + health - 100;
 
-                _health += health;
+                _playerHealth += health;
             }
         }
 
         private void DepleteHealth()
         {
-            _healthDepleteCounter--;
+            _playerHealthDepletionCounter--;
 
-            if (_healthDepleteCounter <= 0)
+            if (_playerHealthDepletionCounter <= 0)
             {
-                _health -= _healthDepletePoint;
-                _healthDepleteCounter = 10;
+                _playerHealth -= _playerHealthDepletionPoint;
+                _playerHealthDepletionCounter = 10;
             }
 
-            if (_health <= 0)
+            if (_playerHealth <= 0)
                 GameOver();
         }
 
@@ -849,8 +838,9 @@ namespace HungryWorm
             //}
 
             //TODO: decide if length effect to keep or not
-            if (_playerTrailLimit < 40)
-                _playerTrailLimit += 1;
+            if (_playerTrailLength < _playerTrailLengthLimit)
+                _playerTrailLength += 1;
+
             _score += score;
         }
 
@@ -862,189 +852,189 @@ namespace HungryWorm
         {
             if (_score >= 10 && _score < 20)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 1;
-                _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 1;
-                _gameSpeed = _defaultGameSpeed + 0.2 * 1;
+                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 1;
+                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 1;
+                _gameSpeed = _gameSpeedDefault + 0.2 * 1;
             }
             if (_score >= 20 && _score < 30)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 2;
-                _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 2;
-                _gameSpeed = _defaultGameSpeed + 0.2 * 2;
+                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 2;
+                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 2;
+                _gameSpeed = _gameSpeedDefault + 0.2 * 2;
             }
             if (_score >= 30 && _score < 40)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 3;
-                _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 3;
-                _gameSpeed = _defaultGameSpeed + 0.2 * 3;
+                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 3;
+                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 3;
+                _gameSpeed = _gameSpeedDefault + 0.2 * 3;
             }
             if (_score >= 40 && _score < 50)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 4;
-                _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 4;
-                _gameSpeed = _defaultGameSpeed + 0.2 * 4;
+                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 4;
+                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 4;
+                _gameSpeed = _gameSpeedDefault + 0.2 * 4;
             }
             if (_score >= 50 && _score < 80)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 5;
-                _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 5;
-                _gameSpeed = _defaultGameSpeed + 0.2 * 5;
+                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 5;
+                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 5;
+                _gameSpeed = _gameSpeedDefault + 0.2 * 5;
             }
             if (_score >= 80 && _score < 100)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 6;
-                _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 6;
-                _gameSpeed = _defaultGameSpeed + 0.2 * 6;
+                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 6;
+                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 6;
+                _gameSpeed = _gameSpeedDefault + 0.2 * 6;
             }
             if (_score >= 100 && _score < 130)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 7;
-                _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 7;
-                _gameSpeed = _defaultGameSpeed + 0.2 * 7;
+                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 7;
+                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 7;
+                _gameSpeed = _gameSpeedDefault + 0.2 * 7;
             }
             if (_score >= 130 && _score < 150)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 8;
-                _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 8;
-                _gameSpeed = _defaultGameSpeed + 0.2 * 8;
+                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 8;
+                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 8;
+                _gameSpeed = _gameSpeedDefault + 0.2 * 8;
             }
             if (_score >= 150 && _score < 180)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 9;
-                _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 9;
-                _gameSpeed = _defaultGameSpeed + 0.2 * 9;
+                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 9;
+                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 9;
+                _gameSpeed = _gameSpeedDefault + 0.2 * 9;
             }
             if (_score >= 180 && _score < 200)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 10;
-                _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 10;
-                _gameSpeed = _defaultGameSpeed + 0.2 * 10;
+                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 10;
+                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 10;
+                _gameSpeed = _gameSpeedDefault + 0.2 * 10;
             }
             if (_score >= 200 && _score < 220)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 11;
-                _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 11;
-                _gameSpeed = _defaultGameSpeed + 0.2 * 11;
+                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 11;
+                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 11;
+                _gameSpeed = _gameSpeedDefault + 0.2 * 11;
             }
             if (_score >= 220 && _score < 250)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 12;
-                _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 12;
-                _gameSpeed = _defaultGameSpeed + 0.2 * 12;
+                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 12;
+                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 12;
+                _gameSpeed = _gameSpeedDefault + 0.2 * 12;
             }
             if (_score >= 250 && _score < 300)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 13;
-                _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 13;
-                _gameSpeed = _defaultGameSpeed + 0.2 * 13;
+                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 13;
+                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 13;
+                _gameSpeed = _gameSpeedDefault + 0.2 * 13;
             }
             if (_score >= 300 && _score < 350)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 14;
-                _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 14;
-                _gameSpeed = _defaultGameSpeed + 0.2 * 14;
+                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 14;
+                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 14;
+                _gameSpeed = _gameSpeedDefault + 0.2 * 14;
             }
             if (_score >= 350 && _score < 400)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 15;
-                _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 15;
-                _gameSpeed = _defaultGameSpeed + 0.2 * 15;
+                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 15;
+                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 15;
+                _gameSpeed = _gameSpeedDefault + 0.2 * 15;
             }
             if (_score >= 400 && _score < 500)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 16;
-                _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 16;
-                _gameSpeed = _defaultGameSpeed + 0.2 * 16;
+                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 16;
+                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 16;
+                _gameSpeed = _gameSpeedDefault + 0.2 * 16;
             }
             if (_score >= 500 && _score < 600)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 17;
-                _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 17;
-                _gameSpeed = _defaultGameSpeed + 0.2 * 17;
+                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 17;
+                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 17;
+                _gameSpeed = _gameSpeedDefault + 0.2 * 17;
             }
             if (_score >= 600 && _score < 700)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 18;
-                _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 18;
-                _gameSpeed = _defaultGameSpeed + 0.2 * 18;
+                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 18;
+                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 18;
+                _gameSpeed = _gameSpeedDefault + 0.2 * 18;
             }
             if (_score >= 700 && _score < 800)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 19;
-                _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 19;
-                _gameSpeed = _defaultGameSpeed + 0.2 * 19;
+                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 19;
+                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 19;
+                _gameSpeed = _gameSpeedDefault + 0.2 * 19;
             }
             if (_score >= 800 && _score < 900)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 20;
-                _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 20;
-                _gameSpeed = _defaultGameSpeed + 0.2 * 20;
+                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 20;
+                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 20;
+                _gameSpeed = _gameSpeedDefault + 0.2 * 20;
             }
             if (_score >= 900 && _score < 1000)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 21;
-                _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 21;
-                _gameSpeed = _defaultGameSpeed + 0.2 * 21;
+                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 21;
+                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 21;
+                _gameSpeed = _gameSpeedDefault + 0.2 * 21;
             }
             if (_score >= 1000 && _score < 1200)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 22;
-                _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 22;
-                _gameSpeed = _defaultGameSpeed + 0.2 * 22;
+                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 22;
+                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 22;
+                _gameSpeed = _gameSpeedDefault + 0.2 * 22;
             }
             if (_score >= 1200 && _score < 1400)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 23;
-                _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 23;
-                _gameSpeed = _defaultGameSpeed + 0.2 * 23;
+                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 23;
+                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 23;
+                _gameSpeed = _gameSpeedDefault + 0.2 * 23;
             }
             if (_score >= 1400 && _score < 1600)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 24;
-                _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 24;
-                _gameSpeed = _defaultGameSpeed + 0.2 * 24;
+                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 24;
+                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 24;
+                _gameSpeed = _gameSpeedDefault + 0.2 * 24;
             }
             if (_score >= 1600 && _score < 1800)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 25;
-                _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 25;
-                _gameSpeed = _defaultGameSpeed + 0.2 * 25;
+                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 25;
+                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 25;
+                _gameSpeed = _gameSpeedDefault + 0.2 * 25;
             }
             if (_score >= 1800 && _score < 2000)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 26;
-                _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 26;
-                _gameSpeed = _defaultGameSpeed + 0.2 * 26;
+                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 26;
+                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 26;
+                _gameSpeed = _gameSpeedDefault + 0.2 * 26;
             }
             if (_score >= 2000 && _score < 2200)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 27;
-                _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 27;
-                _gameSpeed = _defaultGameSpeed + 0.2 * 27;
+                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 27;
+                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 27;
+                _gameSpeed = _gameSpeedDefault + 0.2 * 27;
             }
             if (_score >= 2200 && _score < 2400)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 28;
-                _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 28;
-                _gameSpeed = _defaultGameSpeed + 0.2 * 28;
+                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 28;
+                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 28;
+                _gameSpeed = _gameSpeedDefault + 0.2 * 28;
             }
             if (_score >= 2400 && _score < 2600)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 29;
-                _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 29;
-                _gameSpeed = _defaultGameSpeed + 0.2 * 29;
+                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 29;
+                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 29;
+                _gameSpeed = _gameSpeedDefault + 0.2 * 29;
             }
             if (_score >= 2600 && _score < 2800)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 30;
-                _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 30;
-                _gameSpeed = _defaultGameSpeed + 0.2 * 30;
+                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 30;
+                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 30;
+                _gameSpeed = _gameSpeedDefault + 0.2 * 30;
             }
             if (_score >= 2800 && _score < 3000)
             {
-                _healthGainPoint = _defaultHealthGainPoint + 0.1 * 31;
-                _healthDepletePoint = _defaultHealthDepletePoint + 0.1 * 31;
-                _gameSpeed = _defaultGameSpeed + 0.2 * 31;
+                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 31;
+                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 31;
+                _gameSpeed = _gameSpeedDefault + 0.2 * 31;
             }
         }
 
