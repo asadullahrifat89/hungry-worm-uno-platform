@@ -43,7 +43,7 @@ namespace HungryWorm
         private int _healthSpawnCounter = 500;
         private int _damageRecoveryOpacityFrameSkip;
 
-        private int _foodSpawnCounter = 200;
+        private int _foodSpawnCounter;
 
         private double _score;
         private int _foodCollected;
@@ -60,7 +60,7 @@ namespace HungryWorm
         //private PowerUpType _powerUpType;
 
         private Player _player;
-      
+
         private int _foodSpawnLimit;
         private int _foodCount;
 
@@ -289,7 +289,7 @@ namespace HungryWorm
         private void PopulateUnderView()
         {
             // add some dirt underneath
-            for (int i = 0; i < 25; i++)
+            for (int i = 0; i < 20; i++)
             {
                 SpawnDirt();
             }
@@ -425,7 +425,7 @@ namespace HungryWorm
             {
                 _foodSpawnCounter--;
 
-                if (_foodSpawnCounter < 1)
+                if (_foodSpawnCounter <= 0)
                 {
                     SpawnCollectible();
                     _foodSpawnCounter = _random.Next(30, 80);
@@ -627,6 +627,11 @@ namespace HungryWorm
             {
                 _playerTrailSpawnCounter = _defaultPlayerTrailSpawnCounter;
 
+                //double offset = 20 * _scale;
+
+                //double left = _player.GetLeft() + (_player.MovementDirection == MovementDirection.Right ? offset * -1 : (_player.MovementDirection == MovementDirection.Left ? offset : 0));
+                //double top = _player.GetTop() + (_player.MovementDirection == MovementDirection.Down ? offset * -1 : (_player.MovementDirection == MovementDirection.Up ? offset : 0));
+
                 double left = _player.GetLeft();
                 double top = _player.GetTop();
 
@@ -670,7 +675,7 @@ namespace HungryWorm
                 // give tail a proper border
                 var tail = playerTrails[1];
                 tail.BorderThickness = new Thickness(5);
-            }          
+            }
 
             //if (_length > _maxLength)
             //{
