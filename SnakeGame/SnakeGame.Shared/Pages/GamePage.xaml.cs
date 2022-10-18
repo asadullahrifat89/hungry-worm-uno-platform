@@ -328,13 +328,7 @@ namespace SnakeGame
         }
 
         private void PopulateGameView()
-        {
-            // add 5 collectibles
-            for (int i = 0; i < 5; i++)
-            {
-                SpawnCollectible();
-            }
-
+        {  
             // add player
             _player = new Player(Constants.PLAYER_SIZE * _scale);
 
@@ -343,6 +337,12 @@ namespace SnakeGame
                 top: GameView.Height / 2);
 
             GameView.Children.Add(_player);
+
+            // add 5 collectibles
+            for (int i = 0; i < 5; i++)
+            {
+                SpawnCollectible();
+            }
         }
 
         private void PopulateOverView()
@@ -654,6 +654,10 @@ namespace SnakeGame
                 GameView.Children.Remove(GameView.Children.OfType<PlayerTrail>().First());
                 _length--;
             }
+
+            // give tail a proper border
+            var tail = GameView.Children.OfType<PlayerTrail>().First();
+            tail.BorderThickness = new Thickness(5);
         }
 
         public bool CollisionWithSelf()
@@ -691,25 +695,6 @@ namespace SnakeGame
             };
 
             collectible.SetContent(_collectibleTemplates[_random.Next(0, _collectibleTemplates.Length)]);
-
-            //switch (_player.MovementDirection)
-            //{
-            //    case MovementDirection.Right:
-            //        collectible.SetLeft(_windowWidth + collectible.Width);
-            //        break;
-            //    case MovementDirection.Left:
-            //        collectible.SetLeft(0 - collectible.Width);
-            //        break;
-            //    case MovementDirection.Up:
-            //        collectible.SetTop(0 - collectible.Height);
-            //        break;
-            //    case MovementDirection.Down:
-            //        collectible.SetTop(_windowHeight + collectible.Height);
-            //        break;
-            //    default:
-            //        break;
-            //}
-
             collectible.SetPosition(_random.Next(0, (int)_windowWidth), _random.Next(0, (int)_windowHeight));
 
             GameView.Children.Add(collectible);
