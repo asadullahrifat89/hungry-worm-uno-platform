@@ -451,7 +451,6 @@ namespace SnakeGame
 
         private void SpawnGameObjects()
         {
-            //TODO: keep and integer to count max
             if (_collectiblesCount < _maxCollectibles)
             {
                 _collectibleSpawnCounter--;
@@ -741,7 +740,7 @@ namespace SnakeGame
             SoundHelper.PlaySound(SoundType.COLLECTIBLE_COLLECTED);
             _collectiblesCount--;
 
-             _collectiblesCollected++;
+            _collectiblesCollected++;
             _collectiblesFaceCounter = 50;
 
             _player.SetContent(_playerTemplates[_random.Next(0, _playerTemplates.Length)]);
