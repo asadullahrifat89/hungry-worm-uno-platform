@@ -29,8 +29,8 @@ namespace HungryWorm
         private int _gameSpeed = 5;
         private readonly int _defaultGameSpeed = 5;
 
-        private int _playerSpeed = 5;
-        private int _defaultPlayerSpeed = 5;
+        private int _playerSpeed = 6;
+        private int _defaultPlayerSpeed = 6;
         private int _markNum;
 
         private int _powerUpSpawnCounter = 30;
@@ -75,6 +75,9 @@ namespace HungryWorm
         private double _healthGainPoint;
         private readonly double _defaultHealthDepletePoint = 0.5;
         private readonly double _defaultHealthGainPoint = 10;
+
+        private int _movementDirectionChangeCounter;
+        private readonly int _defaultMovementDirectionChangeCounter = 35;
 
         #endregion
 
@@ -395,6 +398,8 @@ namespace HungryWorm
             _health = 100;
             _healthGainPoint = _defaultHealthGainPoint;
 
+            _movementDirectionChangeCounter = _defaultMovementDirectionChangeCounter;
+
             RemoveGameObjects();
             StartGameSounds();
             RunGame();
@@ -421,6 +426,8 @@ namespace HungryWorm
         {
             ScoreText.Text = _score.ToString("#");
             PlayerHealthBar.Value = _health;
+
+            _movementDirectionChangeCounter--;
 
             SpawnGameObjects();
             UpdateGameObjects();
@@ -457,13 +464,7 @@ namespace HungryWorm
                             if (_player.MovementDirection != MovementDirection.None)
                                 UpdatePlayer();
 
-                            if (_yummyFaceCounter > 0)
-                            {
-                                _yummyFaceCounter--;
-
-                                if (_yummyFaceCounter <= 0)
-                                    _player.SetContent(_playerTemplates.First());
-                            }
+                            YummyFaceCoolDown();
                         }
                         break;
                     case ElementType.COLLECTIBLE:
@@ -653,7 +654,27 @@ namespace HungryWorm
         public void UpdateMovementDirection(MovementDirection movementDirection)
         {
             if (_player != null && !_isGameOver)
+            {
+                _movementDirectionChangeCounter = _defaultMovementDirectionChangeCounter;
                 _player.UpdateMovementDirection(movementDirection);
+            }   
+        }
+
+        private void SetYummyFace()
+        {
+            _yummyFaceCounter = 50;
+            _player.SetContent(_playerTemplates[_random.Next(0, _playerTemplates.Length)]);
+        }
+
+        private void YummyFaceCoolDown()
+        {
+            if (_yummyFaceCounter > 0)
+            {
+                _yummyFaceCounter--;
+
+                if (_yummyFaceCounter <= 0)
+                    _player.SetContent(_playerTemplates.First());
+            }
         }
 
         #endregion
@@ -673,28 +694,31 @@ namespace HungryWorm
 
         private void UpdateCollectible(GameObject collectible)
         {
-            var speed = _gameSpeed;
-
-            switch (_player.MovementDirection)
+            if (_movementDirectionChangeCounter <= 0)
             {
-                case MovementDirection.Right:
-                    collectible.SetLeft(collectible.GetLeft() - speed);
-                    break;
-                case MovementDirection.Left:
-                    collectible.SetLeft(collectible.GetLeft() + speed);
-                    break;
-                case MovementDirection.Up:
-                    collectible.SetTop(collectible.GetTop() + speed);
-                    break;
-                case MovementDirection.Down:
-                    collectible.SetTop(collectible.GetTop() - speed);
-                    break;
-                default:
-                    break;
-            }
+                var speed = _gameSpeed;
 
-            // if object goes out of bounds then make it reenter game view
-            RecycleGameObject(collectible);
+                switch (_player.MovementDirection)
+                {
+                    case MovementDirection.Right:
+                        collectible.SetLeft(collectible.GetLeft() - speed);
+                        break;
+                    case MovementDirection.Left:
+                        collectible.SetLeft(collectible.GetLeft() + speed);
+                        break;
+                    case MovementDirection.Up:
+                        collectible.SetTop(collectible.GetTop() + speed);
+                        break;
+                    case MovementDirection.Down:
+                        collectible.SetTop(collectible.GetTop() - speed);
+                        break;
+                    default:
+                        break;
+                }
+
+                // if object goes out of bounds then make it reenter game view
+                RecycleGameObject(collectible);
+            }
 
             if (_playerHitBox.IntersectsWith(collectible.GetHitBox(_scale)))
             {
@@ -712,10 +736,9 @@ namespace HungryWorm
 
             _foodCount--;
             _foodCollected++;
-            _yummyFaceCounter = 50;
 
-            _player.SetContent(_playerTemplates[_random.Next(0, _playerTemplates.Length)]);
-        }
+            SetYummyFace();
+        }      
 
         #endregion
 
@@ -731,24 +754,27 @@ namespace HungryWorm
 
         private void UpdateDirt(GameObject dirt)
         {
-            var speed = _gameSpeed;
-
-            switch (_player.MovementDirection)
+            if (_movementDirectionChangeCounter <= 0)
             {
-                case MovementDirection.Right:
-                    dirt.SetLeft(dirt.GetLeft() - speed);
-                    break;
-                case MovementDirection.Left:
-                    dirt.SetLeft(dirt.GetLeft() + speed);
-                    break;
-                case MovementDirection.Up:
-                    dirt.SetTop(dirt.GetTop() + speed);
-                    break;
-                case MovementDirection.Down:
-                    dirt.SetTop(dirt.GetTop() - speed);
-                    break;
-                default:
-                    break;
+                var speed = _gameSpeed;
+
+                switch (_player.MovementDirection)
+                {
+                    case MovementDirection.Right:
+                        dirt.SetLeft(dirt.GetLeft() - speed);
+                        break;
+                    case MovementDirection.Left:
+                        dirt.SetLeft(dirt.GetLeft() + speed);
+                        break;
+                    case MovementDirection.Up:
+                        dirt.SetTop(dirt.GetTop() + speed);
+                        break;
+                    case MovementDirection.Down:
+                        dirt.SetTop(dirt.GetTop() - speed);
+                        break;
+                    default:
+                        break;
+                }
             }
 
             // if object goes out of bounds then make it reenter game view
