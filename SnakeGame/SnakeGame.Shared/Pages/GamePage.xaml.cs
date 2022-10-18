@@ -71,7 +71,9 @@ namespace SnakeGame
 
         private Player _player;
         private int _length;
-        private int _maxLength = 50;
+        private int _maxLength = 40;
+        private int _maxCollectibles = 5;
+        private int _collectiblesCount = 0;
 
         private Uri[] _playerTemplates;
         private Uri[] _collectibleTemplates;
@@ -298,7 +300,7 @@ namespace SnakeGame
         private void PopulateUnderView()
         {
             // add some cars underneath
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 35; i++)
             {
                 SpawnDirt();
             }
@@ -384,6 +386,10 @@ namespace SnakeGame
             _lives = _maxLives;
             //SetLives();
 
+            _maxLength = 40;
+            _maxCollectibles = 10;
+            _collectiblesCount = 0;
+
             _gameSpeed = _defaultGameSpeed;
             _playerSpeed = _defaultPlayerSpeed;
             _player.Opacity = 1;
@@ -445,7 +451,8 @@ namespace SnakeGame
 
         private void SpawnGameObjects()
         {
-            if (GameView.Children.OfType<Collectible>().Count() < 10)
+            //TODO: keep and integer to count max
+            if (_collectiblesCount < _maxCollectibles)
             {
                 _collectibleSpawnCounter--;
 
@@ -693,6 +700,7 @@ namespace SnakeGame
             collectible.SetPosition(_random.Next(50, (int)_windowWidth - 50), _random.Next(50, (int)_windowHeight - 50));
 
             GameView.Children.Add(collectible);
+            _collectiblesCount++;
         }
 
         private void UpdateCollectible(GameObject collectible)
@@ -731,9 +739,9 @@ namespace SnakeGame
         {
             AddScore(10);
             SoundHelper.PlaySound(SoundType.COLLECTIBLE_COLLECTED);
-            //SpawnCollectible();
+            _collectiblesCount--;
 
-            _collectiblesCollected++;
+             _collectiblesCollected++;
             _collectiblesFaceCounter = 50;
 
             _player.SetContent(_playerTemplates[_random.Next(0, _playerTemplates.Length)]);
@@ -802,7 +810,9 @@ namespace SnakeGame
             //            break;
             //    }
             //}
-            //_maxLength += 5;
+
+            //TODO: decide if length effect to keep or not
+            _maxLength += 1;
             _score += score;
         }
 
