@@ -86,7 +86,9 @@
 		 explicitly included in the projitem, so files can be added from vscode
 		 without manipulating the projitem file.
 	-->
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player1.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player10.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player11.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player12.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player13.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player14.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player2.png" />
@@ -98,9 +100,6 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player8.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player9.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_trail.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player10.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player11.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player12.png" />
     <_Globbled_Page Include="$(MSBuildThisFileDirectory)**/*.xaml" Exclude="@(Page);@(ApplicationDefinition)">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
