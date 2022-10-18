@@ -691,7 +691,26 @@ namespace SnakeGame
             };
 
             collectible.SetContent(_collectibleTemplates[_random.Next(0, _collectibleTemplates.Length)]);
-            collectible.SetPosition(_random.Next(50, (int)_windowWidth - 50), _random.Next(50, (int)_windowHeight - 50));
+
+            //switch (_player.MovementDirection)
+            //{
+            //    case MovementDirection.Right:
+            //        collectible.SetLeft(_windowWidth + collectible.Width);
+            //        break;
+            //    case MovementDirection.Left:
+            //        collectible.SetLeft(0 - collectible.Width);
+            //        break;
+            //    case MovementDirection.Up:
+            //        collectible.SetTop(0 - collectible.Height);
+            //        break;
+            //    case MovementDirection.Down:
+            //        collectible.SetTop(_windowHeight + collectible.Height);
+            //        break;
+            //    default:
+            //        break;
+            //}
+
+            collectible.SetPosition(_random.Next(0, (int)_windowWidth), _random.Next(0, (int)_windowHeight));
 
             GameView.Children.Add(collectible);
             _collectiblesCount++;
