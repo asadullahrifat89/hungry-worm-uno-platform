@@ -26,8 +26,8 @@ namespace HungryWorm
 
         private Rect _playerHitBox;
 
-        private int _gameSpeed = 5;
-        private readonly int _defaultGameSpeed = 5;
+        private int _gameSpeed = 6;
+        private readonly int _defaultGameSpeed = 6;
 
         private int _playerSpeed = 6;
         private int _defaultPlayerSpeed = 6;
@@ -317,8 +317,8 @@ namespace HungryWorm
             _player = new Player(Constants.PLAYER_SIZE * _scale);
 
             _player.SetPosition(
-                left: GameView.Width / 2,
-                top: GameView.Height / 2);
+                left: GameView.Width / 2 - _player.Width / 2,
+                top: GameView.Height / 2 - _player.Height / 2);
 
             GameView.Children.Add(_player);
 
@@ -464,6 +464,11 @@ namespace HungryWorm
                             UpdateCollectible(x);
                         }
                         break;
+                    case ElementType.PLAYER_TRAIL:
+                        {
+                            UpdatePlayerTrail(x);
+                        }
+                        break;
                     default:
                         break;
                 }
@@ -580,50 +585,31 @@ namespace HungryWorm
             double left = _player.GetLeft();
             double top = _player.GetTop();
 
-            switch (_player.MovementDirection)
-            {
-                case MovementDirection.Right:
-                    _player.SetLeft(left + effectiveSpeed);
-                    break;
-                case MovementDirection.Left:
-                    _player.SetLeft(left - effectiveSpeed);
-                    break;
-                case MovementDirection.Up:
-                    _player.SetTop(top - effectiveSpeed);
-                    break;
-                case MovementDirection.Down:
-                    _player.SetTop(top + effectiveSpeed);
-                    break;
-                default:
-                    break;
-            }
+            // TODO: experiment with center player
+
+            //switch (_player.MovementDirection)
+            //{
+            //    case MovementDirection.Right:
+            //        _player.SetLeft(left + effectiveSpeed);
+            //        break;
+            //    case MovementDirection.Left:
+            //        _player.SetLeft(left - effectiveSpeed);
+            //        break;
+            //    case MovementDirection.Up:
+            //        _player.SetTop(top - effectiveSpeed);
+            //        break;
+            //    case MovementDirection.Down:
+            //        _player.SetTop(top + effectiveSpeed);
+            //        break;
+            //    default:
+            //        break;
+            //}
 
             RecycleGameObject(_player);
             SpawnPlayerTrail(left, top);
 
             _player.SetZ(1);
             _playerHitBox = _player.GetHitBox(_scale);
-        }
-
-        private void SpawnPlayerTrail(double left, double top)
-        {
-            PlayerTrail playerTrail = new(Constants.PLAYER_TRAIL_SIZE * _scale);
-            playerTrail.SetPosition(left, top);
-            playerTrail.SetZ(0);
-            playerTrail.UpdateMovementDirection(_player.MovementDirection);
-
-            GameView.Children.Add(playerTrail);
-            _length++;
-
-            if (_length > _maxLength)
-            {
-                GameView.Children.Remove(GameView.Children.OfType<PlayerTrail>().First());
-                _length--;
-            }
-
-            // give tail a proper border
-            var tail = GameView.Children.OfType<PlayerTrail>().First();
-            tail.BorderThickness = new Thickness(5);
         }
 
         public bool CollisionWithSelf()
@@ -664,6 +650,52 @@ namespace HungryWorm
                 if (_yummyFaceCounter <= 0)
                     _player.SetContent(_playerTemplates.First());
             }
+        }
+
+        #endregion
+
+        #region PlayerTrail
+
+        private void SpawnPlayerTrail(double left, double top)
+        {
+            PlayerTrail playerTrail = new(Constants.PLAYER_TRAIL_SIZE * _scale);
+            playerTrail.SetPosition(left, top);
+            playerTrail.SetZ(0);
+            playerTrail.UpdateMovementDirection(_player.MovementDirection);
+
+            GameView.Children.Add(playerTrail);
+            _length++;
+        }
+
+        private void UpdatePlayerTrail(GameObject playerTrail)
+        {
+            switch (_player.MovementDirection)
+            {
+                case MovementDirection.Right:
+                    playerTrail.SetLeft(playerTrail.GetLeft() - _gameSpeed);
+                    break;
+                case MovementDirection.Left:
+                    playerTrail.SetLeft(playerTrail.GetLeft() + _gameSpeed);
+                    break;
+                case MovementDirection.Up:
+                    playerTrail.SetTop(playerTrail.GetTop() + _gameSpeed);
+                    break;
+                case MovementDirection.Down:
+                    playerTrail.SetTop(playerTrail.GetTop() - _gameSpeed);
+                    break;
+                default:
+                    break;
+            }
+
+            if (_length > _maxLength)
+            {
+                GameView.Children.Remove(GameView.Children.OfType<PlayerTrail>().First());
+                _length--;
+            }
+
+            // give tail a proper border
+            var tail = GameView.Children.OfType<PlayerTrail>().First();
+            tail.BorderThickness = new Thickness(5);
         }
 
         #endregion
