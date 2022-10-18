@@ -13,7 +13,7 @@ namespace SnakeGame
         public const double DEFAULT_FRAME_TIME = 18;
 
         public const double PLAYER_SIZE = 100;
-        public const double PLAYER_TRAIL_SIZE = 100;
+        public const double PLAYER_TRAIL_SIZE = 50;
 
         public const double POWERUP_WIDTH = 80;
         public const double POWERUP_HEIGHT = 80;

@@ -616,7 +616,7 @@ namespace SnakeGame
                 _player.SetTop(_windowHeight);
 
             PlayerTrail playerTrail = new(Constants.PLAYER_TRAIL_SIZE * _scale);
-            playerTrail.SetPosition(left,top);            
+            playerTrail.SetPosition(left, top);
             playerTrail.SetZ(0);
 
             GameView.Children.Add(playerTrail);
@@ -1440,7 +1440,7 @@ namespace SnakeGame
         //            GameView.Width = _windowWidth;
         //            GameView.Height = _windowHeight;
 
-        //            ElementSize = Constants.PLAYER_HEIGHT * _scale;
+        //            ElementSize = Constants.PLAYER_SIZE * _scale;
         //        }
 
         //        private void NavigateToPage(Type pageType)
