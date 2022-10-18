@@ -77,7 +77,7 @@ namespace HungryWorm
         private readonly double _defaultHealthGainPoint = 10;
 
         private int _movementDirectionChangeCounter;
-        private readonly int _defaultMovementDirectionChangeCounter = 35;
+        private readonly int _defaultMovementDirectionChangeCounter = 0;
 
         #endregion
 
