@@ -71,7 +71,7 @@ namespace SnakeGame
 
         private Player _player;
         private int _length;
-        private int _maxLength = 10;
+        private int _maxLength = 50;
 
         private Uri[] _playerTemplates;
         private Uri[] _collectibleTemplates;
@@ -802,7 +802,7 @@ namespace SnakeGame
             //            break;
             //    }
             //}
-            _maxLength += 5;
+            //_maxLength += 5;
             _score += score;
         }
 
