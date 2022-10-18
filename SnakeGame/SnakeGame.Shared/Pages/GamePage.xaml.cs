@@ -432,7 +432,7 @@ namespace SnakeGame
 
             StartGameSounds();
             RunGame();
-            UpdateMovementDirection(MovementDirection.Up);
+            UpdateMovementDirection(MovementDirection.Right);
         }
 
         private async void RunGame()
@@ -616,17 +616,19 @@ namespace SnakeGame
                 _player.SetTop(_windowHeight);
 
             PlayerTrail playerTrail = new(Constants.PLAYER_TRAIL_SIZE * _scale);
-            playerTrail.SetTop(top);
-            playerTrail.SetLeft(left);
+            playerTrail.SetPosition(left,top);            
+            playerTrail.SetZ(0);
 
-            GameView.Children.Insert(0, playerTrail);
+            GameView.Children.Add(playerTrail);
             _length++;
 
             if (_length > _maxLength)
             {
-                GameView.Children.Remove(GameView.Children.OfType<PlayerTrail>().Last());
+                GameView.Children.Remove(GameView.Children.OfType<PlayerTrail>().First());
                 _length--;
             }
+
+            _player.SetZ(1);
 
             _playerHitBox = _player.GetHitBox(_scale);
         }

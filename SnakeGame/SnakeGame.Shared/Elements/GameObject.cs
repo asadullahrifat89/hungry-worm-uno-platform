@@ -105,6 +105,11 @@ namespace SnakeGame
             Canvas.SetLeft(this, left);
         }
 
+        public void SetZ(int z)
+        {
+            Canvas.SetZIndex(this, z);
+        }
+
         public void SetPosition(double left, double top)
         {
             Canvas.SetTop(this, top);
@@ -117,7 +122,7 @@ namespace SnakeGame
             _content.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
         }
 
-        public void HideContent() 
+        public void HideContent()
         {
             _content.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
         }

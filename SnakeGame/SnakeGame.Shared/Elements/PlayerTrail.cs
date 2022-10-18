@@ -49,8 +49,8 @@ namespace SnakeGame
             Background = new SolidColorBrush(Colors.Crimson);
             CornerRadius = new Microsoft.UI.Xaml.CornerRadius(50);
             BorderBrush = new SolidColorBrush(Colors.Transparent);
-            BorderThickness = new Microsoft.UI.Xaml.Thickness(10);
-            
+            //BorderThickness = new Microsoft.UI.Xaml.Thickness(0, 20, 0, 20);
+
             Width = size;
             Height = size;
         }
