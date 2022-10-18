@@ -142,6 +142,9 @@ namespace HungryWorm
 
         private void InputView_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
+            PointerPoint point = e.GetCurrentPoint(GameView);
+            _pointerPosition = point.Position;           
+
             if (_isGameOver)
             {
                 App.EnterFullScreen(true);
@@ -151,45 +154,61 @@ namespace HungryWorm
             }
             else
             {
-                //_isPointerActivated = true;
-
-                PointerPoint point = e.GetCurrentPoint(GameView);
-                _pointerPosition = point.Position;
-
                 double left = _player.GetLeft();
                 double top = _player.GetTop();
 
                 double playerMiddleX = left + _player.Width / 2;
                 double playerMiddleY = top + _player.Height / 2;
 
-                // move right
-                if (_player.MovementDirection != MovementDirection.Right && _pointerPosition.X > playerMiddleX + _playerSpeed && left + _player.Width < GameView.Width)
-                {                  
+                if (_pointerPosition.X > playerMiddleX && _player.MovementDirection != MovementDirection.Right)
+                {
                     UpdateMovementDirection(MovementDirection.Right);
                     return;
                 }
-
-                // move up
-                if (_player.MovementDirection != MovementDirection.Up && _pointerPosition.Y < playerMiddleY - _playerSpeed)
-                {                   
-                    UpdateMovementDirection(MovementDirection.Up);
-                    return;
-                }
-
-                // move left
-                if (_player.MovementDirection != MovementDirection.Left && _pointerPosition.X < playerMiddleX - _playerSpeed && left > 0)
-                {                   
+                else if (_pointerPosition.X < playerMiddleX && _player.MovementDirection != MovementDirection.Left)
+                {
                     UpdateMovementDirection(MovementDirection.Left);
                     return;
                 }
 
-                // move down
-                if (_player.MovementDirection != MovementDirection.Down && _pointerPosition.Y > playerMiddleY + _playerSpeed)
-                {                  
+
+                if (_pointerPosition.Y < playerMiddleY && _player.MovementDirection != MovementDirection.Up)
+                    UpdateMovementDirection(MovementDirection.Up);
+                else if (_pointerPosition.Y > playerMiddleY && _player.MovementDirection != MovementDirection.Down)
+                {
                     UpdateMovementDirection(MovementDirection.Down);
                     return;
                 }
+
+                //// move right
+                //if (_player.MovementDirection != MovementDirection.Right && _pointerPosition.X > playerMiddleX + _playerSpeed && left + _player.Width < GameView.Width)
+                //{                  
+                //    UpdateMovementDirection(MovementDirection.Right);
+                //    return;
+                //}
+
+                //// move up
+                //if (_player.MovementDirection != MovementDirection.Up && _pointerPosition.Y < playerMiddleY - _playerSpeed)
+                //{                   
+                //    UpdateMovementDirection(MovementDirection.Up);
+                //    return;
+                //}
+
+                //// move left
+                //if (_player.MovementDirection != MovementDirection.Left && _pointerPosition.X < playerMiddleX - _playerSpeed && left > 0)
+                //{                   
+                //    UpdateMovementDirection(MovementDirection.Left);
+                //    return;
+                //}
+
+                //// move down
+                //if (_player.MovementDirection != MovementDirection.Down && _pointerPosition.Y > playerMiddleY + _playerSpeed)
+                //{                  
+                //    UpdateMovementDirection(MovementDirection.Down);
+                //    return;
+                //}
             }
+
         }
 
         private void InputView_PointerMoved(object sender, PointerRoutedEventArgs e)
@@ -382,7 +401,6 @@ namespace HungryWorm
 
             _playerTrailSpawnCounter = _playerTrailSpawnCounterDefault;
 
-            UpdateMovementDirection(MovementDirection.Right);
             RemoveGameObjects();
             StartGameSounds();
             RunGame();
