@@ -16,27 +16,9 @@ namespace HungryWorm
         {
             Tag = ElementType.COLLECTIBLE;
 
-            //MovementDirection = (MovementDirection)new Random().Next(1, Enum.GetNames<MovementDirection>().Length);
-
             Height = size;
             Width = size;
         } 
-
-        #endregion
-
-        #region Methods
-
-        //public override bool Equals(object obj)
-        //{
-        //    if (obj is Collectible apple)
-        //        return X == apple.X && Y == apple.Y;
-        //    else
-        //        return false;
-        //}
-
-        //public override int GetHashCode() => base.GetHashCode();
-
-        //public override string ToString() => base.ToString(); 
 
         #endregion
     }

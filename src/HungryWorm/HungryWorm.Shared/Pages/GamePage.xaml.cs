@@ -196,17 +196,17 @@ namespace HungryWorm
 
         private void InputView_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            if (_isPointerActivated)
-            {
-                PointerPoint point = e.GetCurrentPoint(GameView);
-                _pointerPosition = point.Position;
-            }
+            //if (_isPointerActivated)
+            //{
+            //    PointerPoint point = e.GetCurrentPoint(GameView);
+            //    _pointerPosition = point.Position;            
+            //}
         }
 
         private void InputView_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            //_isPointerActivated = false;
-            //_pointerPosition = null;
+            _isPointerActivated = false;
+            _pointerPosition = null;
         }
 
         private void OnKeyDown(object sender, KeyRoutedEventArgs e)
@@ -289,7 +289,7 @@ namespace HungryWorm
         private void PopulateUnderView()
         {
             // add some dirt underneath
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 15; i++)
             {
                 SpawnDirt();
             }
@@ -308,11 +308,11 @@ namespace HungryWorm
 
             GameView.Children.Add(_player);
 
-            // add 5 collectibles
-            for (int i = 0; i < 5; i++)
-            {
-                SpawnCollectible(); // on game init
-            }
+            //// add 5 collectibles
+            //for (int i = 0; i < 3; i++)
+            //{
+            //    SpawnCollectible(); // on game init
+            //}
         }
 
         private void PopulateOverView()
@@ -356,8 +356,8 @@ namespace HungryWorm
             _lives = _maxLives;
             //SetLives();
 
-            _playerTrailLimit = 30;
-            _foodSpawnLimit = 10;
+            _playerTrailLimit = 2;
+            _foodSpawnLimit = 3;
             _foodCount = 0;
 
             _gameSpeed = _defaultGameSpeed;
@@ -384,10 +384,10 @@ namespace HungryWorm
 
             _playerTrailSpawnCounter = _defaultPlayerTrailSpawnCounter;
 
+            UpdateMovementDirection(MovementDirection.Right);
             RemoveGameObjects();
             StartGameSounds();
-            RunGame();
-            UpdateMovementDirection(MovementDirection.Right);
+            RunGame();            
         }
 
         private async void RunGame()
@@ -404,6 +404,7 @@ namespace HungryWorm
         {
             _player.MovementDirection = MovementDirection.None;
             _isPointerActivated = false;
+            _pointerPosition = null;
         }
 
         private void GameViewLoop()
@@ -421,6 +422,17 @@ namespace HungryWorm
 
         private void SpawnGameObjects()
         {
+            //if (_foodCount < _foodSpawnLimit)
+            //{
+            //    _foodSpawnCounter--;
+
+            //    if (_foodSpawnCounter <= 0)
+            //    {
+            //        SpawnCollectible();
+            //        _foodSpawnCounter = _random.Next(30, 80);
+            //    }
+            //}
+
             if (_foodCount < _foodSpawnLimit)
             {
                 _foodSpawnCounter--;
@@ -428,7 +440,7 @@ namespace HungryWorm
                 if (_foodSpawnCounter <= 0)
                 {
                     SpawnCollectible();
-                    _foodSpawnCounter = _random.Next(30, 80);
+                    _foodSpawnCounter = 10; // regular spawn
                 }
             }
         }
@@ -690,13 +702,53 @@ namespace HungryWorm
 
         private void SpawnCollectible()
         {
-            Collectible collectible = new(Constants.COLLECTIBLE_SIZE * _scale);
+            if (_player.MovementDirection != MovementDirection.None)
+            {
+                Collectible collectible = new(Constants.COLLECTIBLE_SIZE * _scale);
 
-            collectible.SetContent(_collectibleTemplates[_random.Next(0, _collectibleTemplates.Length)]);
-            collectible.SetPosition(_random.Next(0, (int)_windowWidth), _random.Next(0, (int)_windowHeight));
+                collectible.SetContent(_collectibleTemplates[_random.Next(0, _collectibleTemplates.Length)]);
 
-            GameView.Children.Add(collectible);
-            _foodCount++;
+                //switch (_player.MovementDirection)
+                //{
+                //    case MovementDirection.Right:
+                //        {
+                //            collectible.SetPosition(
+                //                left: _random.Next((int)_windowWidth, (int)_windowWidth * 2),
+                //                top: _random.Next(0, (int)_windowHeight));
+                //        }
+                //        break;
+                //    case MovementDirection.Left:
+                //        {
+                //            collectible.SetPosition(
+                //               left: _random.Next(0, (int)_windowWidth) * -1,
+                //               top: _random.Next(0, (int)_windowHeight));
+                //        }
+                //        break;
+                //    case MovementDirection.Up:
+                //        {
+                //            collectible.SetPosition(
+                //             left: _random.Next(0, (int)_windowWidth),
+                //             top: _random.Next(0, (int)_windowHeight) * -1);
+                //        }
+                //        break;
+                //    case MovementDirection.Down:
+                //        {
+                //            collectible.SetPosition(
+                //           left: _random.Next(0, (int)_windowWidth),
+                //           top: _random.Next((int)_windowHeight, (int)_windowHeight * 2));
+                //        }
+                //        break;
+                //    default:
+                //        break;
+                //}
+
+                collectible.SetPosition(
+                    left: _random.Next(0, (int)_windowWidth),
+                    top: _random.Next(0, (int)_windowHeight));
+
+                GameView.Children.Add(collectible);
+                _foodCount++;
+            }
         }
 
         private void UpdateCollectible(GameObject collectible)
@@ -720,7 +772,8 @@ namespace HungryWorm
             }
 
             // if object goes out of bounds then make it reenter game view
-            RecycleGameObject(collectible);
+            //RecycleGameObject(collectible);
+
             if (_playerHitBox.IntersectsWith(collectible.GetHitBox(_scale)))
             {
                 GameView.AddDestroyableGameObject(collectible);
@@ -739,6 +792,7 @@ namespace HungryWorm
             _foodCollected++;
 
             SetYummyFace();
+            //SpawnCollectible();
         }
 
         #endregion
@@ -830,7 +884,8 @@ namespace HungryWorm
             //}
 
             //TODO: decide if length effect to keep or not
-            //_maxLength += 1;
+            if (_playerTrailLimit < 40)
+                _playerTrailLimit += 1;
             _score += score;
         }
 
