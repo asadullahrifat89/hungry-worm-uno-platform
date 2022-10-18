@@ -19,10 +19,9 @@ namespace SnakeGame
             Tag = ElementType.PLAYER_TRAIL;
 
             Background = new SolidColorBrush(Colors.Goldenrod);
-            CornerRadius = new Microsoft.UI.Xaml.CornerRadius(50);
-            
-            //BorderThickness = new Microsoft.UI.Xaml.Thickness(5);
-            //BorderBrush = new SolidColorBrush(Colors.Black);
+            CornerRadius = new Microsoft.UI.Xaml.CornerRadius(5);
+
+            BorderBrush = new SolidColorBrush(Colors.Chocolate);
 
             //SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key == ElementType.PLAYER_TRAIL).Value);
 
@@ -58,6 +57,29 @@ namespace SnakeGame
         //        }
         //    }
         //}
+
+        #endregion
+
+        #region Methods
+
+        internal void UpdateMovementDirection(MovementDirection up)
+        {
+            switch (up)
+            {
+                case MovementDirection.Up:
+                case MovementDirection.Down:
+                    {
+                        BorderThickness = new Microsoft.UI.Xaml.Thickness(5, 0, 5, 0);
+                    }
+                    break;
+                case MovementDirection.Left:
+                case MovementDirection.Right:
+                    {
+                        BorderThickness = new Microsoft.UI.Xaml.Thickness(0, 5, 0, 5);
+                    }
+                    break;
+            }
+        }
 
         #endregion
     }

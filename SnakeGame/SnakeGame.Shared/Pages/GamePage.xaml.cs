@@ -618,9 +618,18 @@ namespace SnakeGame
             if (_player.GetTop() < 0)
                 _player.SetTop(_windowHeight);
 
+            SpawnPlayerTrail(left, top);
+
+            _player.SetZ(1);
+            _playerHitBox = _player.GetHitBox(_scale);
+        }
+
+        private void SpawnPlayerTrail(double left, double top)
+        {
             PlayerTrail playerTrail = new(Constants.PLAYER_TRAIL_SIZE * _scale);
             playerTrail.SetPosition(left, top);
             playerTrail.SetZ(0);
+            playerTrail.UpdateMovementDirection(_player.MovementDirection);
 
             GameView.Children.Add(playerTrail);
             _length++;
@@ -630,10 +639,6 @@ namespace SnakeGame
                 GameView.Children.Remove(GameView.Children.OfType<PlayerTrail>().First());
                 _length--;
             }
-
-            _player.SetZ(1);
-
-            _playerHitBox = _player.GetHitBox(_scale);
         }
 
         public bool CollisionWithSelf()
@@ -653,11 +658,12 @@ namespace SnakeGame
             return false;
         }
 
-        internal void UpdateMovementDirection(MovementDirection movementDirection)
+        public void UpdateMovementDirection(MovementDirection movementDirection)
         {
             if (_player != null)
                 _player.UpdateMovementDirection(movementDirection);
         }
+
         #endregion
 
         #region Collectible
