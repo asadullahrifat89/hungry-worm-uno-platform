@@ -74,7 +74,7 @@ namespace SnakeGame
         private int _maxLength = 10;
 
         private Uri[] _playerTemplates;
-
+        private int _collectiblesFaceCounter;
 
         #endregion
 
@@ -495,8 +495,14 @@ namespace SnakeGame
                     case ElementType.PLAYER:
                         {
                             if (_player.MovementDirection != MovementDirection.None)
-                            {
                                 UpdatePlayer();
+
+                            if (_collectiblesFaceCounter > 0)
+                            {
+                                _collectiblesFaceCounter--;
+
+                                if (_collectiblesFaceCounter <= 0)
+                                    _player.SetContent(_playerTemplates.First());
                             }
                         }
                         break;
@@ -750,6 +756,7 @@ namespace SnakeGame
             SpawnCollectible();
 
             _collectiblesCollected++;
+            _collectiblesFaceCounter = 50;
 
             _player.SetContent(_playerTemplates[_random.Next(0, _playerTemplates.Length)]);
         }

@@ -10,6 +10,14 @@ namespace SnakeGame
 {
     public class Player : GameObject
     {
+        #region Fields
+
+        private int _collectibleFaceCounter;
+
+        #endregion
+
+        #region Ctor
+
         public Player(double size)
         {
             Tag = ElementType.PLAYER;
@@ -25,9 +33,17 @@ namespace SnakeGame
             SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.PLAYER).Value);
         }
 
+        #endregion
+
+        #region Properties
+
         public MovementDirection MovementDirection { get; set; }
 
-        internal void UpdateMovementDirection(MovementDirection movementDirection)
+        #endregion
+
+        #region Methods
+
+        public void UpdateMovementDirection(MovementDirection movementDirection)
         {
             switch (movementDirection)
             {
@@ -69,5 +85,7 @@ namespace SnakeGame
                     break;
             }
         }
+
+        #endregion
     }
 }
