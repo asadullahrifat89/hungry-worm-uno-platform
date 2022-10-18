@@ -561,11 +561,11 @@ namespace HungryWorm
             if (gameObject.GetLeft() > _windowWidth)
                 gameObject.SetLeft(0);
 
-            if (gameObject.GetLeft() < 0)
+            if (gameObject.GetLeft() + gameObject.Width < 0)
                 gameObject.SetLeft(_windowWidth);
 
             if (gameObject.GetTop() > _windowHeight)
-                gameObject.SetTop(0);
+                gameObject.SetTop(0 - gameObject.Height);
 
             if (gameObject.GetTop() + gameObject.Height < 0)
                 gameObject.SetTop(_windowHeight);
