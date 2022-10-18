@@ -387,7 +387,7 @@ namespace HungryWorm
             UpdateMovementDirection(MovementDirection.Right);
             RemoveGameObjects();
             StartGameSounds();
-            RunGame();            
+            RunGame();
         }
 
         private async void RunGame()
@@ -567,7 +567,7 @@ namespace HungryWorm
             if (gameObject.GetTop() > _windowHeight)
                 gameObject.SetTop(0);
 
-            if (gameObject.GetTop() < 0)
+            if (gameObject.GetTop() + gameObject.Height < 0)
                 gameObject.SetTop(_windowHeight);
         }
 
@@ -702,53 +702,50 @@ namespace HungryWorm
 
         private void SpawnCollectible()
         {
-            if (_player.MovementDirection != MovementDirection.None)
-            {
-                Collectible collectible = new(Constants.COLLECTIBLE_SIZE * _scale);
+            Collectible collectible = new(Constants.COLLECTIBLE_SIZE * _scale);
 
-                collectible.SetContent(_collectibleTemplates[_random.Next(0, _collectibleTemplates.Length)]);
+            collectible.SetContent(_collectibleTemplates[_random.Next(0, _collectibleTemplates.Length)]);
 
-                //switch (_player.MovementDirection)
-                //{
-                //    case MovementDirection.Right:
-                //        {
-                //            collectible.SetPosition(
-                //                left: _random.Next((int)_windowWidth, (int)_windowWidth * 2),
-                //                top: _random.Next(0, (int)_windowHeight));
-                //        }
-                //        break;
-                //    case MovementDirection.Left:
-                //        {
-                //            collectible.SetPosition(
-                //               left: _random.Next(0, (int)_windowWidth) * -1,
-                //               top: _random.Next(0, (int)_windowHeight));
-                //        }
-                //        break;
-                //    case MovementDirection.Up:
-                //        {
-                //            collectible.SetPosition(
-                //             left: _random.Next(0, (int)_windowWidth),
-                //             top: _random.Next(0, (int)_windowHeight) * -1);
-                //        }
-                //        break;
-                //    case MovementDirection.Down:
-                //        {
-                //            collectible.SetPosition(
-                //           left: _random.Next(0, (int)_windowWidth),
-                //           top: _random.Next((int)_windowHeight, (int)_windowHeight * 2));
-                //        }
-                //        break;
-                //    default:
-                //        break;
-                //}
+            //switch (_player.MovementDirection)
+            //{
+            //    case MovementDirection.Right:
+            //        {
+            //            collectible.SetPosition(
+            //                left: _random.Next((int)_windowWidth, (int)_windowWidth * 2),
+            //                top: _random.Next(0, (int)_windowHeight));
+            //        }
+            //        break;
+            //    case MovementDirection.Left:
+            //        {
+            //            collectible.SetPosition(
+            //               left: _random.Next(0, (int)_windowWidth) * -1,
+            //               top: _random.Next(0, (int)_windowHeight));
+            //        }
+            //        break;
+            //    case MovementDirection.Up:
+            //        {
+            //            collectible.SetPosition(
+            //             left: _random.Next(0, (int)_windowWidth),
+            //             top: _random.Next(0, (int)_windowHeight) * -1);
+            //        }
+            //        break;
+            //    case MovementDirection.Down:
+            //        {
+            //            collectible.SetPosition(
+            //           left: _random.Next(0, (int)_windowWidth),
+            //           top: _random.Next((int)_windowHeight, (int)_windowHeight * 2));
+            //        }
+            //        break;
+            //    default:
+            //        break;
+            //}
 
-                collectible.SetPosition(
-                    left: _random.Next(0, (int)_windowWidth),
-                    top: _random.Next(0, (int)_windowHeight));
+            collectible.SetPosition(
+                left: _random.Next(0, (int)_windowWidth),
+                top: _random.Next(0, (int)_windowHeight));
 
-                GameView.Children.Add(collectible);
-                _foodCount++;
-            }
+            GameView.Children.Add(collectible);
+            _foodCount++;
         }
 
         private void UpdateCollectible(GameObject collectible)
@@ -772,7 +769,7 @@ namespace HungryWorm
             }
 
             // if object goes out of bounds then make it reenter game view
-            //RecycleGameObject(collectible);
+            RecycleGameObject(collectible);
 
             if (_playerHitBox.IntersectsWith(collectible.GetHitBox(_scale)))
             {
