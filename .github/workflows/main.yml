@@ -1,0 +1,52 @@
+name: master
+on: 
+  push:
+    branches: [ master ]
+jobs:
+  build:  
+    runs-on: ubuntu-latest
+    container: 'unoplatform/wasm-build:3.0'
+    name: Build    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 6.0.400
+        include-prerelease: true
+      
+    - name: Build
+      env:
+        config: 'Release'
+        framework: 'net6.0'
+      run: |
+        mkdir -p $GITHUB_WORKSPACE/artifacts
+        mkdir -p $GITHUB_WORKSPACE/artifacts/wasm
+        cd src/SnakeGame/SnakeGame.Wasm
+        dotnet publish -c Release /bl:/artifacts/mbuild.binlog -o $GITHUB_WORKSPACE/artifacts/wasm
+    
+    - name: Publish Artifacts
+      uses: actions/upload-artifact@v2      
+      with:
+        name: pages
+        path: artifacts/wasm
+        
+  deploy:
+    needs: build 
+    runs-on: ubuntu-latest
+    name: Deploy    
+    steps:
+    - name: Download artifacts
+      uses: actions/download-artifact@v2
+      with:
+        name: pages
+        path: artifacts/wasm
+    - name: Deploy to GitHub Pages
+      uses: crazy-max/ghaction-github-pages@v2
+      with:
+        target_branch: gh-pages
+        build_dir: artifacts/wasm
+        jekyll: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
