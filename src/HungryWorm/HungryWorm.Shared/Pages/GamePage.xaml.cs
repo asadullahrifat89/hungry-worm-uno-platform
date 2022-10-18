@@ -559,7 +559,7 @@ namespace HungryWorm
         private void RecycleGameObject(GameObject gameObject)
         {
             if (gameObject.GetLeft() > _windowWidth)
-                gameObject.SetLeft(0);
+                gameObject.SetLeft(0 - gameObject.Width);
 
             if (gameObject.GetLeft() + gameObject.Width < 0)
                 gameObject.SetLeft(_windowWidth);
