@@ -35,32 +35,36 @@ namespace SnakeGame
                     if (MovementDirection != MovementDirection.Down)
                     {
                         MovementDirection = MovementDirection.Up;
-                        SetDirection(movementDirection);
+                        //SetDirection(movementDirection);
                         BorderThickness = new Thickness(5, 5, 5, 0);
+                        //CornerRadius = new CornerRadius(30, 30, 0, 0);
                     }
                     break;
                 case MovementDirection.Left:
                     if (MovementDirection != MovementDirection.Right)
                     {
                         MovementDirection = MovementDirection.Left;
-                        SetDirection(movementDirection);
-                        BorderThickness = new Thickness(0, 5, 5, 5);
+                        //SetDirection(movementDirection);
+                        BorderThickness = new Thickness(5, 5, 0, 5);
+                        //CornerRadius = new CornerRadius(30, 0, 0, 30);
                     }
                     break;
                 case MovementDirection.Down:
                     if (MovementDirection != MovementDirection.Up)
                     {
                         MovementDirection = MovementDirection.Down;
-                        SetDirection(movementDirection);
+                        //SetDirection(movementDirection);
                         BorderThickness = new Thickness(5, 0, 5, 5);
+                        //CornerRadius = new CornerRadius(0, 0, 30, 30);
                     }
                     break;
                 case MovementDirection.Right:
                     if (MovementDirection != MovementDirection.Left)
                     {
                         MovementDirection = MovementDirection.Right;
-                        SetDirection(movementDirection);
+                        //SetDirection(movementDirection);
                         BorderThickness = new Thickness(0, 5, 5, 5);
+                        //CornerRadius = new CornerRadius(0, 30, 30, 0);
                     }
                     break;
             }
