@@ -43,7 +43,7 @@ namespace HungryWorm
         private int _healthSpawnCounter = 500;
         private int _damageRecoveryOpacityFrameSkip;
 
-        private int _foodSpawnCounter = 200;
+        private int _foodSpawnCounter;
 
         private double _score;
         private int _foodCollected;
@@ -60,8 +60,7 @@ namespace HungryWorm
         //private PowerUpType _powerUpType;
 
         private Player _player;
-        private int _length;
-        private int _maxLength;
+
         private int _foodSpawnLimit;
         private int _foodCount;
 
@@ -75,6 +74,12 @@ namespace HungryWorm
         private double _healthGainPoint;
         private readonly double _defaultHealthDepletePoint = 0.5;
         private readonly double _defaultHealthGainPoint = 10;
+
+        private int _playerTrailCount;
+        private int _playerTrailLimit;
+
+        private int _playerTrailSpawnCounter;
+        private int _defaultPlayerTrailSpawnCounter = 1;
 
         #endregion
 
@@ -283,32 +288,11 @@ namespace HungryWorm
 
         private void PopulateUnderView()
         {
-            // add some cars underneath
-            for (int i = 0; i < 35; i++)
+            // add some dirt underneath
+            for (int i = 0; i < 20; i++)
             {
                 SpawnDirt();
             }
-
-            //// add some clouds underneath
-            //for (int i = 0; i < 15; i++)
-            //{
-            //    //var scaleFactor = _random.Next(1, 4);
-            //    //var scaleReverseFactor = _random.Next(-1, 2);
-
-            //    //var cloud = new Cloud()
-            //    //{
-            //    //    Width = Constants.CLOUD_WIDTH * _scale,
-            //    //    Height = Constants.CLOUD_HEIGHT * _scale,
-            //    //    RenderTransform = new CompositeTransform()
-            //    //    {
-            //    //        ScaleX = scaleFactor * scaleReverseFactor,
-            //    //        ScaleY = scaleFactor,
-            //    //    }
-            //    //};
-
-            //    //RandomizeCloudPosition(cloud);
-            //    //UnderView.Children.Add(cloud);
-            //}
         }
 
         private void PopulateGameView()
@@ -372,7 +356,7 @@ namespace HungryWorm
             _lives = _maxLives;
             //SetLives();
 
-            _maxLength = 40;
+            _playerTrailLimit = 30;
             _foodSpawnLimit = 10;
             _foodCount = 0;
 
@@ -397,6 +381,8 @@ namespace HungryWorm
             _health = 100;
             _healthGainPoint = _defaultHealthGainPoint;
             _healthDepleteCounter = 10;
+
+            _playerTrailSpawnCounter = _defaultPlayerTrailSpawnCounter;
 
             RemoveGameObjects();
             StartGameSounds();
@@ -439,7 +425,7 @@ namespace HungryWorm
             {
                 _foodSpawnCounter--;
 
-                if (_foodSpawnCounter < 1)
+                if (_foodSpawnCounter <= 0)
                 {
                     SpawnCollectible();
                     _foodSpawnCounter = _random.Next(30, 80);
@@ -635,16 +621,28 @@ namespace HungryWorm
 
         private void SpawnPlayerTrail()
         {
-            double left = _player.GetLeft();
-            double top = _player.GetTop();
+            _playerTrailSpawnCounter--;
 
-            PlayerTrail playerTrail = new(Constants.PLAYER_TRAIL_SIZE * _scale);
-            playerTrail.SetPosition(left, top);
-            playerTrail.SetZ(0);
-            playerTrail.UpdateMovementDirection(_player.MovementDirection);
+            if (_playerTrailSpawnCounter <= 0)
+            {
+                _playerTrailSpawnCounter = _defaultPlayerTrailSpawnCounter;
 
-            GameView.Children.Add(playerTrail);
-            _length++;
+                //double offset = 20 * _scale;
+
+                //double left = _player.GetLeft() + (_player.MovementDirection == MovementDirection.Right ? offset * -1 : (_player.MovementDirection == MovementDirection.Left ? offset : 0));
+                //double top = _player.GetTop() + (_player.MovementDirection == MovementDirection.Down ? offset * -1 : (_player.MovementDirection == MovementDirection.Up ? offset : 0));
+
+                double left = _player.GetLeft();
+                double top = _player.GetTop();
+
+                PlayerTrail playerTrail = new(Constants.PLAYER_TRAIL_SIZE * _scale);
+                playerTrail.SetPosition(left, top);
+                playerTrail.SetZ(0);
+                playerTrail.UpdateMovementDirection(_player.MovementDirection);
+
+                GameView.Children.Add(playerTrail);
+                _playerTrailCount++;
+            }
         }
 
         private void UpdatePlayerTrail(GameObject playerTrail)
@@ -667,27 +665,23 @@ namespace HungryWorm
                     break;
             }
 
-            //var playerTrails = GameView.GetGameObjects<PlayerTrail>().ToArray();
+            if (_playerTrailCount > _playerTrailLimit)
+            {
+                var playerTrails = GameView.GetGameObjects<PlayerTrail>().ToArray();
+
+                GameView.AddDestroyableGameObject(playerTrails[0]);
+                _playerTrailCount--;
+
+                // give tail a proper border
+                var tail = playerTrails[1];
+                tail.BorderThickness = new Thickness(5);
+            }
 
             //if (_length > _maxLength)
             //{
-            //    GameView.AddDestroyableGameObject(playerTrails[0]);
+            //    GameView.AddDestroyableGameObject(GameView.GetGameObjects<PlayerTrail>().First());
             //    _length--;
-            //}
-
-            //// give tail a proper border
-            //var tail = playerTrails[1];
-            //tail.BorderThickness = new Thickness(5);
-
-            if (_length > _maxLength)
-            {
-                GameView.AddDestroyableGameObject(GameView.GetGameObjects<PlayerTrail>().First());
-                _length--;
-            }
-
-            // give tail a proper border
-            //var tail = GameView.Children.OfType<PlayerTrail>().First();
-            //tail.BorderThickness = new Thickness(5);
+            //}         
         }
 
         #endregion
@@ -1101,772 +1095,4 @@ namespace HungryWorm
 
         #endregion
     }
-
-    #region Experimental
-
-    #region Contextual
-
-    //        #region Fields
-
-    //        private PeriodicTimer _gameViewTimer;
-    //        private readonly TimeSpan _frameTime = TimeSpan.FromMilliseconds(Constants.DEFAULT_FRAME_TIME);
-
-    //        private readonly Random _random = new();
-
-    //        private bool _isGameOver;
-    //        private bool _isPointerActivated;
-
-    //        private double _windowHeight, _windowWidth;
-    //        private double _scale;
-    //        private Point _pointerPosition;
-
-    //        int apples, score, level;
-
-    //        #endregion
-
-    //        #region Properties
-
-    //        public double ElementSize { get; set; }
-
-    //        public Collectible Collectible { get; set; }
-
-    //        public Snake Snake { get; set; }
-
-    //        #endregion
-
-    //        #region Ctor
-
-    //        public GamePage()
-    //        {
-    //            InitializeComponent();
-
-    //            _isGameOver = true;
-    //            ShowInGameTextMessage("TAP_ON_SCREEN_TO_BEGIN");
-
-    //            SoundHelper.LoadGameSounds();
-
-    //            _windowHeight = Window.Current.Bounds.Height;
-    //            _windowWidth = Window.Current.Bounds.Width;
-
-    //            Loaded += GamePage_Loaded;
-    //            Unloaded += GamePage_Unloaded;
-    //        }
-
-    //        #endregion
-
-    //        #region Events
-
-    //        #region Page
-
-    //        private void GamePage_Loaded(object sender, RoutedEventArgs e)
-    //        {
-    //            SizeChanged += GamePage_SizeChanged;
-    //        }
-
-    //        private void GamePage_Unloaded(object sender, RoutedEventArgs e)
-    //        {
-    //            SizeChanged -= GamePage_SizeChanged;
-    //            StopGame();
-    //        }
-
-    //        private void GamePage_SizeChanged(object sender, SizeChangedEventArgs args)
-    //        {
-    //            _windowWidth = args.NewSize.Width;
-    //            _windowHeight = args.NewSize.Height;
-
-    //            SetViewSize();
-
-    //            Console.WriteLine($"WINDOWS SIZE: {_windowWidth}x{_windowHeight}");
-    //        }
-
-    //        #endregion
-
-    //        #region Input
-
-    //        private void InputView_PointerPressed(object sender, PointerRoutedEventArgs e)
-    //        {
-    //            if (_isGameOver)
-    //            {
-    //                InputView.Focus(FocusState.Programmatic);
-    //                StartGame();
-    //            }
-    //            else
-    //            {
-    //                _isPointerActivated = true;
-    //            }
-    //        }
-
-    //        private void InputView_PointerMoved(object sender, PointerRoutedEventArgs e)
-    //        {
-    //            if (_isPointerActivated)
-    //            {
-    //                PointerPoint point = e.GetCurrentPoint(GameView);
-    //                _pointerPosition = point.Position;
-    //            }
-    //        }
-
-    //        private void InputView_PointerReleased(object sender, PointerRoutedEventArgs e)
-    //        {
-    //            _isPointerActivated = false;
-    //            _pointerPosition = null;
-    //        }
-
-    //        private void OnKeyUP(object sender, KeyRoutedEventArgs e)
-    //        {
-    //            switch (e.Key)
-    //            {
-    //                case VirtualKey.Left:
-    //                    UpdateMovementDirection(MovementDirection.Left);
-    //                    break;
-    //                case VirtualKey.Up:
-    //                    UpdateMovementDirection(MovementDirection.Up);
-    //                    break;
-    //                case VirtualKey.Right:
-    //                    UpdateMovementDirection(MovementDirection.Right);
-    //                    break;
-    //                case VirtualKey.Down:
-    //                    UpdateMovementDirection(MovementDirection.Down);
-    //                    break;
-    //                default:
-    //                    break;
-    //            }
-    //        }
-
-    //        private void OnKeyDown(object sender, KeyRoutedEventArgs e)
-    //        {
-
-    //        }
-
-    //        #endregion
-
-    //        #region Button
-
-    //        private void QuitGameButton_Checked(object sender, RoutedEventArgs e)
-    //        {
-    //            PauseGame();
-    //        }
-
-    //        private void QuitGameButton_Unchecked(object sender, RoutedEventArgs e)
-    //        {
-    //            ResumeGame();
-    //        }
-
-    //        private void ConfirmQuitGameButton_Click(object sender, RoutedEventArgs e)
-    //        {
-    //            //NavigateToPage(typeof(StartPage));
-    //        }
-
-    //        #endregion
-
-    //        #endregion
-
-    //        #region Methods
-
-    //        #region Animation
-
-    //        #region Game
-
-    //        private void StartGame()
-    //        {
-    //#if DEBUG
-    //            Console.WriteLine("GAME STARTED");
-    //#endif
-    //            HideInGameTextMessage();
-    //            //SoundHelper.PlaySound(SoundType.MENU_SELECT);
-
-    //            ResetControls();
-
-    //            _isGameOver = false;
-
-    //            score = 0;
-    //            ScoreText.Text = "0";
-
-    //            InitializeSnake();
-    //            StartGameSounds();
-    //            RunGame();
-    //        }
-
-    //        private void InitializeSnake()
-    //        {
-    //            Snake = new Snake(ElementSize);
-    //            Snake.PositionFirstElement(_random.Next(100, (int)_windowWidth), _random.Next(100, (int)_windowHeight), MovementDirection.Right);
-    //        }
-
-    //        private void RemoveGameObjects()
-    //        {
-    //            GameView.RemoveDestroyableGameObjects();
-    //        }
-
-    //        private async void RunGame()
-    //        {
-    //            _gameViewTimer = new PeriodicTimer(_frameTime);
-
-    //            while (await _gameViewTimer.WaitForNextTickAsync())
-    //            {
-    //                GameViewLoop();
-    //            }
-    //        }
-
-    //        private void GameViewLoop()
-    //        {
-    //            Snake.MoveSnake();
-    //            CheckCollision();
-    //            CreateApple();
-    //            Draw();
-    //        }
-
-    //        private void Draw()
-    //        {
-    //            DrawSnake();
-    //            DrawApple();
-    //        }
-
-    //        private void DrawSnake()
-    //        {
-    //            foreach (var PlayerTrail in Snake.Elements)
-    //            {
-    //                if (!GameView.Children.Contains(PlayerTrail))
-    //                    GameView.Children.Add(PlayerTrail);
-
-    //                Canvas.SetLeft(PlayerTrail, PlayerTrail.X);
-    //                Canvas.SetTop(PlayerTrail, PlayerTrail.Y);
-    //                Canvas.SetZIndex(PlayerTrail, 1);
-
-    //                if (PlayerTrail.IsHead)
-    //                    Canvas.SetZIndex(PlayerTrail, Snake.Elements.Count + 1);
-    //            }
-    //        }
-
-    //        private void DrawApple()
-    //        {
-    //            if (!GameView.Children.Contains(Collectible))
-    //                GameView.Children.Add(Collectible);
-
-    //            Canvas.SetLeft(Collectible, Collectible.X);
-    //            Canvas.SetTop(Collectible, Collectible.Y);
-    //        }
-
-    //        private void CheckCollision()
-    //        {
-    //            if (CollisionWithApple())
-    //                ProcessCollisionWithApple();
-
-    //            if (Snake.CollisionWithSelf() || CollisionWithWorldBounds())
-    //                StopGame();
-    //        }
-
-    //        private void ProcessCollisionWithApple()
-    //        {
-    //            Console.WriteLine("APPLE REMOVED");
-
-    //            IncrementScore();
-    //            GameView.Children.Remove(Collectible);
-    //            Collectible = null;
-    //            Snake.Grow();
-    //            //IncreaseGameSpeed();
-    //        }
-
-    //        private void IncreaseGameSpeed()
-    //        {
-    //            //_gameSpeed++;
-    //        }
-
-    //        internal void IncrementScore()
-    //        {
-    //            apples += 1;
-    //            if (apples % 3 == 0)
-    //                level += 1;
-    //            score += 10;
-    //            UpdateScore();
-    //        }
-
-    //        internal void UpdateScore()
-    //        {
-    //            //ApplesLbl.Content = $"Apples: {apples}";
-    //            ScoreText.Text = $"{score}";
-    //            //LevelLbl.Content = $"Level: {level}";
-    //        }
-
-    //        private void CreateApple()
-    //        {
-    //            if (Collectible != null)
-    //                return;
-
-    //            Collectible = new Collectible(ElementSize)
-    //            {
-    //                X = _random.Next(100, (int)_windowWidth - 100),
-    //                Y = _random.Next(100, (int)_windowHeight - 100),
-    //            };
-    //        }
-
-    //        private bool CollisionWithApple()
-    //        {
-    //            if (Collectible == null || Snake == null || Snake.Head == null)
-    //                return false;
-
-    //            PlayerTrail source = Snake.Head;
-    //            var target = Collectible;
-
-    //            //return (head.X == Collectible.X && head.Y == Collectible.Y);
-
-    //            if (source.Width >= 0.0 && source.Width >= 0.0
-    //               && target.X <= source.X + source.Width && target.X + target.Width >= source.X
-    //               && target.Y <= source.Y + source.Height)
-    //            {
-    //                return target.Y + target.Height >= source.Y;
-    //            }
-
-    //            return false;
-    //        }
-
-    //        private bool CollisionWithWorldBounds()
-    //        {
-    //            if (Snake == null || Snake.Head == null)
-    //                return false;
-
-    //            var snakeHead = Snake.Head;
-
-    //            //return (snakeHead.X > _windowWidth - ElementSize ||
-    //            //    snakeHead.Y > _windowHeight - ElementSize ||
-    //            //    snakeHead.X < 0 || snakeHead.Y < 0);
-
-    //            if (snakeHead.X > _windowWidth)
-    //            {
-    //                snakeHead.X = 0;
-    //            }
-
-    //            if (snakeHead.X < 0)
-    //            {
-    //                snakeHead.X = _windowWidth;
-    //            }
-
-    //            if (snakeHead.Y > _windowHeight)
-    //            {
-    //                snakeHead.Y = 0;
-    //            }
-
-    //            if (snakeHead.Y < 0)
-    //            {
-    //                snakeHead.Y = _windowHeight;
-    //            }
-
-    //            return false;
-    //        }
-
-    //        private void PauseGame()
-    //        {
-    //            InputView.Focus(FocusState.Programmatic);
-    //            ShowInGameTextMessage("GAME_PAUSED");
-
-    //            _gameViewTimer?.Dispose();
-
-    //            ResetControls();
-
-    //            //SoundHelper.PlaySound(SoundType.MENU_SELECT);
-    //            PauseGameSounds();
-    //        }
-
-    //        private void ResumeGame()
-    //        {
-    //            InputView.Focus(FocusState.Programmatic);
-    //            HideInGameTextMessage();
-
-    //            //SoundHelper.PlaySound(SoundType.MENU_SELECT);
-    //            //SoundHelper.ResumeSound(SoundType.BACKGROUND);
-    //            //SoundHelper.ResumeSound(SoundType.CAR_ENGINE);
-
-    //            RunGame();
-    //        }
-
-    //        private void StopGame()
-    //        {
-    //            _gameViewTimer?.Dispose();
-    //            StopGameSounds();
-    //        }
-
-    //        private void ResetControls()
-    //        {
-    //            _isPointerActivated = false;
-    //        }
-
-    //        internal void UpdateMovementDirection(MovementDirection movementDirection)
-    //        {
-    //            if (Snake != null)
-    //                Snake.UpdateMovementDirection(movementDirection);
-    //        }
-
-    //        #endregion
-
-    //        #endregion
-
-    //        #region Sound
-
-    //        private async void StartGameSounds()
-    //        {
-    //            //SoundHelper.PlaySound(SoundType.CAR_START);
-
-    //            //await Task.Delay(TimeSpan.FromSeconds(1));
-
-    //            //SoundHelper.PlaySound(SoundType.CAR_ENGINE);
-
-    //            //SoundHelper.RandomizeBackgroundSound();
-    //            //SoundHelper.PlaySound(SoundType.BACKGROUND);
-    //        }
-
-    //        private void StopGameSounds()
-    //        {
-    //            //SoundHelper.StopSound(SoundType.BACKGROUND);
-    //            //SoundHelper.StopSound(SoundType.CAR_ENGINE);
-    //        }
-
-    //        private void PauseGameSounds()
-    //        {
-    //            //SoundHelper.PauseSound(SoundType.BACKGROUND);
-    //            //SoundHelper.PauseSound(SoundType.CAR_ENGINE);
-    //        }
-
-    //        #endregion
-
-    //        #region Page
-
-    //        private void SetViewSize()
-    //        {
-    //            _scale = ScalingHelper.GetGameObjectScale(_windowWidth);
-
-    //            GameView.Width = _windowWidth;
-    //            GameView.Height = _windowHeight;
-
-    //            ElementSize = Constants.PLAYER_SIZE * _scale;
-    //        }
-
-    //        private void NavigateToPage(Type pageType)
-    //        {
-    //            //SoundHelper.PlaySound(SoundType.MENU_SELECT);
-    //            App.NavigateToPage(pageType);
-    //        }
-
-    //        #endregion
-
-    //        #region In Game Message
-
-    //        private void ShowInGameTextMessage(string resourceKey)
-    //        {
-    //            InGameMessageText.Text = LocalizationHelper.GetLocalizedResource(resourceKey);
-    //            InGameMessagePanel.Visibility = Visibility.Visible;
-    //        }
-
-    //        private void HideInGameTextMessage()
-    //        {
-    //            InGameMessageText.Text = "";
-    //            InGameMessagePanel.Visibility = Visibility.Collapsed;
-    //        }
-
-    //        #endregion
-
-    //        #endregion
-
-    #endregion
-
-    #region Functional
-
-    //#region Fields
-
-    //private bool _isGameOver;
-    //private bool _isPointerActivated;
-
-    //// This list describes the Bonus Red pieces of Food on the Canvas
-    //private readonly List<Point> _applePoints = new List<Point>();
-
-    //// This list describes the body of the snake on the Canvas
-    //private readonly List<Point> _snakePoints = new List<Point>();
-
-    //private readonly Brush _snakeColor = new SolidColorBrush(Colors.Green);
-
-    //private readonly Point _startingPoint = new Point(100, 100);
-    //private Point _currentPosition = new Point();
-
-    //// Movement direction initialisation
-    //private int _direction = 0;
-
-    ///* Placeholder for the previous movement direction
-    // * The snake needs this to avoid its own body.  */
-    //private int _previousDirection = 0;
-
-    ///* Here user can change the size of the snake. 
-    // * Possible sizes are THIN, NORMAL and THICK */
-    //private readonly int _headSize = (int)SnakeSize.Thick;
-
-    //private int _length = 100;
-    //private int _score = 0;
-    //private readonly Random _rnd = new Random();
-
-    //PeriodicTimer _timer;
-    //private double _windowHeight, _windowWidth;
-    //private double _scale;
-
-    //private Point _pointerPosition;
-    //private double _gameSpeed = 4;
-
-    //#endregion
-
-    //#region Ctor
-
-    //public GamePage()
-    //{
-    //    InitializeComponent();
-
-    //    _isGameOver = true;
-
-    //    _windowHeight = Window.Current.Bounds.Height;
-    //    _windowWidth = Window.Current.Bounds.Width;
-
-    //    Loaded += GamePage_Loaded;
-    //    Unloaded += GamePage_Unloaded;
-    //}
-
-    //#endregion
-
-    //#region Events
-
-    //private void GamePage_Loaded(object sender, RoutedEventArgs e)
-    //{
-    //    SizeChanged += GamePage_SizeChanged;
-    //}
-
-    //private void GamePage_Unloaded(object sender, RoutedEventArgs e)
-    //{
-    //    SizeChanged -= GamePage_SizeChanged;
-    //    StopGame();
-    //}
-
-    //private void GamePage_SizeChanged(object sender, SizeChangedEventArgs args)
-    //{
-    //    _windowWidth = args.NewSize.Width;
-    //    _windowHeight = args.NewSize.Height;
-
-    //    SetViewSize();
-
-    //    Console.WriteLine($"WINDOWS SIZE: {_windowWidth}x{_windowHeight}");
-    //}
-
-    //private void OnKeyUP(object sender, KeyRoutedEventArgs e)
-    //{
-    //    Console.WriteLine("KEY DOWN");
-    //    switch (e.Key)
-    //    {
-    //        case VirtualKey.Down:
-    //            if (_previousDirection != (int)Movingdirection.Upwards)
-    //                _direction = (int)Movingdirection.Downwards;
-    //            break;
-    //        case VirtualKey.Up:
-    //            if (_previousDirection != (int)Movingdirection.Downwards)
-    //                _direction = (int)Movingdirection.Upwards;
-    //            break;
-    //        case VirtualKey.Left:
-    //            if (_previousDirection != (int)Movingdirection.Toright)
-    //                _direction = (int)Movingdirection.Toleft;
-    //            break;
-    //        case VirtualKey.Right:
-    //            if (_previousDirection != (int)Movingdirection.Toleft)
-    //                _direction = (int)Movingdirection.Toright;
-    //            break;
-
-    //    }
-
-    //    _previousDirection = _direction;
-    //}
-
-    //private void InputView_PointerPressed(object sender, PointerRoutedEventArgs e)
-    //{
-    //    if (_isGameOver)
-    //    {
-    //        InputView.Focus(FocusState.Programmatic);
-    //        StartGame();
-    //    }
-    //    else
-    //    {
-    //        _isPointerActivated = true;
-    //    }
-    //}
-
-    //private void InputView_PointerMoved(object sender, PointerRoutedEventArgs e)
-    //{
-    //    if (_isPointerActivated)
-    //    {
-    //        PointerPoint point = e.GetCurrentPoint(GameView);
-    //        _pointerPosition = point.Position;
-    //    }
-    //}
-
-    //private void InputView_PointerReleased(object sender, PointerRoutedEventArgs e)
-    //{
-    //    _isPointerActivated = false;
-    //    _pointerPosition = null;
-    //}
-
-    //#endregion
-
-    //#region Methods
-
-    //private void SetViewSize()
-    //{
-    //    _scale = ScalingHelper.GetGameObjectScale(_windowWidth);
-
-    //    GameView.Width = _windowWidth;
-    //    GameView.Height = _windowHeight;
-    //}
-
-    //private async void StartGame()
-    //{
-    //    Console.WriteLine("START GAME");
-    //    _isGameOver = false;
-
-    //    PaintSnake(_startingPoint);
-    //    _currentPosition = _startingPoint;
-
-    //    if (_applePoints.Count == 0)
-    //    {
-    //        // Instantiate Food Objects
-    //        for (var n = 0; n < 10; n++)
-    //        {
-    //            PaintApple(n);
-    //        }
-    //    }
-
-    //    _timer = new PeriodicTimer(TimeSpan.FromMilliseconds((double)GameSpeed.Moderate));
-
-    //    while (await _timer.WaitForNextTickAsync())
-    //    {
-    //        GameLoop();
-    //    }
-
-    //    //_timer.Tick += Timer_Tick;
-
-    //    ///* Here user can change the speed of the snake. 
-    //    // * Possible speeds are FAST, MODERATE, SLOW and DAMNSLOW */
-    //    //_timer.Interval = TimeSpan.FromMilliseconds((double)GameSpeed.Moderate);
-    //    //_timer.Start();
-    //}
-
-    //private void GameLoop(/*object sender, object e*/)
-    //{
-    //    // Expand the body of the snake to the direction of movement
-
-    //    switch (_direction)
-    //    {
-    //        case (int)Movingdirection.Downwards:
-    //            _currentPosition.Y += _gameSpeed;
-    //            PaintSnake(_currentPosition);
-    //            break;
-    //        case (int)Movingdirection.Upwards:
-    //            _currentPosition.Y -= _gameSpeed;
-    //            PaintSnake(_currentPosition);
-    //            break;
-    //        case (int)Movingdirection.Toleft:
-    //            _currentPosition.X -= _gameSpeed;
-    //            PaintSnake(_currentPosition);
-    //            break;
-    //        case (int)Movingdirection.Toright:
-    //            _currentPosition.X += _gameSpeed;
-    //            PaintSnake(_currentPosition);
-    //            break;
-    //    }
-
-    //    // Restrict to boundaries of the Canvas
-    //    if ((_currentPosition.X < 0) || (_currentPosition.X > _windowWidth) ||
-    //        (_currentPosition.Y < 0) || (_currentPosition.Y > _windowHeight))
-    //        StopGame();
-
-    //    // Hitting a bonus Point causes the lengthen-Snake Effect
-    //    int n = 0;
-    //    foreach (Point point in _applePoints)
-    //    {
-    //        if ((Math.Abs(point.X - _currentPosition.X) < _headSize) &&
-    //            (Math.Abs(point.Y - _currentPosition.Y) < _headSize))
-    //        {
-    //            _length += 10;
-    //            _score += 10;
-
-    //            ScoreText.Text = _score.ToString();
-
-    //            // In the case of food consumption, erase the food object
-    //            // from the list of bonuses as well as from the canvas
-    //            _applePoints.RemoveAt(n);
-    //            GameView.Children.RemoveAt(n);
-    //            PaintApple(n);
-    //            break;
-    //        }
-    //        n++;
-    //    }
-
-    //    // Restrict hits to body of Snake
-    //    for (int q = 0; q < (_snakePoints.Count - _headSize * 2); q++)
-    //    {
-    //        Point point = new Point(_snakePoints[q].X, _snakePoints[q].Y);
-    //        if ((Math.Abs(point.X - _currentPosition.X) < (_headSize)) &&
-    //             (Math.Abs(point.Y - _currentPosition.Y) < (_headSize)))
-    //        {
-    //            Console.WriteLine("BODY PART COLLISION");
-    //            StopGame();
-    //            break;
-    //        }
-    //    }
-    //}
-
-    //private void PaintSnake(Point currentposition)
-    //{
-    //    // This method is used to paint a frame of the snake´s body each time it is called.
-
-    //    PlayerTrail newEllipse = new(_headSize);
-
-    //    Canvas.SetTop(newEllipse, currentposition.Y);
-    //    Canvas.SetLeft(newEllipse, currentposition.X);
-
-    //    int count = GameView.Children.Count;
-    //    GameView.Children.Add(newEllipse);
-    //    _snakePoints.Add(currentposition);
-
-    //    // Restrict the tail of the snake
-    //    if (count > _length)
-    //    {
-    //        GameView.Children.RemoveAt(count - _length + 9);
-    //        _snakePoints.RemoveAt(count - _length);
-    //    }
-    //}
-
-    //private void PaintApple(int index)
-    //{
-    //    Point bonusPoint = new Point(_rnd.Next(5, (int)_windowWidth), _rnd.Next(5, (int)_windowHeight));
-
-    //    Border newEllipse = new()
-    //    {
-    //        Background = new SolidColorBrush(Colors.Crimson),
-    //        CornerRadius = new Microsoft.UI.Xaml.CornerRadius(50),
-    //        Width = _headSize,
-    //        Height = _headSize
-    //    };
-
-    //    Canvas.SetTop(newEllipse, bonusPoint.Y);
-    //    Canvas.SetLeft(newEllipse, bonusPoint.X);
-
-    //    GameView.Children.Insert(index, newEllipse);
-    //    _applePoints.Insert(index, bonusPoint);
-    //}
-
-    //private void StopGame()
-    //{
-    //    //_timer.Stop();
-    //    _timer.Dispose();
-
-    //    Console.WriteLine("GAME OVER");
-
-    //    //MessageBox.Show($@"You Lose! Your score is {_score}", "Game Over", MessageBoxButton.OK, MessageBoxImage.Hand);
-    //    //this.Close();
-    //}
-
-    //#endregion
-
-    #endregion 
-
-    #endregion
 }
