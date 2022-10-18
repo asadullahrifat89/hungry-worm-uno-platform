@@ -6,7 +6,7 @@ namespace HungryWorm
 {
     public static class Constants
     {
-        public const string GAME_ID = "snake";
+        public const string GAME_ID = "hungry-worm";
 
         #region Measurements
 
