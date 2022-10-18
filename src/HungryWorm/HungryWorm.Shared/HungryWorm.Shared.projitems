@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>6279c845-92f8-4333-ab99-3d213163593c</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>HungryWorm</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="$(MSBuildThisFileDirectory)App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Elements\Collectible.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Elements\Dirt.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Elements\GameEnvironment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Elements\GameObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Elements\Player.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Elements\PlayerTrail.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Elements\Snake.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Elements\Sound.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\GameObjectExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\HttpServiceExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\PageExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\AssetHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\AuthTokenHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\CacheHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\CookieHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\GameProfileHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\LocalizationHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\PlayerCredentialsHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\PlayerScoreHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\ScalingHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\SessionHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\SoundHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Contextual\HungryWormScore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Entities\AttachedUser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Entities\AuthToken.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Entities\EntityBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Entities\GameProfile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Entities\GameScore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Entities\LeaderboardPlacement.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Entities\Session.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Global\PlayerCredentials.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Global\PlayerScore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Responses\ErrorResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Responses\QueryRecordResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Responses\QueryRecordsResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Responses\ServiceResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\GamePage.xaml.cs">
+      <DependentUpon>GamePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Peripherals\AudioPlayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Peripherals\LocalizationKey.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Contracts\IBackendService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Contracts\IHttpRequestService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Contracts\IHttpService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Implementations\BackendService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Implementations\HttpRequestService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Implementations\HttpService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Pages\GamePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Assets\SharedAssets.md" />
+    <None Include="$(MSBuildThisFileDirectory)Assets\SplashScreen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="$(MSBuildThisFileDirectory)Strings\en\Resources.resw" />
+  </ItemGroup>
+  <ItemGroup>
+    <!--
+		 Add files present in the shared project folder, excluding the ones
+		 explicitly included in the projitem, so files can be added from vscode
+		 without manipulating the projitem file.
+	-->
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\collectible1.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\collectible2.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\collectible3.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\collectible4.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\collectible5.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\collectible6.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player1.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player10.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player11.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player12.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player2.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player4.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player5.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player6.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player7.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player8.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player9.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_trail.png" />
+    <_Globbled_Page Include="$(MSBuildThisFileDirectory)**/*.xaml" Exclude="@(Page);@(ApplicationDefinition)">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </_Globbled_Page>
+    <Page Include="@(_Globbled_Page)" />
+    <_Globbed_Compile Include="$(MSBuildThisFileDirectory)**/*.xaml.cs" Exclude="@(Compile)">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </_Globbed_Compile>
+    <_Globbed_Compile Include="$(MSBuildThisFileDirectory)**/*.cs" Exclude="@(Compile);@(_Globbed_Compile)" />
+    <_Globbed_PRIResource Include="$(MSBuildThisFileDirectory)**/*.resw" Exclude="@(PRIResource)" />
+    <PRIResource Include="@(_Globbed_PRIResource)" />
+    <_Globbed_Content Include="$(MSBuildThisFileDirectory)Assets/**/*.*" Exclude="@(Content)" />
+    <Content Include="@(_Globbed_Content)" />
+    <!-- Mark the files from this folder as being part of WinUI -->
+    <Page Update="$(MSBuildThisFileDirectory)**/*.xaml" XamlRuntime="WinUI" />
+    <ApplicationDefinition Update="$(MSBuildThisFileDirectory)**/*.xaml" XamlRuntime="WinUI" />
+    <!-- Make sure XAML files force reevaluation of up-to-date checks -->
+    <UpToDateCheckInput Include="$(MSBuildThisFileDirectory)**/*.xaml" />
+  </ItemGroup>
+</Project>

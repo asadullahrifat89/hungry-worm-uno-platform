@@ -23,7 +23,7 @@ jobs:
       run: |
         mkdir -p $GITHUB_WORKSPACE/artifacts
         mkdir -p $GITHUB_WORKSPACE/artifacts/wasm
-        cd src/SnakeGame/SnakeGame.Wasm
+        cd src/HungryWorm/HungryWorm.Wasm
         dotnet publish -c Release /bl:/artifacts/mbuild.binlog -o $GITHUB_WORKSPACE/artifacts/wasm
     
     - name: Publish Artifacts
