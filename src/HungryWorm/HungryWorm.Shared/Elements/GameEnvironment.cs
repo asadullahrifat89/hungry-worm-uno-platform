@@ -1,6 +1,7 @@
 ﻿using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace HungryWorm
@@ -23,6 +24,11 @@ namespace HungryWorm
         #endregion
 
         #region Methods
+
+        public IEnumerable<T> GetGameObjects<T>()
+        {
+            return Children.OfType<T>();
+        }
 
         public void AddDestroyableGameObject(GameObject destroyable)
         {
