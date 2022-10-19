@@ -613,6 +613,7 @@ namespace HungryWormGame
                 // give tail a proper border
                 var tail = playerTrails[1];
                 tail.BorderThickness = new Thickness(5 * _scale);
+                //TODO: handle tail radius
             }
         }
 

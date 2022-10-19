@@ -39,15 +39,39 @@ namespace HungryWormGame
             switch (up)
             {
                 case MovementDirection.Up:
+                    {
+                        BorderThickness = new Thickness(
+                           left: _thickness,
+                           top: 0,
+                           right: _thickness,
+                           bottom: 0);
+                    }
+                    break;
                 case MovementDirection.Down:
                     {
-                        BorderThickness = new Thickness(_thickness, 0, _thickness, 0);
+                        BorderThickness = new Thickness(
+                            left: _thickness,
+                            top: 0,
+                            right: _thickness,
+                            bottom: 0);
                     }
                     break;
                 case MovementDirection.Left:
+                    {
+                        BorderThickness = new Thickness(
+                           left: 0,
+                           top: _thickness,
+                           right: 0,
+                           bottom: _thickness);
+                    }
+                    break;
                 case MovementDirection.Right:
                     {
-                        BorderThickness = new Thickness(0, _thickness, 0, _thickness);
+                        BorderThickness = new Thickness(
+                            left: 0,
+                            top: _thickness,
+                            right: 0,
+                            bottom: _thickness);
                     }
                     break;
             }
