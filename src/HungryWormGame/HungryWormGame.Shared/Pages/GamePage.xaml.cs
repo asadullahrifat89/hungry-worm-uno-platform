@@ -608,7 +608,7 @@ namespace HungryWormGame
             {
                 var playerTrails = GameView.GetGameObjects<PlayerTrail>().ToArray();
 
-                GameView.AddDestroyableGameObject(playerTrails[0]);                
+                GameView.AddDestroyableGameObject(playerTrail);                
 
                 if (playerTrails.Length > 0 && playerTrails[1] is PlayerTrail tail)
                 {
