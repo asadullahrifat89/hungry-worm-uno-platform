@@ -84,12 +84,6 @@
                     VerticalAlignment="Center"
                     Orientation="Vertical">
 
-                    <!--<TextBlock
-                        FontSize="45"
-                        FontWeight="Bold"
-                        Text="☠️"
-                        TextAlignment="Center" />-->
-
                     <!--  Game over logo  -->
                     <Image Height="100" Source="ms-appx:///Assets/Images/game_over.png" />
 
