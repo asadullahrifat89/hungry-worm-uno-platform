@@ -1,16 +1,17 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
-using System;
+﻿using System;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.Extensions.DependencyInjection;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Uno.Extensions;
+using System.Threading;
 
 namespace HungryWormGame
 {
-    public sealed partial class SignUpPage : Page
+    public sealed partial class LeaderboardPage : Page
     {
         #region Fields
 
@@ -32,12 +33,23 @@ namespace HungryWormGame
 
         #endregion
 
+        #region Properties
+
+        public ObservableCollection<GameProfile> GameProfilesCollection { get; set; } = new ObservableCollection<GameProfile>();
+
+        public ObservableCollection<GameScore> GameScoresCollection { get; set; } = new ObservableCollection<GameScore>();
+
+        #endregion
+
         #region Ctor
 
-        public SignUpPage()
+        public LeaderboardPage()
         {
             this.InitializeComponent();
             _backendService = (Application.Current as App).Host.Services.GetRequiredService<IBackendService>();
+
+            GameProfilesList.ItemsSource = GameProfilesCollection;
+            GameScoresList.ItemsSource = GameScoresCollection;
 
             _windowHeight = Window.Current.Bounds.Height;
             _windowWidth = Window.Current.Bounds.Width;
@@ -45,8 +57,8 @@ namespace HungryWormGame
             LoadGameElements();
             PopulateGameViews();
 
-            this.Loaded += SignUpPage_Loaded;
-            this.Unloaded += SignUpPage_Unloaded;
+            this.Loaded += LeaderboardPage_Loaded;
+            this.Unloaded += LeaderboardPage_Unloaded;
         }
 
         #endregion
@@ -55,15 +67,24 @@ namespace HungryWormGame
 
         #region Page
 
-        private void SignUpPage_Loaded(object sender, RoutedEventArgs e)
+        private async void LeaderboardPage_Loaded(object sender, RoutedEventArgs e)
         {
             this.SetLocalization();
+
+            this.RunProgressBar();
+
+            if (await GetGameProfile())
+                ShowUserName();
+
+            DailyScoreboardToggle.IsChecked = true;
+
+            this.StopProgressBar();
 
             SizeChanged += GamePage_SizeChanged;
             StartAnimation();
         }
 
-        private void SignUpPage_Unloaded(object sender, RoutedEventArgs e)
+        private void LeaderboardPage_Unloaded(object sender, RoutedEventArgs e)
         {
             SizeChanged -= GamePage_SizeChanged;
             StopAnimation();
@@ -85,65 +106,38 @@ namespace HungryWormGame
 
         #region Buttons
 
-        private async void SignupButton_Click(object sender, RoutedEventArgs e)
+        private void PlayAgainButton_Click(object sender, RoutedEventArgs e)
         {
-            if (SignupButton.IsEnabled)
-                await PerformSignup();
+            NavigateToPage(typeof(GamePage));
         }
 
-        private void LoginToExistingAccountButton_Click(object sender, RoutedEventArgs e)
+        private async void AllTimeScoreboardToggle_Click(object sender, RoutedEventArgs e)
         {
-            NavigateToPage(typeof(LoginPage));
+            SoundHelper.PlaySound(SoundType.MENU_SELECT);
+
+            this.RunProgressBar();
+
+            DailyScoreboardToggle.IsChecked = false;
+            await GetGameProfiles();
+
+            this.StopProgressBar();
+        }
+
+        private async void DailyScoreboardToggle_Click(object sender, RoutedEventArgs e)
+        {
+            SoundHelper.PlaySound(SoundType.MENU_SELECT);
+
+            this.RunProgressBar();
+
+            AllTimeScoreboardToggle.IsChecked = false;
+            await GetGameScores();
+
+            this.StopProgressBar();
         }
 
         private void GoBackButton_Click(object sender, RoutedEventArgs e)
         {
             NavigateToPage(typeof(StartPage));
-        }
-
-        #endregion
-
-        #region Input Fields
-
-        private void UserFullNameBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            EnableSignupButton();
-        }
-
-        private void UserEmailBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            EnableSignupButton();
-        }
-
-        private void UserNameBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            EnableSignupButton();
-        }
-
-        private void PasswordBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            EnableSignupButton();
-        }
-
-        private async void PasswordBox_KeyDown(object sender, KeyRoutedEventArgs e)
-        {
-            if (e.Key == Windows.System.VirtualKey.Enter && SignupButton.IsEnabled)
-                await PerformSignup();
-        }
-
-        private void ConfirmPasswordBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            EnableSignupButton();
-        }
-
-        private void ConfirmCheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-            EnableSignupButton();
-        }
-
-        private void ConfirmCheckBox_Unchecked(object sender, RoutedEventArgs e)
-        {
-            EnableSignupButton();
         }
 
         #endregion
@@ -154,25 +148,9 @@ namespace HungryWormGame
 
         #region Logic
 
-        private async Task PerformSignup()
+        private async Task<bool> GetGameProfile()
         {
-            this.RunProgressBar();
-
-            if (await Signup() && await Authenticate())
-            {
-                this.StopProgressBar();
-                NavigateToPage(typeof(LoginPage));
-            }
-        }
-
-        private async Task<bool> Signup()
-        {
-            (bool IsSuccess, string Message) = await _backendService.SignupUser(
-                fullName: UserFullNameBox.Text.Trim(),
-                userName: UserNameBox.Text.Trim(),
-                email: UserEmailBox.Text.ToLower().Trim(),
-                password: PasswordBox.Text.Trim(), 
-                subscribedNewsletters: SubscribeNewsLettersCheckBox.IsChecked.Value);
+            (bool IsSuccess, string Message, _) = await _backendService.GetUserGameProfile();
 
             if (!IsSuccess)
             {
@@ -181,14 +159,19 @@ namespace HungryWormGame
                 return false;
             }
 
+            SetGameScores(
+                personalBestScore: GameProfileHelper.GameProfile.PersonalBestScore,
+                lastGameScore: GameProfileHelper.GameProfile.LastGameScore);
+
             return true;
         }
 
-        private async Task<bool> Authenticate()
+        private async Task<bool> GetGameProfiles()
         {
-            (bool IsSuccess, string Message) = await _backendService.AuthenticateUser(
-                userNameOrEmail: UserNameBox.Text.Trim(),
-                password: PasswordBox.Text.Trim());
+            GameProfilesCollection.Clear();
+            SetListViewMessage(LocalizationHelper.GetLocalizedResource("LOADING_DATA"));
+
+            (bool IsSuccess, string Message, GameProfile[] GameProfiles) = await _backendService.GetUserGameProfiles(pageIndex: 0, pageSize: 10);
 
             if (!IsSuccess)
             {
@@ -197,62 +180,115 @@ namespace HungryWormGame
                 return false;
             }
 
-            return true;
-        }
-
-        private void EnableSignupButton()
-        {
-            SignupButton.IsEnabled =
-                !UserFullNameBox.Text.IsNullOrBlank()
-                && IsValidFullName()
-                && IsStrongPassword()
-                && DoPasswordsMatch()
-                && !UserNameBox.Text.IsNullOrBlank()
-                && !UserEmailBox.Text.IsNullOrBlank()
-                && IsValidEmail()
-                && ConfirmCheckBox.IsChecked == true;
-        }
-
-        private bool IsValidFullName()
-        {
-            (bool IsValid, string Message) = StringExtensions.IsValidFullName(UserFullNameBox.Text);
-            if (!IsValid)
-                this.SetProgressBarMessage(message: LocalizationHelper.GetLocalizedResource(Message), isError: true);
-            else
-                ProgressBarMessageBlock.Visibility = Visibility.Collapsed;
-
-            return IsValid;
-        }
-
-        private bool IsStrongPassword()
-        {
-            (bool IsStrong, string Message) = StringExtensions.IsStrongPassword(PasswordBox.Text);
-            this.SetProgressBarMessage(message: LocalizationHelper.GetLocalizedResource(Message), isError: !IsStrong);
-
-            return IsStrong;
-        }
-
-        private bool DoPasswordsMatch()
-        {
-            if (PasswordBox.Text.IsNullOrBlank() || ConfirmPasswordBox.Text.IsNullOrBlank())
-                return false;
-
-            if (PasswordBox.Text != ConfirmPasswordBox.Text)
+            if (GameProfiles is not null && GameProfiles.Length > 0)
             {
-                this.SetProgressBarMessage(message: LocalizationHelper.GetLocalizedResource("PASSWORDS_DIDNT_MATCH"), isError: true);
-                return false;
+                SetListViewMessage();
+                GameProfilesCollection.AddRange(GameProfiles);
+                SetLeaderboardPlacements(GameProfilesCollection);
+                IndicateCurrentPlayer(GameProfilesCollection.Cast<LeaderboardPlacement>().ToObservableCollection());
             }
             else
             {
-                this.SetProgressBarMessage(message: LocalizationHelper.GetLocalizedResource("PASSWORDS_MATCHED"), isError: false);
+                SetListViewMessage(LocalizationHelper.GetLocalizedResource("NO_DATA_AVAILABLE"));
             }
 
             return true;
         }
 
-        private bool IsValidEmail()
+        private async Task<bool> GetGameScores()
         {
-            return StringExtensions.IsValidEmail(UserEmailBox.Text);
+            GameScoresCollection.Clear();
+            SetListViewMessage(LocalizationHelper.GetLocalizedResource("LOADING_DATA"));
+
+            (bool IsSuccess, string Message, GameScore[] GameScores) = await _backendService.GetUserGameScores(pageIndex: 0, pageSize: 10);
+
+            if (!IsSuccess)
+            {
+                var error = Message;
+                this.ShowError(error);
+                return false;
+            }
+
+            if (GameScores is not null && GameScores.Length > 0)
+            {
+                SetListViewMessage();
+                GameScoresCollection.AddRange(GameScores);
+                SetLeaderboardPlacements(GameScoresCollection);
+                IndicateCurrentPlayer(GameScoresCollection.Cast<LeaderboardPlacement>().ToObservableCollection());
+            }
+            else
+            {
+                SetListViewMessage(LocalizationHelper.GetLocalizedResource("NO_DATA_AVAILABLE"));
+            }
+
+            return true;
+        }
+
+        private void SetLeaderboardPlacements(dynamic leaderboardPlacements)
+        {
+            if (leaderboardPlacements.Count > 0)
+            {
+                // king of the ring
+                if (leaderboardPlacements[0] is LeaderboardPlacement firstPlacement)
+                {
+                    firstPlacement.MedalEmoji = "🥇";
+                    firstPlacement.Emoji = "🏆";
+                }
+
+                if (leaderboardPlacements.Count > 1)
+                {
+                    if (leaderboardPlacements[1] is LeaderboardPlacement secondPlacement)
+                    {
+                        secondPlacement.MedalEmoji = "🥈";
+                    }
+                }
+
+                if (leaderboardPlacements.Count > 2)
+                {
+                    if (leaderboardPlacements[2] is LeaderboardPlacement thirdPlacement)
+                    {
+                        thirdPlacement.MedalEmoji = "🥉";
+                    }
+                }
+            }
+        }
+
+        private void IndicateCurrentPlayer(ObservableCollection<LeaderboardPlacement> leaderboardPlacements)
+        {
+            if (leaderboardPlacements is not null)
+            {
+                if (leaderboardPlacements.FirstOrDefault(x => x.User.UserName == GameProfileHelper.GameProfile.User.UserName || x.User.UserEmail == GameProfileHelper.GameProfile.User.UserEmail) is LeaderboardPlacement placement)
+                {
+                    placement.Emoji = "👨‍🚀";
+                }
+            }
+        }
+
+        private void SetListViewMessage(string message = null)
+        {
+            ListViewMessage.Text = message;
+            ListViewMessage.Visibility = message.IsNullOrBlank() ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        private void SetGameScores(double personalBestScore, double lastGameScore)
+        {
+            PersonalBestScoreText.Text = LocalizationHelper.GetLocalizedResource("PersonalBestScoreText") + ": " + personalBestScore;
+            LastGameScoreText.Text = LocalizationHelper.GetLocalizedResource("LastGameScoreText") + ": " + lastGameScore;
+        }
+
+
+        private void ShowUserName()
+        {
+            if (GameProfileHelper.HasUserLoggedIn())
+            {
+                UserName.Text = GameProfileHelper.GameProfile.User.UserName;
+                UserPicture.Initials = GameProfileHelper.GameProfile.Initials;
+                PlayerNameHolder.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                PlayerNameHolder.Visibility = Visibility.Collapsed;
+            }
         }
 
         #endregion
@@ -272,6 +308,9 @@ namespace HungryWormGame
 
         private void NavigateToPage(Type pageType)
         {
+            if (pageType == typeof(GamePage))
+                SoundHelper.StopSound(SoundType.INTRO);
+
             SoundHelper.PlaySound(SoundType.MENU_SELECT);
             App.NavigateToPage(pageType);
         }
@@ -453,16 +492,6 @@ namespace HungryWormGame
         }
 
         #endregion
-
-        #region Sound
-
-        private void StartGameSounds()
-        {
-            SoundHelper.RandomizeSound(SoundType.INTRO);
-            SoundHelper.PlaySound(SoundType.INTRO);
-        }
-
-        #endregion        
 
         #endregion
 
