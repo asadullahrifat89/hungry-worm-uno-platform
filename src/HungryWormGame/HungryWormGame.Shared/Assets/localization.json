@@ -310,117 +310,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Move your car across the screen with your mouse, keyboard or touch screen."
+        "Value": "Move across the screen with your keyboard or by clicking or tapping on the top, bottom, left or right parts of your screen."
       },
       {
         "Culture": "de",
-        "Value": "Bewegen Sie Ihr Auto mit der Maus, der Tastatur oder dem Touchscreen über den Bildschirm."
+        "Value": "Bewegen Sie sich über den Bildschirm mit der Tastatur oder durch Klicken oder Tippen auf den oberen, unteren, linken oder rechten Teil des Bildschirms."
       },
       {
         "Culture": "fr",
-        "Value": "Déplacez votre voiture sur l'écran avec votre souris, votre clavier ou votre écran tactile."
-      }
-    ]
-  },
-  {
-    "Key": "CarsInstructionsHeader",
-    "CultureValues": [
-      {
-        "Culture": "en",
-        "Value": "Cars"
-      },
-      {
-        "Culture": "de",
-        "Value": "Autos"
-      },
-      {
-        "Culture": "fr",
-        "Value": "Voitures"
-      }
-    ]
-  },
-  {
-    "Key": "CarsInstructionsDetail",
-    "CultureValues": [
-      {
-        "Culture": "en",
-        "Value": "Avoid colliding with other cars and loosing health."
-      },
-      {
-        "Culture": "de",
-        "Value": "Vermeiden Sie Zusammenstöße mit anderen Autos und den Verlust von Gesundheit."
-      },
-      {
-        "Culture": "fr",
-        "Value": "Évitez d'entrer en collision avec d'autres voitures et de perdre de la santé."
-      }
-    ]
-  },
-  {
-    "Key": "CollectiblesInstructionsHeader",
-    "CultureValues": [
-      {
-        "Culture": "en",
-        "Value": "Collectibles"
-      },
-      {
-        "Culture": "de",
-        "Value": "Sammlerstücke"
-      },
-      {
-        "Culture": "fr",
-        "Value": "Pièces de collection"
-      }
-    ]
-  },
-  {
-    "Key": "CollectiblesInstructionsDetail",
-    "CultureValues": [
-      {
-        "Culture": "en",
-        "Value": "Collect these as much as you can to add to your score."
-      },
-      {
-        "Culture": "de",
-        "Value": "Sammle sie so oft wie möglich, um deinen Punktestand zu erhöhen."
-      },
-      {
-        "Culture": "fr",
-        "Value": "Collectez-les autant que vous le pouvez pour augmenter votre score."
-      }
-    ]
-  },
-  {
-    "Key": "PowerUpsInstructionsHeader",
-    "CultureValues": [
-      {
-        "Culture": "en",
-        "Value": "Power-ups"
-      },
-      {
-        "Culture": "de",
-        "Value": "Einschalten"
-      },
-      {
-        "Culture": "fr",
-        "Value": "Powerups"
-      }
-    ]
-  },
-  {
-    "Key": "PowerUpsInstructionsDetail",
-    "CultureValues": [
-      {
-        "Culture": "en",
-        "Value": "Collect these to enable force shield, time lapse, 2x, and 4x score multiplier."
-      },
-      {
-        "Culture": "de",
-        "Value": "Sammeln Sie diese, um Kraftschild, Zeitraffer, 2x und 4x Punktemultiplikator zu aktivieren."
-      },
-      {
-        "Culture": "fr",
-        "Value": "Rassemblez-les pour activer le bouclier de force, le time lapse, le multiplicateur de score 2x et 4x."
+        "Value": "Déplacez-vous sur l'écran avec votre clavier ou en cliquant ou tapant sur les parties supérieure, inférieure, gauche ou droite de votre écran."
       }
     ]
   },
@@ -446,15 +344,83 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Collect them to repair your car."
+        "Value": "This is your health bar. It depletes with time. When it runs out its game over."
       },
       {
         "Culture": "de",
-        "Value": "Sammle sie, um dein Auto zu reparieren."
+        "Value": "Dies ist deine Gesundheitsleiste. Sie verbraucht sich mit der Zeit. Wenn sie aufgebraucht ist, ist das Spiel vorbei."
       },
       {
         "Culture": "fr",
-        "Value": "Collectez-les pour réparer votre voiture."
+        "Value": "C'est votre barre de santé. Elle s'épuise avec le temps. Quand elle est épuisée, le jeu est terminé."
+      }
+    ]
+  },
+  {
+    "Key": "CollectiblesInstructionsHeader",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Collectibles"
+      },
+      {
+        "Culture": "de",
+        "Value": "Sammlerstücke"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Pièces de collection"
+      }
+    ]
+  },
+  {
+    "Key": "CollectiblesInstructionsDetail",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Collect these as much as you can to survive and earn points."
+      },
+      {
+        "Culture": "de",
+        "Value": "Sammle sie so oft wie möglich ein, um zu überleben und Punkte zu sammeln."
+      },
+      {
+        "Culture": "fr",
+        "Value": "Collectez-les autant que vous le pouvez pour survivre et gagner des points."
+      }
+    ]
+  },
+  {
+    "Key": "PowerUpsInstructionsHeader",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Power-ups"
+      },
+      {
+        "Culture": "de",
+        "Value": "Einschalten"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Powerups"
+      }
+    ]
+  },
+  {
+    "Key": "PowerUpsInstructionsDetail",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Collect these to pull collectibles like a magnet."
+      },
+      {
+        "Culture": "de",
+        "Value": "Sammle diese, um Sammlerstücke wie ein Magnet anzuziehen."
+      },
+      {
+        "Culture": "fr",
+        "Value": "Collectionnez-les pour attirer les objets de collection comme un aimant."
       }
     ]
   },
