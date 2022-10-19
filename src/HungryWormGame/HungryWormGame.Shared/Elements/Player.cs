@@ -94,7 +94,7 @@ namespace HungryWormGame
                             bottomLeft: _radius);
                     }
                     break;
-                
+
                 case MovementDirection.Right:
                     if (MovementDirection != MovementDirection.Left)
                     {
