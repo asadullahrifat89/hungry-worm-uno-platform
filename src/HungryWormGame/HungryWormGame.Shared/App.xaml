@@ -73,7 +73,7 @@
 
             <!--#region Leaderboard Style-->
             <Style x:Key="LeaderboardRecordContainer" TargetType="Border">
-                <Setter Property="Background" Value="#f7b239" />
+                <Setter Property="Background" Value="#f95428" />
                 <Setter Property="BorderBrush" Value="White" />
                 <Setter Property="CornerRadius" Value="10" />
             </Style>
@@ -84,9 +84,9 @@
             <SolidColorBrush x:Key="SystemAccentColorDark1" Color="#ff6852" />
 
             <SolidColorBrush x:Key="FrameBackgroundColor" Color="#f7b239" />
-            <SolidColorBrush x:Key="ProgressBarErrorColor" Color="Yellow" />
+            <SolidColorBrush x:Key="ProgressBarErrorColor" Color="Red" />
             <SolidColorBrush x:Key="ProgressBarForegroundColor" Color="#f95428" />
-            <SolidColorBrush x:Key="ProgressBarOkColor" Color="LightGreen" />
+            <SolidColorBrush x:Key="ProgressBarOkColor" Color="Green" />
 
             <SolidColorBrush x:Key="WormBodyColor" Color="#f7b239" />
             <SolidColorBrush x:Key="WormBorderColor" Color="Chocolate" />

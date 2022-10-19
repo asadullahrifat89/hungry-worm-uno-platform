@@ -28,6 +28,7 @@
                             Margin="2,0"
                             VerticalAlignment="Center"
                             FontWeight="SemiBold"
+                            Foreground="White"
                             Text="{Binding Path=DisplayName, Mode=OneWay}"
                             TextAlignment="Left" />
                         <TextBlock
@@ -35,6 +36,7 @@
                             VerticalAlignment="Center"
                             FontSize="12"
                             FontWeight="SemiLight"
+                            Foreground="White"
                             Text="{Binding Path=LastPlayTime, Mode=OneWay}"
                             TextAlignment="Left" />
                     </StackPanel>
@@ -44,6 +46,7 @@
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
                         FontWeight="SemiBold"
+                        Foreground="White"
                         Text="{Binding Path=PersonalBestScore, Mode=OneWay}"
                         TextAlignment="Right" />
                 </Grid>
@@ -68,6 +71,7 @@
                             Margin="2,0"
                             VerticalAlignment="Center"
                             FontWeight="SemiBold"
+                            Foreground="White"
                             Text="{Binding Path=DisplayName, Mode=OneWay}"
                             TextAlignment="Left" />
                         <TextBlock
@@ -75,6 +79,7 @@
                             VerticalAlignment="Center"
                             FontSize="12"
                             FontWeight="SemiLight"
+                            Foreground="White"
                             Text="{Binding Path=LastPlayTime, Mode=OneWay}"
                             TextAlignment="Left" />
                     </StackPanel>
@@ -84,6 +89,7 @@
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
                         FontWeight="SemiBold"
+                        Foreground="White"
                         Text="{Binding Path=Score, Mode=OneWay}"
                         TextAlignment="Right" />
                 </Grid>

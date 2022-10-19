@@ -1,6 +1,6 @@
 ﻿var UnoAppManifest = {
 
-    splashScreenImage: "Assets/Images/splash_screen.png",
+    splashScreenImage: "Assets/Images/logo_game.png",
     splashScreenColor: "#f7b239",
     displayName: "Hungry-Worm"
 
