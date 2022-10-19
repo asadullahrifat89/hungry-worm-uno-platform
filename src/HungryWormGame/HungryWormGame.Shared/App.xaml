@@ -51,12 +51,12 @@
 
             <!--#region Input Fields-->
             <Style BasedOn="{StaticResource DefaultTextBoxStyle}" TargetType="TextBox">
-                <Setter Property="CornerRadius" Value="15" />
+                <Setter Property="CornerRadius" Value="10" />
                 <Setter Property="FontWeight" Value="SemiBold" />
             </Style>
 
             <Style BasedOn="{StaticResource DefaultPasswordBoxStyle}" TargetType="PasswordBox">
-                <Setter Property="CornerRadius" Value="15" />
+                <Setter Property="CornerRadius" Value="10" />
             </Style>
             <!--#endregion-->
 

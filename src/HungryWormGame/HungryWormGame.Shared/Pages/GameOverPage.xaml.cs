@@ -118,9 +118,8 @@ namespace HungryWormGame
         #region Buttons
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
-        {
-            //TODO: to login page
-            //NavigateToPage(typeof(LoginPage));
+        {            
+            NavigateToPage(typeof(LoginPage));
         }
 
         private void PlayAgainButton_Click(object sender, RoutedEventArgs e)

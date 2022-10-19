@@ -12,6 +12,7 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeSharing\Microsoft.CodeSharing.CSharp.targets" />
   <ItemGroup>
     <UpToDateCheckInput Remove="Pages\GamePage2.xaml" />
+    <UpToDateCheckInput Remove="Pages\LoginPage.xaml" />
     <UpToDateCheckInput Remove="Pages\StartPage.xaml" />
   </ItemGroup>
   <ItemGroup>
@@ -23,6 +24,7 @@
     <_Globbed_Compile Remove="Elements\Sound.cs" />
     <_Globbed_Compile Remove="Pages\GameOverPage.xaml.cs" />
     <_Globbed_Compile Remove="Pages\GamePage2.xaml.cs" />
+    <_Globbed_Compile Remove="Pages\LoginPage.xaml.cs" />
     <_Globbed_Compile Remove="Pages\StartPage.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -59,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <_Globbled_Page Remove="Pages\GamePage2.xaml" />
+    <_Globbled_Page Remove="Pages\LoginPage.xaml" />
     <_Globbled_Page Remove="Pages\StartPage.xaml" />
   </ItemGroup>
   <ProjectExtensions>
