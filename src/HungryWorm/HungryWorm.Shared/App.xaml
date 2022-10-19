@@ -25,7 +25,7 @@
             </Style>
 
             <Style BasedOn="{StaticResource DefaultButtonStyle}" TargetType="Button">
-                <Setter Property="Background" Value="#f7b239" />
+                <Setter Property="Background" Value="#f95428" />
                 <Setter Property="Foreground" Value="White" />
                 <Setter Property="BorderBrush" Value="White" />
                 <Setter Property="BorderThickness" Value="3" />
@@ -85,7 +85,7 @@
 
             <SolidColorBrush x:Key="FrameBackgroundColor" Color="#f7b239" />
             <SolidColorBrush x:Key="ProgressBarErrorColor" Color="Yellow" />
-            <SolidColorBrush x:Key="ProgressBarForegroundColor" Color="#ff6852" />
+            <SolidColorBrush x:Key="ProgressBarForegroundColor" Color="#f95428" />
             <SolidColorBrush x:Key="ProgressBarOkColor" Color="LightGreen" />
 
             <SolidColorBrush x:Key="SnakeBodyColor" Color="#f7b239" />

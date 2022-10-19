@@ -15,11 +15,11 @@
         <GameEnvironment x:Name="UnderView" Background="Transparent" />
 
         <!--  Fog  -->
-        <Border
+        <!--<Border
             Width="{x:Bind Path=UnderView.Width, Mode=OneWay}"
             Height="{x:Bind Path=UnderView.Height, Mode=OneWay}"
             Background="{StaticResource GameBackgroundColor}"
-            Opacity="0.5" />
+            Opacity="0.5" />-->
         <!--#endregion-->
 
         <!--#region Language selection buttons-->
@@ -72,7 +72,7 @@
                 Orientation="Vertical">
 
                 <!--  Game logo  -->
-                <Image Height="150" Source="ms-appx:///Assets/Images/logo_game.png" />
+                <Image Height="100" Source="ms-appx:///Assets/Images/logo_game.png" />
 
                 <!--  Game name  -->
                 <TextBlock
