@@ -766,22 +766,25 @@ namespace HungryWorm
             // in power mode draw the collectible closer
             if (_isPowerMode)
             {
-                var collectibleHitBox = collectible.GetDistantHitBox(_scale);
+                var playerHitBoxDistant = _player.GetDistantHitBox();
+                var collectibleHitBoxDistant = collectible.GetDistantHitBox();
 
-                //if (_playerHitBox.IntersectsWith(collectibleHitBox))
-                //{
-                if (_playerHitBox.Left < collectibleHitBox.Left)
-                    collectible.SetLeft(collectible.GetLeft() - _gameSpeed * 2);
+                if (playerHitBoxDistant.IntersectsWith(collectibleHitBoxDistant))
+                {
+                    var collectibleHitBox = collectible.GetHitBox();
 
-                if (collectibleHitBox.Right < _playerHitBox.Left)
-                    collectible.SetLeft(collectible.GetLeft() + _gameSpeed * 2);
+                    if (_playerHitBox.Left < collectibleHitBox.Left)
+                        collectible.SetLeft(collectible.GetLeft() - _gameSpeed * 1.5);
 
-                if (collectibleHitBox.Top > _playerHitBox.Bottom)
-                    collectible.SetTop(collectible.GetTop() - _gameSpeed * 2);
+                    if (collectibleHitBox.Right < _playerHitBox.Left)
+                        collectible.SetLeft(collectible.GetLeft() + _gameSpeed * 1.5);
 
-                if (collectibleHitBox.Bottom < _playerHitBox.Top)
-                    collectible.SetTop(collectible.GetTop() + _gameSpeed * 2);
-                //}
+                    if (collectibleHitBox.Top > _playerHitBox.Bottom)
+                        collectible.SetTop(collectible.GetTop() - _gameSpeed * 1.5);
+
+                    if (collectibleHitBox.Bottom < _playerHitBox.Top)
+                        collectible.SetTop(collectible.GetTop() + _gameSpeed * 1.5);
+                }
             }
         }
 

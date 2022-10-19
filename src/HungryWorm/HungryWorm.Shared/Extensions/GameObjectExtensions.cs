@@ -55,13 +55,13 @@ namespace HungryWorm
             return rect;
         }
 
-        public static Rect GetDistantHitBox(this GameObject gameObject, double scale)
+        public static Rect GetDistantHitBox(this GameObject gameObject)
         {
             return new Rect(
-                x: gameObject.GetLeft() - (gameObject.Width * 3) * scale,
-                y: gameObject.GetTop() - (gameObject.Height * 3) * scale,
-                width: gameObject.Width + (gameObject.Width * 3) * scale,
-                height: gameObject.Height + (gameObject.Height * 3) * scale);
+                x: gameObject.GetLeft() - (gameObject.Width * 5),
+                y: gameObject.GetTop() - (gameObject.Height * 5),
+                width: gameObject.Width + (gameObject.Width * 5),
+                height: gameObject.Height + (gameObject.Height * 5));
         }
 
         #endregion
