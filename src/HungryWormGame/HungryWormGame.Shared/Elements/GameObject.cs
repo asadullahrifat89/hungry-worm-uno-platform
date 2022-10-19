@@ -10,7 +10,7 @@ namespace HungryWormGame
     {
         #region Fields
 
-        private Image _content = new() { Stretch = Stretch.Uniform, Visibility = Microsoft.UI.Xaml.Visibility.Collapsed };
+        private readonly Image _content = new() { Stretch = Stretch.Uniform, Visibility = Microsoft.UI.Xaml.Visibility.Collapsed };
 
         private readonly CompositeTransform _compositeTransform = new()
         {

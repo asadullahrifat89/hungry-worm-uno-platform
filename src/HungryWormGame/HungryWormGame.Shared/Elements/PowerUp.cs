@@ -6,12 +6,12 @@ namespace HungryWormGame
     {
         //public PowerUpType PowerUpType { get; set; }
 
-        public PowerUp(double size)
+        public PowerUp(double scale)
         {
             Tag = ElementType.POWERUP;
 
-            Width = size;
-            Height = size;            
+            Width = Constants.POWERUP_SIZE * scale;
+            Height = Constants.POWERUP_SIZE * scale;            
 
             SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key == ElementType.POWERUP).Value);
         }

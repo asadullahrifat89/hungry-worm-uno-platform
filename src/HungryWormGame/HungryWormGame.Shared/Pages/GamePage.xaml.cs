@@ -24,7 +24,7 @@ namespace HungryWormGame
         private readonly double _gameSpeedDefault = 6;
 
         private int _playerSpeed = 6;
-        private int _playerSpeedDefault = 6;
+        private readonly int _playerSpeedDefault = 6;
 
         private int _powerUpCount;
         private readonly int _powerUpSpawnLimit = 1;
@@ -35,7 +35,7 @@ namespace HungryWormGame
         private int _lives;
         private readonly int _maxLives = 3;
 
-        private int _healthSpawnCounter = 500;
+        private readonly int _healthSpawnCounter = 500;
 
         private double _score;
 
@@ -76,7 +76,7 @@ namespace HungryWormGame
         private int _playerYummyFaceCounter;
 
         private int _playerTrailSpawnCounter;
-        private int _playerTrailSpawnCounterDefault = 1;
+        private readonly int _playerTrailSpawnCounterDefault = 1;
 
         #endregion
 
@@ -249,7 +249,7 @@ namespace HungryWormGame
         private void PopulateGameView()
         {
             // add player
-            _player = new Player(Constants.PLAYER_SIZE * _scale);
+            _player = new Player(_scale);
 
             _player.SetPosition(
                 left: GameView.Width / 2 - _player.Width / 2,
@@ -577,7 +577,7 @@ namespace HungryWormGame
                 double top = _playerHitBox.Y;
 
 
-                PlayerTrail playerTrail = new(Constants.PLAYER_TRAIL_SIZE * _scale);
+                PlayerTrail playerTrail = new(_scale);
                 playerTrail.SetPosition(left, top);
                 playerTrail.SetZ(0);
                 playerTrail.UpdateMovementDirection(_player.MovementDirection);
@@ -626,7 +626,7 @@ namespace HungryWormGame
 
         private void SpawnCollectible()
         {
-            Collectible collectible = new(Constants.COLLECTIBLE_SIZE * _scale);
+            Collectible collectible = new(_scale);
 
             collectible.SetContent(_collectibleTemplates[_random.Next(0, _collectibleTemplates.Length)]);
 
@@ -776,7 +776,7 @@ namespace HungryWormGame
 
         private void SpawnPowerUp()
         {
-            PowerUp powerUp = new(Constants.POWERUP_SIZE * _scale);
+            PowerUp powerUp = new(_scale);
 
             powerUp.SetPosition(
                 left: _random.Next(0, (int)(GameView.Width - 55)),
