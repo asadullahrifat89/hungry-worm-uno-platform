@@ -18,8 +18,8 @@ namespace HungryWormGame
         {
             Tag = ElementType.PLAYER_TRAIL;
 
-            _radius = 5 * scale;
             _thickness = 5 * scale;
+            _radius = 35 * scale;            
 
             CornerRadius = new CornerRadius(_radius);
 
@@ -45,6 +45,11 @@ namespace HungryWormGame
                            top: 0,
                            right: _thickness,
                            bottom: 0);
+                        CornerRadius = new CornerRadius(
+                          topLeft: _radius,
+                          topRight: _radius,
+                          bottomRight: 0,
+                          bottomLeft: 0);
                     }
                     break;
                 case MovementDirection.Down:
@@ -54,6 +59,11 @@ namespace HungryWormGame
                             top: 0,
                             right: _thickness,
                             bottom: 0);
+                        CornerRadius = new CornerRadius(
+                          topLeft: 0,
+                          topRight: 0,
+                          bottomRight: _radius,
+                          bottomLeft: _radius);
                     }
                     break;
                 case MovementDirection.Left:
@@ -63,6 +73,11 @@ namespace HungryWormGame
                            top: _thickness,
                            right: 0,
                            bottom: _thickness);
+                        CornerRadius = new CornerRadius(
+                         topLeft: _radius,
+                         topRight: 0,
+                         bottomRight: 0,
+                         bottomLeft: _radius);
                     }
                     break;
                 case MovementDirection.Right:
@@ -72,6 +87,11 @@ namespace HungryWormGame
                             top: _thickness,
                             right: 0,
                             bottom: _thickness);
+                        CornerRadius = new CornerRadius(
+                           topLeft: 0,
+                           topRight: _radius,
+                           bottomRight: _radius,
+                           bottomLeft: 0);
                     }
                     break;
             }

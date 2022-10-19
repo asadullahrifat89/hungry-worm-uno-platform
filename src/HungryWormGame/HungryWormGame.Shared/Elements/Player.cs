@@ -60,23 +60,6 @@ namespace HungryWormGame
                             bottomLeft: 0);
                     }
                     break;
-                case MovementDirection.Left:
-                    if (MovementDirection != MovementDirection.Right)
-                    {
-                        MovementDirection = MovementDirection.Left;
-
-                        BorderThickness = new Thickness(
-                            left: _thickness,
-                            top: _thickness,
-                            right: 0,
-                            bottom: _thickness);
-                        CornerRadius = new CornerRadius(
-                            topLeft: _radius,
-                            topRight: 0,
-                            bottomRight: 0,
-                            bottomLeft: _radius);
-                    }
-                    break;
                 case MovementDirection.Down:
                     if (MovementDirection != MovementDirection.Up)
                     {
@@ -94,6 +77,24 @@ namespace HungryWormGame
                             bottomLeft: _radius);
                     }
                     break;
+                case MovementDirection.Left:
+                    if (MovementDirection != MovementDirection.Right)
+                    {
+                        MovementDirection = MovementDirection.Left;
+
+                        BorderThickness = new Thickness(
+                            left: _thickness,
+                            top: _thickness,
+                            right: 0,
+                            bottom: _thickness);
+                        CornerRadius = new CornerRadius(
+                            topLeft: _radius,
+                            topRight: 0,
+                            bottomRight: 0,
+                            bottomLeft: _radius);
+                    }
+                    break;
+                
                 case MovementDirection.Right:
                     if (MovementDirection != MovementDirection.Left)
                     {
