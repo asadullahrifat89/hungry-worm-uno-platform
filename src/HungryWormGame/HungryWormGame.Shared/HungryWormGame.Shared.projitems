@@ -114,7 +114,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Assets\SharedAssets.md" />
-    <None Include="$(MSBuildThisFileDirectory)Assets\SplashScreen.png" />
   </ItemGroup>
   <ItemGroup>
     <PRIResource Include="$(MSBuildThisFileDirectory)Strings\en\Resources.resw" />
@@ -131,6 +130,8 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\collectible4.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\collectible5.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\collectible6.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player3.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\splash_screen.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\logo_game.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player1.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player10.png" />
@@ -146,7 +147,9 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_trail.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\powerup1.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\game_over.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\localization.json" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\background3.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\intro1.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\power-down.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\food-bite3.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\food-bite2.mp3" />
@@ -171,7 +174,6 @@
     <_Globbed_PRIResource Include="$(MSBuildThisFileDirectory)**/*.resw" Exclude="@(PRIResource)" />
     <PRIResource Include="@(_Globbed_PRIResource)" />
     <_Globbed_Content Include="$(MSBuildThisFileDirectory)Assets/**/*.*" Exclude="@(Content)" />
-    <Content Include="@(_Globbed_Content)" />
     <!-- Mark the files from this folder as being part of WinUI -->
     <Page Update="$(MSBuildThisFileDirectory)**/*.xaml" XamlRuntime="WinUI" />
     <ApplicationDefinition Update="$(MSBuildThisFileDirectory)**/*.xaml" XamlRuntime="WinUI" />
