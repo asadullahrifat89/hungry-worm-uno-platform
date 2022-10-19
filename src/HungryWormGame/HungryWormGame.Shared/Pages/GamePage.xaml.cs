@@ -608,9 +608,7 @@ namespace HungryWormGame
             {
                 GameView.AddDestroyableGameObject(playerTrail);
 
-                var tail = GameView.GetGameObjects<PlayerTrail>().ToArray()[_playerTrailCount - _playerTrailLength];
-
-                if (tail is not null)
+                if (GameView.GetGameObjects<PlayerTrail>().ToArray()[_playerTrailCount - _playerTrailLength] is PlayerTrail tail)
                 {
                     tail.BorderThickness = new Thickness(5 * _scale);
                     tail.CornerRadius = new CornerRadius(5 * _scale);
@@ -661,35 +659,45 @@ namespace HungryWormGame
             // if object goes out of bounds then make it reenter game view
             RecycleGameObject(collectible);
 
-            if (_playerHitBox.IntersectsWith(collectible.GetHitBox()))
+            if (collectible.IsFlaggedForShrinking)
             {
-                GameView.AddDestroyableGameObject(collectible);
-                Collectible();
+                collectible.Shrink();
+
+                if (collectible.HasShrinked)
+                    GameView.AddDestroyableGameObject(collectible);
             }
-
-            // in power mode draw the collectible closer
-            if (_isPowerMode)
+            else
             {
-                var playerHitBoxDistant = _player.GetDistantHitBox();
-                var collectibleHitBoxDistant = collectible.GetDistantHitBox();
-
-                if (playerHitBoxDistant.IntersectsWith(collectibleHitBoxDistant))
-                {
-                    var collectibleHitBox = collectible.GetHitBox();
-
-                    if (_playerHitBox.Left < collectibleHitBox.Left)
-                        collectible.SetLeft(collectible.GetLeft() - _gameSpeed * 1.5);
-
-                    if (collectibleHitBox.Right < _playerHitBox.Left)
-                        collectible.SetLeft(collectible.GetLeft() + _gameSpeed * 1.5);
-
-                    if (collectibleHitBox.Top > _playerHitBox.Bottom)
-                        collectible.SetTop(collectible.GetTop() - _gameSpeed * 1.5);
-
-                    if (collectibleHitBox.Bottom < _playerHitBox.Top)
-                        collectible.SetTop(collectible.GetTop() + _gameSpeed * 1.5);
+                if (_playerHitBox.IntersectsWith(collectible.GetHitBox()))
+                {   
+                    collectible.IsFlaggedForShrinking = true;
+                    Collectible();
                 }
-            }
+
+                // in power mode draw the collectible closer
+                if (_isPowerMode)
+                {
+                    var playerHitBoxDistant = _player.GetDistantHitBox();
+                    var collectibleHitBoxDistant = collectible.GetDistantHitBox();
+
+                    if (playerHitBoxDistant.IntersectsWith(collectibleHitBoxDistant))
+                    {
+                        var collectibleHitBox = collectible.GetHitBox();
+
+                        if (_playerHitBox.Left < collectibleHitBox.Left)
+                            collectible.SetLeft(collectible.GetLeft() - _gameSpeed * 1.5);
+
+                        if (collectibleHitBox.Right < _playerHitBox.Left)
+                            collectible.SetLeft(collectible.GetLeft() + _gameSpeed * 1.5);
+
+                        if (collectibleHitBox.Top > _playerHitBox.Bottom)
+                            collectible.SetTop(collectible.GetTop() - _gameSpeed * 1.5);
+
+                        if (collectibleHitBox.Bottom < _playerHitBox.Top)
+                            collectible.SetTop(collectible.GetTop() + _gameSpeed * 1.5);
+                    }
+                }
+            }           
         }
 
         private void Collectible()

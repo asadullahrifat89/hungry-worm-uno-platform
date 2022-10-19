@@ -10,7 +10,7 @@
 
             Height = Constants.COLLECTIBLE_SIZE * scale;
             Width = Constants.COLLECTIBLE_SIZE * scale;
-        } 
+        }
 
         #endregion
     }

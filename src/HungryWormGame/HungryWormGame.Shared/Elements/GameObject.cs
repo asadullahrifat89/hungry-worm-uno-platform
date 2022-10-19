@@ -33,6 +33,10 @@ namespace HungryWormGame
 
         public double Y { get; set; }
 
+        public bool IsFlaggedForShrinking { get; set; }
+
+        public bool HasShrinked => _compositeTransform.ScaleX <= 0;
+
         #endregion
 
         #region Ctor
@@ -122,25 +126,16 @@ namespace HungryWormGame
             _content.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
         }
 
-        //public void SetDirection(MovementDirection xDirection)
-        //{
-        //    switch (xDirection)
-        //    {
-        //        case MovementDirection.Left:
-        //            _compositeTransform.ScaleX = -1;
-        //            break;
-        //        case MovementDirection.Right:
-        //            _compositeTransform.ScaleX = 1;
-        //            break;
-        //        default:
-        //            break;
-        //    }
-        //}
-
         public void SetHitBoxBorder(Rect rect)
         {
             //_hitBoxborder.Height = rect.Height;
             //_hitBoxborder.Width = rect.Width;
+        }
+
+        public void Shrink()
+        {
+            _compositeTransform.ScaleX -= 0.1;
+            _compositeTransform.ScaleY -= 0.1;
         }
 
         #endregion
