@@ -144,7 +144,6 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player7.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player8.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player9.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_trail.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\powerup1.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\game_over.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\localization.json" />
