@@ -12,8 +12,8 @@ namespace HungryWormGame
             Tag = ElementType.PLAYER_TRAIL;
             CornerRadius = new CornerRadius(5);
 
-            Background = Application.Current.Resources["SnakeBodyColor"] as SolidColorBrush;
-            BorderBrush = Application.Current.Resources["SnakeBorderColor"] as SolidColorBrush;
+            Background = Application.Current.Resources["WormBodyColor"] as SolidColorBrush;
+            BorderBrush = Application.Current.Resources["WormBorderColor"] as SolidColorBrush;
 
             Width = size;
             Height = size;

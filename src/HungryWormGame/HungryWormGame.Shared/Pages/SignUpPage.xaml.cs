@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using System;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace HungryWormGame
 {
-    public sealed partial class StartPage : Page
+    public sealed partial class SignUpPage : Page
     {
         #region Fields
 
@@ -21,10 +22,10 @@ namespace HungryWormGame
         private double _windowHeight, _windowWidth;
         private double _scale;
 
-        private int _gameSpeed = 5;
+        private int _gameSpeed = 8;
 
         private int _markNum;
-                
+
         private Uri[] _collectibles;
 
         private readonly IBackendService _backendService;
@@ -33,9 +34,9 @@ namespace HungryWormGame
 
         #region Ctor
 
-        public StartPage()
+        public SignUpPage()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             _backendService = (Application.Current as App).Host.Services.GetRequiredService<IBackendService>();
 
             _windowHeight = Window.Current.Bounds.Height;
@@ -44,14 +45,8 @@ namespace HungryWormGame
             LoadGameElements();
             PopulateGameViews();
 
-            SoundHelper.LoadGameSounds(() =>
-            {
-                StartGameSounds();
-                AssetHelper.PreloadAssets(ProgressBar);
-            });
-
-            Loaded += GamePage_Loaded;
-            Unloaded += GamePage_Unloaded;
+            this.Loaded += SignUpPage_Loaded;
+            this.Unloaded += SignUpPage_Unloaded;
         }
 
         #endregion
@@ -60,21 +55,15 @@ namespace HungryWormGame
 
         #region Page
 
-        private async void GamePage_Loaded(object sender, RoutedEventArgs e)
+        private void SignUpPage_Loaded(object sender, RoutedEventArgs e)
         {
+            this.SetLocalization();
+
             SizeChanged += GamePage_SizeChanged;
             StartAnimation();
-
-            LocalizationHelper.CheckLocalizationCache();
-            await LocalizationHelper.LoadLocalizationKeys(() =>
-            {
-                this.SetLocalization();
-            });
-
-            await CheckUserSession();
         }
 
-        private void GamePage_Unloaded(object sender, RoutedEventArgs e)
+        private void SignUpPage_Unloaded(object sender, RoutedEventArgs e)
         {
             SizeChanged -= GamePage_SizeChanged;
             StopAnimation();
@@ -96,61 +85,65 @@ namespace HungryWormGame
 
         #region Buttons
 
-        private void LanguageButton_Click(object sender, RoutedEventArgs e)
+        private async void SignupButton_Click(object sender, RoutedEventArgs e)
         {
-            if ((sender as Button)?.Tag is string tag)
-            {
-                SoundHelper.PlaySound(SoundType.MENU_SELECT);
-
-                LocalizationHelper.CurrentCulture = tag;
-
-                if (CookieHelper.IsCookieAccepted())
-                    LocalizationHelper.SaveLocalizationCache(tag);
-
-                this.SetLocalization();
-            }
+            if (SignupButton.IsEnabled)
+                await PerformSignup();
         }
 
-        private void HowToPlayButton_Click(object sender, RoutedEventArgs e)
-        {
-            NavigateToPage(typeof(HowToPlayPage));
-        }
-
-        private void PlayButton_Click(object sender, RoutedEventArgs e)
-        {
-            NavigateToPage(typeof(GamePage));
-        }
-
-        private void LeaderboardButton_Click(object sender, RoutedEventArgs e)
-        {
-            NavigateToPage(typeof(LeaderboardPage));
-        }
-
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        private void LoginToExistingAccountButton_Click(object sender, RoutedEventArgs e)
         {
             NavigateToPage(typeof(LoginPage));
         }
 
-        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        private void GoBackButton_Click(object sender, RoutedEventArgs e)
         {
-            PerformLogout();
+            NavigateToPage(typeof(StartPage));
         }
 
-        private void RegisterButton_Click(object sender, RoutedEventArgs e)
+        #endregion
+
+        #region Input Fields
+
+        private void UserFullNameBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            NavigateToPage(typeof(SignUpPage));
+            EnableSignupButton();
         }
 
-        private void CookieAcceptButton_Click(object sender, RoutedEventArgs e)
+        private void UserEmailBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            CookieHelper.SetCookieAccepted();
-            CookieToast.Visibility = Visibility.Collapsed;
+            EnableSignupButton();
         }
 
-        private void CookieDeclineButton_Click(object sender, RoutedEventArgs e)
+        private void UserNameBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            CookieHelper.SetCookieDeclined();
-            CookieToast.Visibility = Visibility.Collapsed;
+            EnableSignupButton();
+        }
+
+        private void PasswordBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            EnableSignupButton();
+        }
+
+        private async void PasswordBox_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter && SignupButton.IsEnabled)
+                await PerformSignup();
+        }
+
+        private void ConfirmPasswordBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            EnableSignupButton();
+        }
+
+        private void ConfirmCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            EnableSignupButton();
+        }
+
+        private void ConfirmCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            EnableSignupButton();
         }
 
         #endregion
@@ -161,57 +154,25 @@ namespace HungryWormGame
 
         #region Logic
 
-        private async Task CheckUserSession()
+        private async Task PerformSignup()
         {
-            SessionHelper.TryLoadSession();
+            this.RunProgressBar();
 
-            if (GameProfileHelper.HasUserLoggedIn())
+            if (await Signup() && await Authenticate())
             {
-                if (SessionHelper.HasSessionExpired())
-                {
-                    SessionHelper.RemoveCachedSession();
-                    SetLoginContext();
-                }
-                else
-                {
-                    SetLogoutContext();
-                }
-            }
-            else
-            {
-                if (SessionHelper.HasSessionExpired())
-                {
-                    SessionHelper.RemoveCachedSession();
-                    SetLoginContext();
-                    ShowCookieToast();
-                }
-                else
-                {
-                    if (SessionHelper.GetCachedSession() is Session session
-                        && await ValidateSession(session)
-                        && await GetGameProfile())
-                    {
-                        SetLogoutContext();
-                        ShowWelcomeBackToast();
-                    }
-                    else
-                    {
-                        SetLoginContext();
-                        ShowCookieToast();
-                    }
-                }
+                this.StopProgressBar();
+                NavigateToPage(typeof(LoginPage));
             }
         }
 
-        private async Task<bool> ValidateSession(Session session)
+        private async Task<bool> Signup()
         {
-            var (IsSuccess, _) = await _backendService.ValidateUserSession(session);
-            return IsSuccess;
-        }
-
-        private async Task<bool> GetGameProfile()
-        {
-            (bool IsSuccess, string Message, _) = await _backendService.GetUserGameProfile();
+            (bool IsSuccess, string Message) = await _backendService.SignupUser(
+                fullName: UserFullNameBox.Text.Trim(),
+                userName: UserNameBox.Text.Trim(),
+                email: UserEmailBox.Text.ToLower().Trim(),
+                password: PasswordBox.Text.Trim(), 
+                subscribedNewsletters: SubscribeNewsLettersCheckBox.IsChecked.Value);
 
             if (!IsSuccess)
             {
@@ -223,47 +184,75 @@ namespace HungryWormGame
             return true;
         }
 
-        private void PerformLogout()
+        private async Task<bool> Authenticate()
         {
-            SoundHelper.PlaySound(SoundType.MENU_SELECT);
-            SessionHelper.RemoveCachedSession();
-            AuthTokenHelper.AuthToken = null;
-            GameProfileHelper.GameProfile = null;
-            PlayerScoreHelper.PlayerScore = null;
+            (bool IsSuccess, string Message) = await _backendService.AuthenticateUser(
+                userNameOrEmail: UserNameBox.Text.Trim(),
+                password: PasswordBox.Text.Trim());
 
-            SetLoginContext();
+            if (!IsSuccess)
+            {
+                var error = Message;
+                this.ShowError(error);
+                return false;
+            }
+
+            return true;
         }
 
-        private void ShowCookieToast()
+        private void EnableSignupButton()
         {
-            if (!CookieHelper.IsCookieAccepted())
-                CookieToast.Visibility = Visibility.Visible;
+            SignupButton.IsEnabled =
+                !UserFullNameBox.Text.IsNullOrBlank()
+                && IsValidFullName()
+                && IsStrongPassword()
+                && DoPasswordsMatch()
+                && !UserNameBox.Text.IsNullOrBlank()
+                && !UserEmailBox.Text.IsNullOrBlank()
+                && IsValidEmail()
+                && ConfirmCheckBox.IsChecked == true;
         }
 
-        private void SetLogoutContext()
+        private bool IsValidFullName()
         {
-            LogoutButton.Visibility = Visibility.Visible;
-            LeaderboardButton.Visibility = Visibility.Visible;
-            LoginButton.Visibility = Visibility.Collapsed;
-            RegisterButton.Visibility = Visibility.Collapsed;
+            (bool IsValid, string Message) = StringExtensions.IsValidFullName(UserFullNameBox.Text);
+            if (!IsValid)
+                this.SetProgressBarMessage(message: LocalizationHelper.GetLocalizedResource(Message), isError: true);
+            else
+                ProgressBarMessageBlock.Visibility = Visibility.Collapsed;
+
+            return IsValid;
         }
 
-        private void SetLoginContext()
+        private bool IsStrongPassword()
         {
-            LogoutButton.Visibility = Visibility.Collapsed;
-            LeaderboardButton.Visibility = Visibility.Collapsed;
-            LoginButton.Visibility = Visibility.Visible;
-            RegisterButton.Visibility = Visibility.Visible;
+            (bool IsStrong, string Message) = StringExtensions.IsStrongPassword(PasswordBox.Text);
+            this.SetProgressBarMessage(message: LocalizationHelper.GetLocalizedResource(Message), isError: !IsStrong);
+
+            return IsStrong;
         }
 
-        private async void ShowWelcomeBackToast()
+        private bool DoPasswordsMatch()
         {
-            SoundHelper.PlaySound(SoundType.POWER_UP);
-            UserName.Text = GameProfileHelper.GameProfile.User.UserName;
+            if (PasswordBox.Text.IsNullOrBlank() || ConfirmPasswordBox.Text.IsNullOrBlank())
+                return false;
 
-            WelcomeBackToast.Opacity = 1;
-            await Task.Delay(TimeSpan.FromSeconds(5));
-            WelcomeBackToast.Opacity = 0;
+            if (PasswordBox.Text != ConfirmPasswordBox.Text)
+            {
+                this.SetProgressBarMessage(message: LocalizationHelper.GetLocalizedResource("PASSWORDS_DIDNT_MATCH"), isError: true);
+                return false;
+            }
+            else
+            {
+                this.SetProgressBarMessage(message: LocalizationHelper.GetLocalizedResource("PASSWORDS_MATCHED"), isError: false);
+            }
+
+            return true;
+        }
+
+        private bool IsValidEmail()
+        {
+            return StringExtensions.IsValidEmail(UserEmailBox.Text);
         }
 
         #endregion
@@ -276,17 +265,15 @@ namespace HungryWormGame
 
             UnderView.Width = _windowWidth;
             UnderView.Height = _windowHeight;
+
+            OverView.Width = _windowWidth;
+            OverView.Height = _windowHeight;
         }
 
         private void NavigateToPage(Type pageType)
         {
-            if (pageType == typeof(GamePage))
-                SoundHelper.StopSound(SoundType.INTRO);
-
             SoundHelper.PlaySound(SoundType.MENU_SELECT);
             App.NavigateToPage(pageType);
-
-            App.EnterFullScreen(true);
         }
 
         #endregion
@@ -305,7 +292,7 @@ namespace HungryWormGame
         }
 
         private void LoadGameElements()
-        {            
+        {
             _collectibles = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.COLLECTIBLE).Select(x => x.Value).ToArray();
         }
 
@@ -403,7 +390,7 @@ namespace HungryWormGame
 
         private void SpawnDirt()
         {
-            var dirt = new Dirt((double)_random.Next(5, 100) * _scale);            
+            var dirt = new Dirt((double)_random.Next(5, 100) * _scale);
             UnderView.Children.Add(dirt);
         }
 
@@ -437,7 +424,7 @@ namespace HungryWormGame
         {
             Collectible collectible = new(Constants.COLLECTIBLE_SIZE * _scale);
             RandomizeCollectiblePosition(collectible);
-          
+
             UnderView.Children.Add(collectible);
         }
 

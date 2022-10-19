@@ -213,8 +213,7 @@ namespace HungryWormGame
 
         private void ConfirmQuitGameButton_Click(object sender, RoutedEventArgs e)
         {
-            //TODO: quit game
-            //NavigateToPage(typeof(StartPage));
+            NavigateToPage(typeof(StartPage));
         }
 
         #endregion
@@ -326,6 +325,10 @@ namespace HungryWormGame
 
             RemoveGameObjects();
             StartGameSounds();
+
+            var directions = Enum.GetNames<MovementDirection>();
+            UpdateMovementDirection((MovementDirection)_random.Next(1, directions.Length));
+
             RunGame();
         }
 
@@ -484,9 +487,7 @@ namespace HungryWormGame
             };
 
             SoundHelper.PlaySound(SoundType.GAME_OVER);
-
-            //TODO: navigate to game over page
-            //NavigateToPage(typeof(GameOverPage));
+            NavigateToPage(typeof(GameOverPage));
         }
 
         #endregion

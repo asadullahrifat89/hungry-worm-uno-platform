@@ -72,15 +72,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "A cute ☺️ hungry rush on WebAssembly."
+        "Value": "A cute 😘 hungry rush on WebAssembly."
       },
       {
         "Culture": "de",
-        "Value": "Ein niedlicher ☺️ hungriger Ansturm auf WebAssembly."
+        "Value": "Ein niedlicher 😘 hungriger Ansturm auf WebAssembly."
       },
       {
         "Culture": "fr",
-        "Value": "Une jolie ☺️ ruée vers le WebAssembly."
+        "Value": "Une jolie 😘 ruée vers le WebAssembly."
       }
     ]
   },
@@ -310,49 +310,49 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Move your car across the screen with your mouse, keyboard or touch screen."
+        "Value": "Move across the screen with your keyboard or by clicking or tapping on the top, bottom, left or right parts of your screen."
       },
       {
         "Culture": "de",
-        "Value": "Bewegen Sie Ihr Auto mit der Maus, der Tastatur oder dem Touchscreen über den Bildschirm."
+        "Value": "Bewegen Sie sich über den Bildschirm mit der Tastatur oder durch Klicken oder Tippen auf den oberen, unteren, linken oder rechten Teil des Bildschirms."
       },
       {
         "Culture": "fr",
-        "Value": "Déplacez votre voiture sur l'écran avec votre souris, votre clavier ou votre écran tactile."
+        "Value": "Déplacez-vous sur l'écran avec votre clavier ou en cliquant ou tapant sur les parties supérieure, inférieure, gauche ou droite de votre écran."
       }
     ]
   },
   {
-    "Key": "CarsInstructionsHeader",
+    "Key": "HealthsInstructionsHeader",
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Cars"
+        "Value": "Health"
       },
       {
         "Culture": "de",
-        "Value": "Autos"
+        "Value": "Gesundheit"
       },
       {
         "Culture": "fr",
-        "Value": "Voitures"
+        "Value": "Santé"
       }
     ]
   },
   {
-    "Key": "CarsInstructionsDetail",
+    "Key": "HealthsInstructionsDetail",
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Avoid colliding with other cars and loosing health."
+        "Value": "This is your health bar. It depletes with time. When it runs out its game over."
       },
       {
         "Culture": "de",
-        "Value": "Vermeiden Sie Zusammenstöße mit anderen Autos und den Verlust von Gesundheit."
+        "Value": "Dies ist deine Gesundheitsleiste. Sie verbraucht sich mit der Zeit. Wenn sie aufgebraucht ist, ist das Spiel vorbei."
       },
       {
         "Culture": "fr",
-        "Value": "Évitez d'entrer en collision avec d'autres voitures et de perdre de la santé."
+        "Value": "C'est votre barre de santé. Elle s'épuise avec le temps. Quand elle est épuisée, le jeu est terminé."
       }
     ]
   },
@@ -378,15 +378,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Collect these as much as you can to add to your score."
+        "Value": "Collect these as much as you can to survive and earn points."
       },
       {
         "Culture": "de",
-        "Value": "Sammle sie so oft wie möglich, um deinen Punktestand zu erhöhen."
+        "Value": "Sammle sie so oft wie möglich ein, um zu überleben und Punkte zu sammeln."
       },
       {
         "Culture": "fr",
-        "Value": "Collectez-les autant que vous le pouvez pour augmenter votre score."
+        "Value": "Collectez-les autant que vous le pouvez pour survivre et gagner des points."
       }
     ]
   },
@@ -412,49 +412,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Collect these to enable force shield, time lapse, 2x, and 4x score multiplier."
+        "Value": "Collect these to pull collectibles like a magnet."
       },
       {
         "Culture": "de",
-        "Value": "Sammeln Sie diese, um Kraftschild, Zeitraffer, 2x und 4x Punktemultiplikator zu aktivieren."
+        "Value": "Sammle diese, um Sammlerstücke wie ein Magnet anzuziehen."
       },
       {
         "Culture": "fr",
-        "Value": "Rassemblez-les pour activer le bouclier de force, le time lapse, le multiplicateur de score 2x et 4x."
-      }
-    ]
-  },
-  {
-    "Key": "HealthsInstructionsHeader",
-    "CultureValues": [
-      {
-        "Culture": "en",
-        "Value": "Healths"
-      },
-      {
-        "Culture": "de",
-        "Value": "Leben"
-      },
-      {
-        "Culture": "fr",
-        "Value": "Vies"
-      }
-    ]
-  },
-  {
-    "Key": "HealthsInstructionsDetail",
-    "CultureValues": [
-      {
-        "Culture": "en",
-        "Value": "Collect them to repair your car."
-      },
-      {
-        "Culture": "de",
-        "Value": "Sammle sie, um dein Auto zu reparieren."
-      },
-      {
-        "Culture": "fr",
-        "Value": "Collectez-les pour réparer votre voiture."
+        "Value": "Collectionnez-les pour attirer les objets de collection comme un aimant."
       }
     ]
   },

@@ -56,7 +56,7 @@ namespace HungryWormGame
             InitializeLogging();
             InitializeComponent();
 
-            Uno.UI.ApplicationHelper.RequestedCustomTheme = "Dark";
+            Uno.UI.ApplicationHelper.RequestedCustomTheme = "Light";
 
 #if HAS_UNO || NETFX_CORE
             Suspending += OnSuspending;

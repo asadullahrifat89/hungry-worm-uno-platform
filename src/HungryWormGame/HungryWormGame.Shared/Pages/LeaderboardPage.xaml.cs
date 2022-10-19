@@ -1,15 +1,17 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using System;
+﻿using System;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.Extensions.DependencyInjection;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Uno.Extensions;
+using System.Threading;
 
 namespace HungryWormGame
 {
-    public sealed partial class StartPage : Page
+    public sealed partial class LeaderboardPage : Page
     {
         #region Fields
 
@@ -21,22 +23,33 @@ namespace HungryWormGame
         private double _windowHeight, _windowWidth;
         private double _scale;
 
-        private int _gameSpeed = 5;
+        private int _gameSpeed = 8;
 
         private int _markNum;
-                
+
         private Uri[] _collectibles;
 
         private readonly IBackendService _backendService;
 
         #endregion
 
+        #region Properties
+
+        public ObservableCollection<GameProfile> GameProfilesCollection { get; set; } = new ObservableCollection<GameProfile>();
+
+        public ObservableCollection<GameScore> GameScoresCollection { get; set; } = new ObservableCollection<GameScore>();
+
+        #endregion
+
         #region Ctor
 
-        public StartPage()
+        public LeaderboardPage()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             _backendService = (Application.Current as App).Host.Services.GetRequiredService<IBackendService>();
+
+            GameProfilesList.ItemsSource = GameProfilesCollection;
+            GameScoresList.ItemsSource = GameScoresCollection;
 
             _windowHeight = Window.Current.Bounds.Height;
             _windowWidth = Window.Current.Bounds.Width;
@@ -44,14 +57,8 @@ namespace HungryWormGame
             LoadGameElements();
             PopulateGameViews();
 
-            SoundHelper.LoadGameSounds(() =>
-            {
-                StartGameSounds();
-                AssetHelper.PreloadAssets(ProgressBar);
-            });
-
-            Loaded += GamePage_Loaded;
-            Unloaded += GamePage_Unloaded;
+            this.Loaded += LeaderboardPage_Loaded;
+            this.Unloaded += LeaderboardPage_Unloaded;
         }
 
         #endregion
@@ -60,21 +67,24 @@ namespace HungryWormGame
 
         #region Page
 
-        private async void GamePage_Loaded(object sender, RoutedEventArgs e)
+        private async void LeaderboardPage_Loaded(object sender, RoutedEventArgs e)
         {
+            this.SetLocalization();
+
+            this.RunProgressBar();
+
+            if (await GetGameProfile())
+                ShowUserName();
+
+            DailyScoreboardToggle.IsChecked = true;
+
+            this.StopProgressBar();
+
             SizeChanged += GamePage_SizeChanged;
             StartAnimation();
-
-            LocalizationHelper.CheckLocalizationCache();
-            await LocalizationHelper.LoadLocalizationKeys(() =>
-            {
-                this.SetLocalization();
-            });
-
-            await CheckUserSession();
         }
 
-        private void GamePage_Unloaded(object sender, RoutedEventArgs e)
+        private void LeaderboardPage_Unloaded(object sender, RoutedEventArgs e)
         {
             SizeChanged -= GamePage_SizeChanged;
             StopAnimation();
@@ -96,61 +106,38 @@ namespace HungryWormGame
 
         #region Buttons
 
-        private void LanguageButton_Click(object sender, RoutedEventArgs e)
-        {
-            if ((sender as Button)?.Tag is string tag)
-            {
-                SoundHelper.PlaySound(SoundType.MENU_SELECT);
-
-                LocalizationHelper.CurrentCulture = tag;
-
-                if (CookieHelper.IsCookieAccepted())
-                    LocalizationHelper.SaveLocalizationCache(tag);
-
-                this.SetLocalization();
-            }
-        }
-
-        private void HowToPlayButton_Click(object sender, RoutedEventArgs e)
-        {
-            NavigateToPage(typeof(HowToPlayPage));
-        }
-
-        private void PlayButton_Click(object sender, RoutedEventArgs e)
+        private void PlayAgainButton_Click(object sender, RoutedEventArgs e)
         {
             NavigateToPage(typeof(GamePage));
         }
 
-        private void LeaderboardButton_Click(object sender, RoutedEventArgs e)
+        private async void AllTimeScoreboardToggle_Click(object sender, RoutedEventArgs e)
         {
-            NavigateToPage(typeof(LeaderboardPage));
+            SoundHelper.PlaySound(SoundType.MENU_SELECT);
+
+            this.RunProgressBar();
+
+            DailyScoreboardToggle.IsChecked = false;
+            await GetGameProfiles();
+
+            this.StopProgressBar();
         }
 
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        private async void DailyScoreboardToggle_Click(object sender, RoutedEventArgs e)
         {
-            NavigateToPage(typeof(LoginPage));
+            SoundHelper.PlaySound(SoundType.MENU_SELECT);
+
+            this.RunProgressBar();
+
+            AllTimeScoreboardToggle.IsChecked = false;
+            await GetGameScores();
+
+            this.StopProgressBar();
         }
 
-        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        private void GoBackButton_Click(object sender, RoutedEventArgs e)
         {
-            PerformLogout();
-        }
-
-        private void RegisterButton_Click(object sender, RoutedEventArgs e)
-        {
-            NavigateToPage(typeof(SignUpPage));
-        }
-
-        private void CookieAcceptButton_Click(object sender, RoutedEventArgs e)
-        {
-            CookieHelper.SetCookieAccepted();
-            CookieToast.Visibility = Visibility.Collapsed;
-        }
-
-        private void CookieDeclineButton_Click(object sender, RoutedEventArgs e)
-        {
-            CookieHelper.SetCookieDeclined();
-            CookieToast.Visibility = Visibility.Collapsed;
+            NavigateToPage(typeof(StartPage));
         }
 
         #endregion
@@ -160,54 +147,6 @@ namespace HungryWormGame
         #region Methods
 
         #region Logic
-
-        private async Task CheckUserSession()
-        {
-            SessionHelper.TryLoadSession();
-
-            if (GameProfileHelper.HasUserLoggedIn())
-            {
-                if (SessionHelper.HasSessionExpired())
-                {
-                    SessionHelper.RemoveCachedSession();
-                    SetLoginContext();
-                }
-                else
-                {
-                    SetLogoutContext();
-                }
-            }
-            else
-            {
-                if (SessionHelper.HasSessionExpired())
-                {
-                    SessionHelper.RemoveCachedSession();
-                    SetLoginContext();
-                    ShowCookieToast();
-                }
-                else
-                {
-                    if (SessionHelper.GetCachedSession() is Session session
-                        && await ValidateSession(session)
-                        && await GetGameProfile())
-                    {
-                        SetLogoutContext();
-                        ShowWelcomeBackToast();
-                    }
-                    else
-                    {
-                        SetLoginContext();
-                        ShowCookieToast();
-                    }
-                }
-            }
-        }
-
-        private async Task<bool> ValidateSession(Session session)
-        {
-            var (IsSuccess, _) = await _backendService.ValidateUserSession(session);
-            return IsSuccess;
-        }
 
         private async Task<bool> GetGameProfile()
         {
@@ -220,50 +159,136 @@ namespace HungryWormGame
                 return false;
             }
 
+            SetGameScores(
+                personalBestScore: GameProfileHelper.GameProfile.PersonalBestScore,
+                lastGameScore: GameProfileHelper.GameProfile.LastGameScore);
+
             return true;
         }
 
-        private void PerformLogout()
+        private async Task<bool> GetGameProfiles()
         {
-            SoundHelper.PlaySound(SoundType.MENU_SELECT);
-            SessionHelper.RemoveCachedSession();
-            AuthTokenHelper.AuthToken = null;
-            GameProfileHelper.GameProfile = null;
-            PlayerScoreHelper.PlayerScore = null;
+            GameProfilesCollection.Clear();
+            SetListViewMessage(LocalizationHelper.GetLocalizedResource("LOADING_DATA"));
 
-            SetLoginContext();
+            (bool IsSuccess, string Message, GameProfile[] GameProfiles) = await _backendService.GetUserGameProfiles(pageIndex: 0, pageSize: 10);
+
+            if (!IsSuccess)
+            {
+                var error = Message;
+                this.ShowError(error);
+                return false;
+            }
+
+            if (GameProfiles is not null && GameProfiles.Length > 0)
+            {
+                SetListViewMessage();
+                GameProfilesCollection.AddRange(GameProfiles);
+                SetLeaderboardPlacements(GameProfilesCollection);
+                IndicateCurrentPlayer(GameProfilesCollection.Cast<LeaderboardPlacement>().ToObservableCollection());
+            }
+            else
+            {
+                SetListViewMessage(LocalizationHelper.GetLocalizedResource("NO_DATA_AVAILABLE"));
+            }
+
+            return true;
         }
 
-        private void ShowCookieToast()
+        private async Task<bool> GetGameScores()
         {
-            if (!CookieHelper.IsCookieAccepted())
-                CookieToast.Visibility = Visibility.Visible;
+            GameScoresCollection.Clear();
+            SetListViewMessage(LocalizationHelper.GetLocalizedResource("LOADING_DATA"));
+
+            (bool IsSuccess, string Message, GameScore[] GameScores) = await _backendService.GetUserGameScores(pageIndex: 0, pageSize: 10);
+
+            if (!IsSuccess)
+            {
+                var error = Message;
+                this.ShowError(error);
+                return false;
+            }
+
+            if (GameScores is not null && GameScores.Length > 0)
+            {
+                SetListViewMessage();
+                GameScoresCollection.AddRange(GameScores);
+                SetLeaderboardPlacements(GameScoresCollection);
+                IndicateCurrentPlayer(GameScoresCollection.Cast<LeaderboardPlacement>().ToObservableCollection());
+            }
+            else
+            {
+                SetListViewMessage(LocalizationHelper.GetLocalizedResource("NO_DATA_AVAILABLE"));
+            }
+
+            return true;
         }
 
-        private void SetLogoutContext()
+        private void SetLeaderboardPlacements(dynamic leaderboardPlacements)
         {
-            LogoutButton.Visibility = Visibility.Visible;
-            LeaderboardButton.Visibility = Visibility.Visible;
-            LoginButton.Visibility = Visibility.Collapsed;
-            RegisterButton.Visibility = Visibility.Collapsed;
+            if (leaderboardPlacements.Count > 0)
+            {
+                // king of the ring
+                if (leaderboardPlacements[0] is LeaderboardPlacement firstPlacement)
+                {
+                    firstPlacement.MedalEmoji = "🥇";
+                    firstPlacement.Emoji = "🏆";
+                }
+
+                if (leaderboardPlacements.Count > 1)
+                {
+                    if (leaderboardPlacements[1] is LeaderboardPlacement secondPlacement)
+                    {
+                        secondPlacement.MedalEmoji = "🥈";
+                    }
+                }
+
+                if (leaderboardPlacements.Count > 2)
+                {
+                    if (leaderboardPlacements[2] is LeaderboardPlacement thirdPlacement)
+                    {
+                        thirdPlacement.MedalEmoji = "🥉";
+                    }
+                }
+            }
         }
 
-        private void SetLoginContext()
+        private void IndicateCurrentPlayer(ObservableCollection<LeaderboardPlacement> leaderboardPlacements)
         {
-            LogoutButton.Visibility = Visibility.Collapsed;
-            LeaderboardButton.Visibility = Visibility.Collapsed;
-            LoginButton.Visibility = Visibility.Visible;
-            RegisterButton.Visibility = Visibility.Visible;
+            if (leaderboardPlacements is not null)
+            {
+                if (leaderboardPlacements.FirstOrDefault(x => x.User.UserName == GameProfileHelper.GameProfile.User.UserName || x.User.UserEmail == GameProfileHelper.GameProfile.User.UserEmail) is LeaderboardPlacement placement)
+                {
+                    placement.Emoji = "👨‍🚀";
+                }
+            }
         }
 
-        private async void ShowWelcomeBackToast()
+        private void SetListViewMessage(string message = null)
         {
-            SoundHelper.PlaySound(SoundType.POWER_UP);
-            UserName.Text = GameProfileHelper.GameProfile.User.UserName;
+            ListViewMessage.Text = message;
+            ListViewMessage.Visibility = message.IsNullOrBlank() ? Visibility.Collapsed : Visibility.Visible;
+        }
 
-            WelcomeBackToast.Opacity = 1;
-            await Task.Delay(TimeSpan.FromSeconds(5));
-            WelcomeBackToast.Opacity = 0;
+        private void SetGameScores(double personalBestScore, double lastGameScore)
+        {
+            PersonalBestScoreText.Text = LocalizationHelper.GetLocalizedResource("PersonalBestScoreText") + ": " + personalBestScore;
+            LastGameScoreText.Text = LocalizationHelper.GetLocalizedResource("LastGameScoreText") + ": " + lastGameScore;
+        }
+
+
+        private void ShowUserName()
+        {
+            if (GameProfileHelper.HasUserLoggedIn())
+            {
+                UserName.Text = GameProfileHelper.GameProfile.User.UserName;
+                UserPicture.Initials = GameProfileHelper.GameProfile.Initials;
+                PlayerNameHolder.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                PlayerNameHolder.Visibility = Visibility.Collapsed;
+            }
         }
 
         #endregion
@@ -276,6 +301,9 @@ namespace HungryWormGame
 
             UnderView.Width = _windowWidth;
             UnderView.Height = _windowHeight;
+
+            OverView.Width = _windowWidth;
+            OverView.Height = _windowHeight;
         }
 
         private void NavigateToPage(Type pageType)
@@ -285,8 +313,6 @@ namespace HungryWormGame
 
             SoundHelper.PlaySound(SoundType.MENU_SELECT);
             App.NavigateToPage(pageType);
-
-            App.EnterFullScreen(true);
         }
 
         #endregion
@@ -305,7 +331,7 @@ namespace HungryWormGame
         }
 
         private void LoadGameElements()
-        {            
+        {
             _collectibles = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.COLLECTIBLE).Select(x => x.Value).ToArray();
         }
 
@@ -403,7 +429,7 @@ namespace HungryWormGame
 
         private void SpawnDirt()
         {
-            var dirt = new Dirt((double)_random.Next(5, 100) * _scale);            
+            var dirt = new Dirt((double)_random.Next(5, 100) * _scale);
             UnderView.Children.Add(dirt);
         }
 
@@ -437,7 +463,7 @@ namespace HungryWormGame
         {
             Collectible collectible = new(Constants.COLLECTIBLE_SIZE * _scale);
             RandomizeCollectiblePosition(collectible);
-          
+
             UnderView.Children.Add(collectible);
         }
 
@@ -466,16 +492,6 @@ namespace HungryWormGame
         }
 
         #endregion
-
-        #region Sound
-
-        private void StartGameSounds()
-        {
-            SoundHelper.RandomizeSound(SoundType.INTRO);
-            SoundHelper.PlaySound(SoundType.INTRO);
-        }
-
-        #endregion        
 
         #endregion
 
