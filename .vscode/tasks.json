@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/src/HungryWorm/HungryWorm.Wasm/HungryWorm.Wasm.csproj",
+                "${workspaceFolder}/src/HungryWormGame/HungryWormGame.Wasm/HungryWormGame.Wasm.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/src/HungryWorm/HungryWorm.Wasm/HungryWorm.Wasm.csproj",
+                "${workspaceFolder}/src/HungryWormGame/HungryWormGame.Wasm/HungryWormGame.Wasm.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -33,7 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/src/HungryWorm/HungryWorm.Wasm/HungryWorm.Wasm.csproj"
+                "${workspaceFolder}/src/HungryWormGame/HungryWormGame.Wasm/HungryWormGame.Wasm.csproj"
             ],
             "problemMatcher": "$msCompile"
         }
