@@ -4,13 +4,13 @@
     {
         #region Ctor
 
-        public Collectible(double size)
+        public Collectible(double scale)
         {
             Tag = ElementType.COLLECTIBLE;
 
-            Height = size;
-            Width = size;
-        } 
+            Height = Constants.COLLECTIBLE_SIZE * scale;
+            Width = Constants.COLLECTIBLE_SIZE * scale;
+        }
 
         #endregion
     }

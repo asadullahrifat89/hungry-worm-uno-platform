@@ -21,7 +21,7 @@ namespace HungryWormGame
         private double _windowHeight, _windowWidth;
         private double _scale;
 
-        private int _gameSpeed = 5;
+        private readonly int _gameSpeed = 5;
 
         private int _markNum;
                 
@@ -435,7 +435,7 @@ namespace HungryWormGame
 
         private void SpawnCollectible()
         {
-            Collectible collectible = new(Constants.COLLECTIBLE_SIZE * _scale);
+            Collectible collectible = new(_scale);
             RandomizeCollectiblePosition(collectible);
           
             UnderView.Children.Add(collectible);

@@ -6,20 +6,31 @@ namespace HungryWormGame
 {
     public class Player : GameObject
     {
+        #region Fields
+
+        private readonly double _thickness;
+        private readonly double _radius;
+
+        #endregion
+
         #region Ctor
 
-        public Player(double size)
+        public Player(double scale)
         {
             Tag = ElementType.PLAYER;
-            CornerRadius = new CornerRadius(5);
+
+            _thickness = 5 * scale;
+            _radius = 5 * scale;
+
+            CornerRadius = new CornerRadius(_radius);
 
             Background = Application.Current.Resources["WormBodyColor"] as SolidColorBrush;
             BorderBrush = Application.Current.Resources["WormBorderColor"] as SolidColorBrush;
 
-            BorderThickness = new Thickness(5);
+            BorderThickness = new Thickness(_thickness);
 
-            Width = size;
-            Height = size;
+            Width = Constants.PLAYER_SIZE * scale;
+            Height = Constants.PLAYER_SIZE * scale;
 
             SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.PLAYER).Value);
         }
@@ -36,28 +47,69 @@ namespace HungryWormGame
                     if (MovementDirection != MovementDirection.Down)
                     {
                         MovementDirection = MovementDirection.Up;
-                        BorderThickness = new Thickness(5, 5, 5, 0);                        
-                    }
-                    break;
-                case MovementDirection.Left:
-                    if (MovementDirection != MovementDirection.Right)
-                    {
-                        MovementDirection = MovementDirection.Left;
-                        BorderThickness = new Thickness(5, 5, 0, 5);
+
+                        BorderThickness = new Thickness(
+                            left: _thickness,
+                            top: _thickness,
+                            right: _thickness,
+                            bottom: 0);
+                        CornerRadius = new CornerRadius(
+                            topLeft: _radius,
+                            topRight: _radius,
+                            bottomRight: 0,
+                            bottomLeft: 0);
                     }
                     break;
                 case MovementDirection.Down:
                     if (MovementDirection != MovementDirection.Up)
                     {
                         MovementDirection = MovementDirection.Down;
-                        BorderThickness = new Thickness(5, 0, 5, 5);
+
+                        BorderThickness = new Thickness(
+                            left: _thickness,
+                            top: 0,
+                            right: _thickness,
+                            bottom: _thickness);
+                        CornerRadius = new CornerRadius(
+                            topLeft: 0,
+                            topRight: 0,
+                            bottomRight: _radius,
+                            bottomLeft: _radius);
                     }
                     break;
+                case MovementDirection.Left:
+                    if (MovementDirection != MovementDirection.Right)
+                    {
+                        MovementDirection = MovementDirection.Left;
+
+                        BorderThickness = new Thickness(
+                            left: _thickness,
+                            top: _thickness,
+                            right: 0,
+                            bottom: _thickness);
+                        CornerRadius = new CornerRadius(
+                            topLeft: _radius,
+                            topRight: 0,
+                            bottomRight: 0,
+                            bottomLeft: _radius);
+                    }
+                    break;
+
                 case MovementDirection.Right:
                     if (MovementDirection != MovementDirection.Left)
                     {
                         MovementDirection = MovementDirection.Right;
-                        BorderThickness = new Thickness(0, 5, 5, 5);
+
+                        BorderThickness = new Thickness(
+                            left: 0,
+                            top: _thickness,
+                            right: _thickness,
+                            bottom: _thickness);
+                        CornerRadius = new CornerRadius(
+                            topLeft: 0,
+                            topRight: _radius,
+                            bottomRight: _radius,
+                            bottomLeft: 0);
                     }
                     break;
             }

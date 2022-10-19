@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Input;
 using System;
 using System.Linq;
 using System.Threading;
+using Uno.Extensions;
 using Windows.Foundation;
 using Windows.System;
 
@@ -24,7 +25,7 @@ namespace HungryWormGame
         private readonly double _gameSpeedDefault = 6;
 
         private int _playerSpeed = 6;
-        private int _playerSpeedDefault = 6;
+        private readonly int _playerSpeedDefault = 6;
 
         private int _powerUpCount;
         private readonly int _powerUpSpawnLimit = 1;
@@ -35,7 +36,7 @@ namespace HungryWormGame
         private int _lives;
         private readonly int _maxLives = 3;
 
-        private int _healthSpawnCounter = 500;
+        private readonly int _healthSpawnCounter = 500;
 
         private double _score;
 
@@ -76,7 +77,7 @@ namespace HungryWormGame
         private int _playerYummyFaceCounter;
 
         private int _playerTrailSpawnCounter;
-        private int _playerTrailSpawnCounterDefault = 1;
+        private readonly int _playerTrailSpawnCounterDefault = 1;
 
         #endregion
 
@@ -249,7 +250,7 @@ namespace HungryWormGame
         private void PopulateGameView()
         {
             // add player
-            _player = new Player(Constants.PLAYER_SIZE * _scale);
+            _player = new Player(_scale);
 
             _player.SetPosition(
                 left: GameView.Width / 2 - _player.Width / 2,
@@ -570,14 +571,10 @@ namespace HungryWormGame
             {
                 _playerTrailSpawnCounter = _playerTrailSpawnCounterDefault;
 
-                //double left = _player.GetLeft();
-                //double top = _player.GetTop();
-
                 double left = _playerHitBox.X;
                 double top = _playerHitBox.Y;
 
-
-                PlayerTrail playerTrail = new(Constants.PLAYER_TRAIL_SIZE * _scale);
+                PlayerTrail playerTrail = new(_scale);
                 playerTrail.SetPosition(left, top);
                 playerTrail.SetZ(0);
                 playerTrail.UpdateMovementDirection(_player.MovementDirection);
@@ -609,14 +606,15 @@ namespace HungryWormGame
 
             if (_playerTrailCount > _playerTrailLength)
             {
-                var playerTrails = GameView.GetGameObjects<PlayerTrail>().ToArray();
+                GameView.AddDestroyableGameObject(playerTrail);
 
-                GameView.AddDestroyableGameObject(playerTrails[0]);
+                if (GameView.GetGameObjects<PlayerTrail>().ToArray()[_playerTrailCount - _playerTrailLength] is PlayerTrail tail)
+                {
+                    tail.BorderThickness = new Thickness(5 * _scale);
+                    tail.CornerRadius = new CornerRadius(5 * _scale);
+                }
+
                 _playerTrailCount--;
-
-                // give tail a proper border
-                var tail = playerTrails[1];
-                tail.BorderThickness = new Thickness(5);
             }
         }
 
@@ -626,7 +624,7 @@ namespace HungryWormGame
 
         private void SpawnCollectible()
         {
-            Collectible collectible = new(Constants.COLLECTIBLE_SIZE * _scale);
+            Collectible collectible = new(_scale);
 
             collectible.SetContent(_collectibleTemplates[_random.Next(0, _collectibleTemplates.Length)]);
 
@@ -661,35 +659,45 @@ namespace HungryWormGame
             // if object goes out of bounds then make it reenter game view
             RecycleGameObject(collectible);
 
-            if (_playerHitBox.IntersectsWith(collectible.GetHitBox()))
+            if (collectible.IsFlaggedForShrinking)
             {
-                GameView.AddDestroyableGameObject(collectible);
-                Collectible();
+                collectible.Shrink();
+
+                if (collectible.HasShrinked)
+                    GameView.AddDestroyableGameObject(collectible);
             }
-
-            // in power mode draw the collectible closer
-            if (_isPowerMode)
+            else
             {
-                var playerHitBoxDistant = _player.GetDistantHitBox();
-                var collectibleHitBoxDistant = collectible.GetDistantHitBox();
-
-                if (playerHitBoxDistant.IntersectsWith(collectibleHitBoxDistant))
-                {
-                    var collectibleHitBox = collectible.GetHitBox();
-
-                    if (_playerHitBox.Left < collectibleHitBox.Left)
-                        collectible.SetLeft(collectible.GetLeft() - _gameSpeed * 1.5);
-
-                    if (collectibleHitBox.Right < _playerHitBox.Left)
-                        collectible.SetLeft(collectible.GetLeft() + _gameSpeed * 1.5);
-
-                    if (collectibleHitBox.Top > _playerHitBox.Bottom)
-                        collectible.SetTop(collectible.GetTop() - _gameSpeed * 1.5);
-
-                    if (collectibleHitBox.Bottom < _playerHitBox.Top)
-                        collectible.SetTop(collectible.GetTop() + _gameSpeed * 1.5);
+                if (_playerHitBox.IntersectsWith(collectible.GetHitBox()))
+                {   
+                    collectible.IsFlaggedForShrinking = true;
+                    Collectible();
                 }
-            }
+
+                // in power mode draw the collectible closer
+                if (_isPowerMode)
+                {
+                    var playerHitBoxDistant = _player.GetDistantHitBox();
+                    var collectibleHitBoxDistant = collectible.GetDistantHitBox();
+
+                    if (playerHitBoxDistant.IntersectsWith(collectibleHitBoxDistant))
+                    {
+                        var collectibleHitBox = collectible.GetHitBox();
+
+                        if (_playerHitBox.Left < collectibleHitBox.Left)
+                            collectible.SetLeft(collectible.GetLeft() - _gameSpeed * 1.5);
+
+                        if (collectibleHitBox.Right < _playerHitBox.Left)
+                            collectible.SetLeft(collectible.GetLeft() + _gameSpeed * 1.5);
+
+                        if (collectibleHitBox.Top > _playerHitBox.Bottom)
+                            collectible.SetTop(collectible.GetTop() - _gameSpeed * 1.5);
+
+                        if (collectibleHitBox.Bottom < _playerHitBox.Top)
+                            collectible.SetTop(collectible.GetTop() + _gameSpeed * 1.5);
+                    }
+                }
+            }           
         }
 
         private void Collectible()
@@ -776,7 +784,7 @@ namespace HungryWormGame
 
         private void SpawnPowerUp()
         {
-            PowerUp powerUp = new(Constants.POWERUP_SIZE * _scale);
+            PowerUp powerUp = new(_scale);
 
             powerUp.SetPosition(
                 left: _random.Next(0, (int)(GameView.Width - 55)),
