@@ -113,9 +113,8 @@ namespace HungryWormGame
         }
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
-        {
-            //TODO: to signup page
-            //NavigateToPage(typeof(SignUpPage));
+        {            
+            NavigateToPage(typeof(SignUpPage));
         }
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
