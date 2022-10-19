@@ -65,14 +65,16 @@ namespace HungryWorm
 
             new KeyValuePair<SoundType, string>(SoundType.BACKGROUND, "Assets/Sounds/background1.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.BACKGROUND, "Assets/Sounds/background2.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.BACKGROUND, "Assets/Sounds/background3.mp3"),
 
             new KeyValuePair<SoundType, string>(SoundType.GAME_OVER, "Assets/Sounds/game-over.mp3"),
 
             new KeyValuePair<SoundType, string>(SoundType.POWER_UP, "Assets/Sounds/power-up.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.POWER_DOWN, "Assets/Sounds/power-down.mp3"),            
 
-            new KeyValuePair<SoundType, string>(SoundType.ATE_FOOD, "Assets/Sounds/ate-food1.mp3"),
-            new KeyValuePair<SoundType, string>(SoundType.ATE_FOOD, "Assets/Sounds/ate-food2.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.ATE_FOOD, "Assets/Sounds/food-bite1.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.ATE_FOOD, "Assets/Sounds/food-bite2.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.ATE_FOOD, "Assets/Sounds/food-bite3.mp3"),
         };
 
         #endregion
