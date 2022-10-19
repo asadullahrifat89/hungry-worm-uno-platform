@@ -31,9 +31,11 @@ namespace HungryWorm
         private int _playerSpeed = 6;
         private int _playerSpeedDefault = 6;
 
-        private int _powerUpSpawnCounter = 30;
-        private int _powerModeCounter = 500;
-        private readonly int _powerModeDelay = 500;
+        private int _powerUpCount;
+        private readonly int _powerUpSpawnLimit = 1;
+        private int _powerUpSpawnCounter = 800;
+        private int _powerModeDurationCounter;
+        private readonly int _powerModeDuration = 800;
 
         private int _lives;
         private readonly int _maxLives = 3;
@@ -41,7 +43,6 @@ namespace HungryWorm
         private int _healthSpawnCounter = 500;
 
         private double _score;
-        private int _foodCollected;
 
         private bool _isGameOver;
         private bool _isPowerMode;
@@ -60,6 +61,7 @@ namespace HungryWorm
         private int _foodSpawnCounter;
         private int _foodSpawnLimit;
         private int _foodCount;
+        private int _foodCollected;
 
         private Uri[] _playerTemplates;
         private Uri[] _collectibleTemplates;
@@ -387,7 +389,8 @@ namespace HungryWorm
             _isGameOver = false;
             _isPowerMode = false;
             //_powerUpType = 0;
-            _powerModeCounter = _powerModeDelay;
+            _powerModeDurationCounter = _powerModeDuration;
+            _powerUpCount = 0;
 
             _score = 0;
             _foodCollected = 0;
@@ -437,7 +440,7 @@ namespace HungryWorm
             {
                 PowerUpCoolDown();
 
-                if (_powerModeCounter <= 0)
+                if (_powerModeDurationCounter <= 0)
                     PowerDown();
             }
 
@@ -447,12 +450,15 @@ namespace HungryWorm
 
         private void SpawnGameObjects()
         {
-            _powerUpSpawnCounter--;
-
-            if (_powerUpSpawnCounter < 1)
+            if (_powerUpCount < _powerUpSpawnLimit)
             {
-                SpawnPowerUp();
-                _powerUpSpawnCounter = _random.Next(1000, 1200);
+                _powerUpSpawnCounter--;
+
+                if (_powerUpSpawnCounter < 1)
+                {
+                    SpawnPowerUp();
+                    _powerUpSpawnCounter = _random.Next(1000, 1200);
+                }
             }
 
             if (_foodCount < _foodSpawnLimit)
@@ -917,17 +923,18 @@ namespace HungryWorm
             powerUpText.Visibility = Visibility.Visible;
 
             _isPowerMode = true;
-            _powerModeCounter = _powerModeDelay;
+            _powerModeDurationCounter = _powerModeDuration;
 
             //TODO: Set speedy face
+            _powerUpCount++;
 
             SoundHelper.PlaySound(SoundType.POWER_UP);
         }
 
         private void PowerUpCoolDown()
         {
-            _powerModeCounter -= 1;
-            double remainingPow = (double)_powerModeCounter / (double)_powerModeDelay * 4;
+            _powerModeDurationCounter -= 1;
+            double remainingPow = (double)_powerModeDurationCounter / (double)_powerModeDuration * 4;
 
             powerUpText.Text = "";
             for (int i = 0; i < remainingPow; i++)
@@ -941,6 +948,7 @@ namespace HungryWorm
             _isPowerMode = false;
 
             powerUpText.Visibility = Visibility.Collapsed;
+            _powerUpCount--;
 
             //TODO: set normal face
             SoundHelper.PlaySound(SoundType.POWER_DOWN);
