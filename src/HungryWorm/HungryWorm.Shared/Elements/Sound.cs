@@ -67,12 +67,10 @@ namespace HungryWorm
     {
         MENU_SELECT,
         INTRO,
-        BACKGROUND,        
+        BACKGROUND,
         GAME_OVER,
         POWER_UP,
         POWER_DOWN,
-        HEALTH_GAIN,
-        HEALTH_LOSS,
         ATE_FOOD,
     }
 }

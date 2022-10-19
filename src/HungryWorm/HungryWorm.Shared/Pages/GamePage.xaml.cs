@@ -31,8 +31,8 @@ namespace HungryWorm
         private int _playerSpeed = 6;
         private int _playerSpeedDefault = 6;
 
-        //private int _powerUpSpawnCounter = 30;
-        //private int _powerModeCounter = 500;
+        private int _powerUpSpawnCounter = 30;
+        private int _powerModeCounter = 500;
         private readonly int _powerModeDelay = 500;
 
         private int _lives;
@@ -44,7 +44,7 @@ namespace HungryWorm
         private int _foodCollected;
 
         private bool _isGameOver;
-        //private bool _isPowerMode;
+        private bool _isPowerMode;
 
         //private bool _isPointerActivated;
         private Point _pointerPosition;
@@ -143,7 +143,7 @@ namespace HungryWorm
         private void InputView_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             PointerPoint point = e.GetCurrentPoint(GameView);
-            _pointerPosition = point.Position;           
+            _pointerPosition = point.Position;
 
             if (_isGameOver)
             {
@@ -171,9 +171,10 @@ namespace HungryWorm
                     return;
                 }
 
-
                 if (_pointerPosition.Y < playerMiddleY && _player.MovementDirection != MovementDirection.Up)
+                {
                     UpdateMovementDirection(MovementDirection.Up);
+                }
                 else if (_pointerPosition.Y > playerMiddleY && _player.MovementDirection != MovementDirection.Down)
                 {
                     UpdateMovementDirection(MovementDirection.Down);
@@ -384,9 +385,9 @@ namespace HungryWorm
             ResetControls();
 
             _isGameOver = false;
-            //_isPowerMode = false;
+            _isPowerMode = false;
             //_powerUpType = 0;
-            //_powerModeCounter = _powerModeDelay;
+            _powerModeCounter = _powerModeDelay;
 
             _score = 0;
             _foodCollected = 0;
@@ -432,12 +433,28 @@ namespace HungryWorm
             UpdateGameObjects();
             RemoveGameObjects();
 
+            if (_isPowerMode)
+            {
+                PowerUpCoolDown();
+
+                if (_powerModeCounter <= 0)
+                    PowerDown();
+            }
+
             DepleteHealth();
             ScaleDifficulty();
         }
 
         private void SpawnGameObjects()
         {
+            _powerUpSpawnCounter--;
+
+            if (_powerUpSpawnCounter < 1)
+            {
+                SpawnPowerUp();
+                _powerUpSpawnCounter = _random.Next(500, 800);
+            }
+
             if (_foodCount < _foodSpawnLimit)
             {
                 _foodSpawnCounter--;
@@ -474,6 +491,11 @@ namespace HungryWorm
                             UpdatePlayerTrail(x);
                         }
                         break;
+                    case ElementType.POWERUP:
+                        {
+                            UpdatePowerUp(x);
+                        }
+                        break;
                     default:
                         break;
                 }
@@ -508,7 +530,6 @@ namespace HungryWorm
             ShowInGameTextMessage("GAME_PAUSED");
 
             _gameViewTimer?.Dispose();
-
             ResetControls();
 
             SoundHelper.PlaySound(SoundType.MENU_SELECT);
@@ -594,7 +615,6 @@ namespace HungryWorm
 
         public bool CollisionWithSelf()
         {
-
             if (_player != null)
             {
                 foreach (var target in GameView.GetGameObjects<PlayerTrail>())
@@ -606,6 +626,7 @@ namespace HungryWorm
                     }
                 }
             }
+
             return false;
         }
 
@@ -693,12 +714,6 @@ namespace HungryWorm
                 var tail = playerTrails[1];
                 tail.BorderThickness = new Thickness(5);
             }
-
-            //if (_length > _maxLength)
-            //{
-            //    GameView.AddDestroyableGameObject(GameView.GetGameObjects<PlayerTrail>().First());
-            //    _length--;
-            //}         
         }
 
         #endregion
@@ -826,6 +841,85 @@ namespace HungryWorm
 
             if (_playerHealth <= 0)
                 GameOver();
+        }
+
+        #endregion
+
+        #region PowerUp
+
+        private void SpawnPowerUp()
+        {
+            PowerUp powerUp = new(Constants.POWERUP_SIZE * _scale);
+
+            powerUp.SetPosition(
+                left: _random.Next(0, (int)(GameView.Width - 55)),
+                top: _random.Next(100, (int)GameView.Height) * -1);
+
+            GameView.Children.Add(powerUp);
+        }
+
+        private void UpdatePowerUp(GameObject powerUp)
+        {
+            switch (_player.MovementDirection)
+            {
+                case MovementDirection.Right:
+                    powerUp.SetLeft(powerUp.GetLeft() - _gameSpeed);
+                    break;
+                case MovementDirection.Left:
+                    powerUp.SetLeft(powerUp.GetLeft() + _gameSpeed);
+                    break;
+                case MovementDirection.Up:
+                    powerUp.SetTop(powerUp.GetTop() + _gameSpeed);
+                    break;
+                case MovementDirection.Down:
+                    powerUp.SetTop(powerUp.GetTop() - _gameSpeed);
+                    break;
+                default:
+                    break;
+            }
+
+            // if object goes out of bounds then make it reenter game view
+            RecycleGameObject(powerUp);
+
+            if (_playerHitBox.IntersectsWith(powerUp.GetHitBox(_scale)))
+            {
+                GameView.AddDestroyableGameObject(powerUp);
+                PowerUp(powerUp);
+            }
+        }
+
+        private void PowerUp(GameObject powerUp)
+        {
+            powerUpText.Visibility = Visibility.Visible;
+
+            _isPowerMode = true;
+            _powerModeCounter = _powerModeDelay;
+
+            //TODO: Set speedy face
+
+            SoundHelper.PlaySound(SoundType.POWER_UP);
+        }
+
+        private void PowerUpCoolDown()
+        {
+            _powerModeCounter -= 1;
+            double remainingPow = (double)_powerModeCounter / (double)_powerModeDelay * 4;
+
+            powerUpText.Text = "";
+            for (int i = 0; i < remainingPow; i++)
+            {
+                powerUpText.Text += "⚡";
+            }
+        }
+
+        private void PowerDown()
+        {
+            _isPowerMode = false;
+
+            powerUpText.Visibility = Visibility.Collapsed;
+
+            //TODO: set normal face
+            SoundHelper.PlaySound(SoundType.POWER_DOWN);
         }
 
         #endregion

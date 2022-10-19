@@ -25,6 +25,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Elements\GameObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\Player.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\PlayerTrail.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Elements\PowerUp.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\Sound.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\GameObjectExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\HttpServiceExtensions.cs" />
@@ -104,11 +105,15 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player8.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player9.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_trail.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\powerup1.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\ate-food2.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\ate-food1.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\background2.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\menu-select.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\background1.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\game-over.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\power-down.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\power-up.mp3" />
     <_Globbled_Page Include="$(MSBuildThisFileDirectory)**/*.xaml" Exclude="@(Page);@(ApplicationDefinition)">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
