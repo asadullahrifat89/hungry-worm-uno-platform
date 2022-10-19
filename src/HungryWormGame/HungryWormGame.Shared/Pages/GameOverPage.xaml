@@ -55,6 +55,7 @@
                             VerticalAlignment="Center"
                             FontSize="15"
                             FontWeight="SemiBold"
+                            Foreground="White"
                             Text="You could earn a place on the leaderboard if you login."
                             TextWrapping="WrapWholeWords" />
 
@@ -85,7 +86,7 @@
                     Orientation="Vertical">
 
                     <!--  Game over logo  -->
-                    <Image Height="100" Source="ms-appx:///Assets/Images/game_over.png" />
+                    <Image Height="80" Source="ms-appx:///Assets/Images/game_over.png" />
 
                     <!--  Tagline  -->
                     <TextBlock
@@ -103,7 +104,6 @@
                             x:Name="ScoreNumberText"
                             FontSize="30"
                             FontWeight="Bold"
-                            Foreground="White"
                             TextAlignment="Center" />
 
                         <!--  Your score  -->

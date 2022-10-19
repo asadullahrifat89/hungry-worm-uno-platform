@@ -34,7 +34,7 @@
                 Orientation="Vertical">
 
                 <!--  Game logo  -->
-                <Image Height="100" Source="ms-appx:///Assets/Images/logo_game.png" />
+                <Image Height="100" Source="ms-appx:///Assets/Images/player2.png" />
 
                 <!--  Game name  -->
                 <TextBlock

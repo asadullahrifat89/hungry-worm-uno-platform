@@ -13,8 +13,8 @@ namespace HungryWormGame
             Tag = ElementType.PLAYER;
             CornerRadius = new CornerRadius(5);
 
-            Background = Application.Current.Resources["SnakeBodyColor"] as SolidColorBrush;
-            BorderBrush = Application.Current.Resources["SnakeBorderColor"] as SolidColorBrush;
+            Background = Application.Current.Resources["WormBodyColor"] as SolidColorBrush;
+            BorderBrush = Application.Current.Resources["WormBorderColor"] as SolidColorBrush;
 
             BorderThickness = new Thickness(5);
 

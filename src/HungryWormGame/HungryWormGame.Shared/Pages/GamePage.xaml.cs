@@ -325,6 +325,10 @@ namespace HungryWormGame
 
             RemoveGameObjects();
             StartGameSounds();
+
+            var directions = Enum.GetNames<MovementDirection>();
+            UpdateMovementDirection((MovementDirection)_random.Next(1, directions.Length));
+
             RunGame();
         }
 

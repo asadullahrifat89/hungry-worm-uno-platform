@@ -248,9 +248,7 @@ namespace HungryWormGame
 
         private void StartAnimation()
         {
-#if DEBUG
-            Console.WriteLine("GAME STARTED");
-#endif      
+            StartGameSounds();
             RecycleGameObjects();
             RunGame();
         }

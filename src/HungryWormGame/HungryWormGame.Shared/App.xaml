@@ -62,7 +62,7 @@
 
             <!--#region Game UI Container Style-->
             <Style x:Key="GameUIContainer" TargetType="Border">
-                <Setter Property="Background" Value="#ee64a4" />
+                <Setter Property="Background" Value="#f7b239" />
                 <Setter Property="BorderBrush" Value="White" />
                 <Setter Property="CornerRadius" Value="10" />
                 <Setter Property="BorderThickness" Value="0,3,0,3" />
@@ -88,8 +88,8 @@
             <SolidColorBrush x:Key="ProgressBarForegroundColor" Color="#f95428" />
             <SolidColorBrush x:Key="ProgressBarOkColor" Color="LightGreen" />
 
-            <SolidColorBrush x:Key="SnakeBodyColor" Color="#f7b239" />
-            <SolidColorBrush x:Key="SnakeBorderColor" Color="Chocolate" />
+            <SolidColorBrush x:Key="WormBodyColor" Color="#f7b239" />
+            <SolidColorBrush x:Key="WormBorderColor" Color="Chocolate" />
 
             <SolidColorBrush x:Key="GameBackgroundColor" Color="#723a23" />
             <SolidColorBrush x:Key="DirtBackgroundColor1" Color="#602811" />
