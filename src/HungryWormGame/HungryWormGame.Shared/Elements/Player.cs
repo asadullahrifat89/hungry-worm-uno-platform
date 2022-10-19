@@ -20,7 +20,7 @@ namespace HungryWormGame
             Tag = ElementType.PLAYER;
 
             _thickness = 5 * scale;
-            _radius = 35 * scale;
+            _radius = 5 * scale;
 
             CornerRadius = new CornerRadius(_radius);
 

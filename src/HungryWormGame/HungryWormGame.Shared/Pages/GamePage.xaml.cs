@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Input;
 using System;
 using System.Linq;
 using System.Threading;
+using Uno.Extensions;
 using Windows.Foundation;
 using Windows.System;
 
@@ -605,53 +606,129 @@ namespace HungryWormGame
 
             if (_playerTrailCount > _playerTrailLength)
             {
-                var playerTrails = GameView.GetGameObjects<PlayerTrail>().ToArray();
+                var playerTrails = GameView.GetGameObjects<PlayerTrail>().ToList();
 
-                GameView.AddDestroyableGameObject(playerTrails[0]);
+                GameView.AddDestroyableGameObject(playerTrails.First());
                 _playerTrailCount--;
 
-               
+                playerTrails.RemoveAt(0);
+
+                if (playerTrails.First() is PlayerTrail tail)
+                {
+                    tail.BorderThickness = new Thickness(5 * _scale);
+                    tail.CornerRadius = new CornerRadius(5 * _scale);
+                }
+
                 // give tail a proper border
-                if (playerTrails.Length > 1)
-                    LastPlayerTrail(playerTrails[1]);
 
-                if (playerTrails.Length > 2)
-                    LastPlayerTrail(playerTrails[2]);
+                //x.BorderThickness = new Thickness(5 * _scale);
+                //x.CornerRadius = new CornerRadius(35 * _scale);
 
-                if (playerTrails.Length > 3)
-                    LastPlayerTrail(playerTrails[3]);
+                //if (playerTrails.Length > 6)
+                //{
+                //    LastPlayerTrail(playerTrails[6]);
+                //    return;
+                //}
 
-                if (playerTrails.Length > 4)
-                    LastPlayerTrail(playerTrails[4]);
+                //if (playerTrails.Length > 5)
+                //{
+                //    LastPlayerTrail(playerTrails[5]);
+                //    return;
+                //}
 
-                if (playerTrails.Length > 5)
-                    LastPlayerTrail(playerTrails[5]);
+                //if (playerTrails.Length > 4)
+                //{
+                //    LastPlayerTrail(playerTrails[4]);
+                //    return;
+                //}
 
-                if (playerTrails.Length > 6)
-                    LastPlayerTrail(playerTrails[6]);
+                //if (playerTrails.Length > 3)
+                //{
+                //    LastPlayerTrail(playerTrails[3]);
+                //    return;
+                //}
 
+                //if (playerTrails.Length > 2)
+                //{
+                //    LastPlayerTrail(playerTrails[2]);
+                //    return;
+                //}
+
+                //if (playerTrails.Length > 1)
+                //{
+                //    LastPlayerTrail(playerTrails[1]);
+                //    return;
+                //}
             }
         }
 
         private void LastPlayerTrail(PlayerTrail x)
-        { 
+        {
+            var _thickness = 5 * _scale;
+            var _radius = 35 * _scale;
+
             //TODO: handle tail radius
-            x.BorderThickness = new Thickness(5 * _scale);
-            x.CornerRadius = new CornerRadius(35 * _scale);
+            //x.BorderThickness = new Thickness(5 * _scale);
+            //x.CornerRadius = new CornerRadius(35 * _scale);
 
             switch (_player.MovementDirection)
             {
-                case MovementDirection.Right:
-                    { }
-                    break;
-                case MovementDirection.Left:
-                    { }
-                    break;
                 case MovementDirection.Up:
-                    { }
+                    {
+                        x.BorderThickness = new Thickness(
+                          left: _thickness,
+                          top: 0,
+                          right: _thickness,
+                          bottom: _thickness);
+
+                        x.CornerRadius = new CornerRadius(
+                            topLeft: 0,
+                            topRight: 0,
+                            bottomRight: _radius,
+                            bottomLeft: _radius);
+                    }
                     break;
                 case MovementDirection.Down:
-                    { }
+                    {
+                        x.BorderThickness = new Thickness(
+                        left: _thickness,
+                        top: _thickness,
+                        right: _thickness,
+                        bottom: 0);
+                        x.CornerRadius = new CornerRadius(
+                            topLeft: _radius,
+                            topRight: _radius,
+                            bottomRight: 0,
+                            bottomLeft: 0);
+                    }
+                    break;
+                case MovementDirection.Right:
+                    {
+                        x.BorderThickness = new Thickness(
+                          left: _thickness,
+                          top: _thickness,
+                          right: 0,
+                          bottom: _thickness);
+                        x.CornerRadius = new CornerRadius(
+                            topLeft: _radius,
+                            topRight: 0,
+                            bottomRight: 0,
+                            bottomLeft: _radius);
+                    }
+                    break;
+                case MovementDirection.Left:
+                    {
+                        x.BorderThickness = new Thickness(
+                          left: 0,
+                          top: _thickness,
+                          right: _thickness,
+                          bottom: _thickness);
+                        x.CornerRadius = new CornerRadius(
+                            topLeft: 0,
+                            topRight: _radius,
+                            bottomRight: _radius,
+                            bottomLeft: 0);
+                    }
                     break;
                 default:
                     break;
