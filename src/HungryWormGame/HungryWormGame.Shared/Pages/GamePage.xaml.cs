@@ -608,14 +608,15 @@ namespace HungryWormGame
             {
                 var playerTrails = GameView.GetGameObjects<PlayerTrail>().ToArray();
 
-                GameView.AddDestroyableGameObject(playerTrails[0]);
-                _playerTrailCount--;
+                GameView.AddDestroyableGameObject(playerTrails[0]);                
 
                 if (playerTrails.Length > 0 && playerTrails[1] is PlayerTrail tail)
                 {
                     tail.BorderThickness = new Thickness(5 * _scale);
                     tail.CornerRadius = new CornerRadius(5 * _scale);
                 }
+
+                _playerTrailCount--;
             }
         }
 
