@@ -8,6 +8,7 @@ namespace HungryWormGame
         #region Fields
 
         private readonly double _thickness;
+        private readonly double _radius;
 
         #endregion
 
@@ -16,15 +17,17 @@ namespace HungryWormGame
         public PlayerTrail(double scale)
         {
             Tag = ElementType.PLAYER_TRAIL;
-            CornerRadius = new CornerRadius(5);
+
+            _radius = 5 * scale;
+            _thickness = 5 * scale;
+
+            CornerRadius = new CornerRadius(_radius);
 
             Background = Application.Current.Resources["WormBodyColor"] as SolidColorBrush;
             BorderBrush = Application.Current.Resources["WormBorderColor"] as SolidColorBrush;
 
             Width = Constants.PLAYER_TRAIL_SIZE * scale;
             Height = Constants.PLAYER_TRAIL_SIZE * scale;
-
-            _thickness = 5 * scale;
         }
 
         #endregion

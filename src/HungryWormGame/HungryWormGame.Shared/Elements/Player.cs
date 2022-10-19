@@ -8,7 +8,8 @@ namespace HungryWormGame
     {
         #region Fields
         
-        private readonly double _thickness; 
+        private readonly double _thickness;
+        private readonly double _radius;
 
         #endregion
 
@@ -17,12 +18,15 @@ namespace HungryWormGame
         public Player(double scale)
         {
             Tag = ElementType.PLAYER;
-            CornerRadius = new CornerRadius(5);
+
+            _thickness = 5 * scale;
+            _radius = 5 * scale;
+
+            CornerRadius = new CornerRadius(_radius);
 
             Background = Application.Current.Resources["WormBodyColor"] as SolidColorBrush;
             BorderBrush = Application.Current.Resources["WormBorderColor"] as SolidColorBrush;
-
-            _thickness = 5 * scale;
+           
             BorderThickness = new Thickness(_thickness);
 
             Width = Constants.PLAYER_SIZE * scale;
