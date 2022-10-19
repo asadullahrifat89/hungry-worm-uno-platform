@@ -610,10 +610,51 @@ namespace HungryWormGame
                 GameView.AddDestroyableGameObject(playerTrails[0]);
                 _playerTrailCount--;
 
+               
                 // give tail a proper border
-                var tail = playerTrails[1];
-                tail.BorderThickness = new Thickness(5 * _scale);
-                //TODO: handle tail radius
+                if (playerTrails.Length > 1)
+                    LastPlayerTrail(playerTrails[1]);
+
+                if (playerTrails.Length > 2)
+                    LastPlayerTrail(playerTrails[2]);
+
+                if (playerTrails.Length > 3)
+                    LastPlayerTrail(playerTrails[3]);
+
+                if (playerTrails.Length > 4)
+                    LastPlayerTrail(playerTrails[4]);
+
+                if (playerTrails.Length > 5)
+                    LastPlayerTrail(playerTrails[5]);
+
+                if (playerTrails.Length > 6)
+                    LastPlayerTrail(playerTrails[6]);
+
+            }
+        }
+
+        private void LastPlayerTrail(PlayerTrail x)
+        { 
+            //TODO: handle tail radius
+            x.BorderThickness = new Thickness(5 * _scale);
+            x.CornerRadius = new CornerRadius(35 * _scale);
+
+            switch (_player.MovementDirection)
+            {
+                case MovementDirection.Right:
+                    { }
+                    break;
+                case MovementDirection.Left:
+                    { }
+                    break;
+                case MovementDirection.Up:
+                    { }
+                    break;
+                case MovementDirection.Down:
+                    { }
+                    break;
+                default:
+                    break;
             }
         }
 
