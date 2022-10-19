@@ -2,14 +2,9 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using Uno.Extensions;
 using Windows.Foundation;
 using Windows.System;
 
@@ -119,7 +114,6 @@ namespace HungryWorm
 
             //TODO: remove this to start page
             await LocalizationHelper.LoadLocalizationKeys();
-
         }
 
         private void GamePage_Unloaded(object sender, RoutedEventArgs e)
@@ -156,62 +150,27 @@ namespace HungryWorm
             }
             else
             {
-                double left = _player.GetLeft();
-                double top = _player.GetTop();
-
-                double playerMiddleX = left + _player.Width / 2;
-                double playerMiddleY = top + _player.Height / 2;
-
-                if (_pointerPosition.X > playerMiddleX && _player.MovementDirection != MovementDirection.Right)
+                if (_pointerPosition.X > _playerHitBox.X && _player.MovementDirection != MovementDirection.Right)
                 {
                     UpdateMovementDirection(MovementDirection.Right);
                     return;
                 }
-                else if (_pointerPosition.X < playerMiddleX && _player.MovementDirection != MovementDirection.Left)
+                else if (_pointerPosition.X < _playerHitBox.X && _player.MovementDirection != MovementDirection.Left)
                 {
                     UpdateMovementDirection(MovementDirection.Left);
                     return;
                 }
 
-                if (_pointerPosition.Y < playerMiddleY && _player.MovementDirection != MovementDirection.Up)
+                if (_pointerPosition.Y < _playerHitBox.Y && _player.MovementDirection != MovementDirection.Up)
                 {
                     UpdateMovementDirection(MovementDirection.Up);
                 }
-                else if (_pointerPosition.Y > playerMiddleY && _player.MovementDirection != MovementDirection.Down)
+                else if (_pointerPosition.Y > _playerHitBox.Y && _player.MovementDirection != MovementDirection.Down)
                 {
                     UpdateMovementDirection(MovementDirection.Down);
                     return;
                 }
-
-                //// move right
-                //if (_player.MovementDirection != MovementDirection.Right && _pointerPosition.X > playerMiddleX + _playerSpeed && left + _player.Width < GameView.Width)
-                //{                  
-                //    UpdateMovementDirection(MovementDirection.Right);
-                //    return;
-                //}
-
-                //// move up
-                //if (_player.MovementDirection != MovementDirection.Up && _pointerPosition.Y < playerMiddleY - _playerSpeed)
-                //{                   
-                //    UpdateMovementDirection(MovementDirection.Up);
-                //    return;
-                //}
-
-                //// move left
-                //if (_player.MovementDirection != MovementDirection.Left && _pointerPosition.X < playerMiddleX - _playerSpeed && left > 0)
-                //{                   
-                //    UpdateMovementDirection(MovementDirection.Left);
-                //    return;
-                //}
-
-                //// move down
-                //if (_player.MovementDirection != MovementDirection.Down && _pointerPosition.Y > playerMiddleY + _playerSpeed)
-                //{                  
-                //    UpdateMovementDirection(MovementDirection.Down);
-                //    return;
-                //}
             }
-
         }
 
         private void InputView_PointerMoved(object sender, PointerRoutedEventArgs e)
@@ -328,6 +287,8 @@ namespace HungryWorm
 
             GameView.Children.Add(_player);
 
+            _playerHitBox = _player.GetHitBox();
+
             //// add 5 collectibles
             //for (int i = 0; i < 3; i++)
             //{
@@ -376,6 +337,7 @@ namespace HungryWorm
             _lives = _maxLives;
             //SetLives();
 
+            _playerTrailCount = 0;
             _playerTrailLength = 2;
             _foodSpawnLimit = 3;
             _foodCount = 0;
@@ -404,6 +366,21 @@ namespace HungryWorm
             _playerHealthDepletionCounter = 10;
 
             _playerTrailSpawnCounter = _playerTrailSpawnCounterDefault;
+
+            foreach (GameObject x in GameView.GetGameObjects<PlayerTrail>())
+            {
+                GameView.AddDestroyableGameObject(x);
+            }
+
+            foreach (GameObject x in GameView.GetGameObjects<Collectible>())
+            {
+                GameView.AddDestroyableGameObject(x);
+            }
+
+            foreach (GameObject x in GameView.GetGameObjects<PowerUp>())
+            {
+                GameView.AddDestroyableGameObject(x);
+            }
 
             RemoveGameObjects();
             StartGameSounds();
@@ -616,7 +593,7 @@ namespace HungryWorm
             SpawnPlayerTrail();
 
             //_player.SetZ(1);
-            _playerHitBox = _player.GetHitBox();
+            //_playerHitBox = _player.GetHitBox();
         }
 
         public bool CollisionWithSelf()

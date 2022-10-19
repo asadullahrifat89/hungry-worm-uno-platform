@@ -107,6 +107,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_trail.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\powerup1.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\background3.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\power-down.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\food-bite3.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\food-bite2.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\food-bite1.mp3" />
@@ -114,7 +115,6 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\menu-select.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\background1.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\game-over.mp3" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\power-down.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\power-up.mp3" />
     <_Globbled_Page Include="$(MSBuildThisFileDirectory)**/*.xaml" Exclude="@(Page);@(ApplicationDefinition)">
       <SubType>Designer</SubType>
