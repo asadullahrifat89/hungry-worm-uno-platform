@@ -21,6 +21,7 @@
     <_Globbed_Compile Remove="Elements\Player.cs" />
     <_Globbed_Compile Remove="Elements\Snake.cs" />
     <_Globbed_Compile Remove="Elements\Sound.cs" />
+    <_Globbed_Compile Remove="Pages\GameOverPage.xaml.cs" />
     <_Globbed_Compile Remove="Pages\GamePage2.xaml.cs" />
     <_Globbed_Compile Remove="Pages\StartPage.xaml.cs" />
   </ItemGroup>

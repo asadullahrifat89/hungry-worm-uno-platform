@@ -72,15 +72,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "A cute ☺️ hungry rush on WebAssembly."
+        "Value": "A cute 😘 hungry rush on WebAssembly."
       },
       {
         "Culture": "de",
-        "Value": "Ein niedlicher ☺️ hungriger Ansturm auf WebAssembly."
+        "Value": "Ein niedlicher 😘 hungriger Ansturm auf WebAssembly."
       },
       {
         "Culture": "fr",
-        "Value": "Une jolie ☺️ ruée vers le WebAssembly."
+        "Value": "Une jolie 😘 ruée vers le WebAssembly."
       }
     ]
   },
