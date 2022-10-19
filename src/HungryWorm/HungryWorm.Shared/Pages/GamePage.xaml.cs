@@ -452,7 +452,7 @@ namespace HungryWorm
             if (_powerUpSpawnCounter < 1)
             {
                 SpawnPowerUp();
-                _powerUpSpawnCounter = _random.Next(500, 800);
+                _powerUpSpawnCounter = _random.Next(1000, 1200);
             }
 
             if (_foodCount < _foodSpawnLimit)
@@ -610,7 +610,7 @@ namespace HungryWorm
             SpawnPlayerTrail();
 
             //_player.SetZ(1);
-            _playerHitBox = _player.GetHitBox(_scale);
+            _playerHitBox = _player.GetHitBox();
         }
 
         public bool CollisionWithSelf()
@@ -757,10 +757,31 @@ namespace HungryWorm
             // if object goes out of bounds then make it reenter game view
             RecycleGameObject(collectible);
 
-            if (_playerHitBox.IntersectsWith(collectible.GetHitBox(_scale)))
+            if (_playerHitBox.IntersectsWith(collectible.GetHitBox()))
             {
                 GameView.AddDestroyableGameObject(collectible);
                 Collectible();
+            }
+
+            // in power mode draw the collectible closer
+            if (_isPowerMode)
+            {
+                var collectibleHitBox = collectible.GetDistantHitBox(_scale);
+
+                //if (_playerHitBox.IntersectsWith(collectibleHitBox))
+                //{
+                if (_playerHitBox.Left < collectibleHitBox.Left)
+                    collectible.SetLeft(collectible.GetLeft() - _gameSpeed * 2);
+
+                if (collectibleHitBox.Right < _playerHitBox.Left)
+                    collectible.SetLeft(collectible.GetLeft() + _gameSpeed * 2);
+
+                if (collectibleHitBox.Top > _playerHitBox.Bottom)
+                    collectible.SetTop(collectible.GetTop() - _gameSpeed * 2);
+
+                if (collectibleHitBox.Bottom < _playerHitBox.Top)
+                    collectible.SetTop(collectible.GetTop() + _gameSpeed * 2);
+                //}
             }
         }
 
@@ -881,7 +902,7 @@ namespace HungryWorm
             // if object goes out of bounds then make it reenter game view
             RecycleGameObject(powerUp);
 
-            if (_playerHitBox.IntersectsWith(powerUp.GetHitBox(_scale)))
+            if (_playerHitBox.IntersectsWith(powerUp.GetHitBox()))
             {
                 GameView.AddDestroyableGameObject(powerUp);
                 PowerUp(powerUp);

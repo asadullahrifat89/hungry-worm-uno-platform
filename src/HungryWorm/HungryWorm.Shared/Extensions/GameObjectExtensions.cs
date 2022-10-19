@@ -42,14 +42,8 @@ namespace HungryWorm
             return false;
         }
 
-        public static Rect GetHitBox(this GameObject gameObject, double scale)
+        public static Rect GetHitBox(this GameObject gameObject)
         {
-            //var rect = new Rect(
-            //    x: gameObject.GetLeft() + (gameObject.Width / 3) - 5 * scale,
-            //    y: gameObject.GetTop() + (gameObject.Height / 6) * scale,
-            //    width: gameObject.Width - (gameObject.Width / 3) - 5 * scale,
-            //    height: gameObject.Height - ((gameObject.Height / 6) * 3) * scale);
-
             var rect = new Rect(
               x: gameObject.GetLeft(),
               y: gameObject.GetTop(),
@@ -59,7 +53,16 @@ namespace HungryWorm
             gameObject.SetHitBoxBorder(rect);
 
             return rect;
-        }      
+        }
+
+        public static Rect GetDistantHitBox(this GameObject gameObject, double scale)
+        {
+            return new Rect(
+                x: gameObject.GetLeft() - (gameObject.Width * 3) * scale,
+                y: gameObject.GetTop() - (gameObject.Height * 3) * scale,
+                width: gameObject.Width + (gameObject.Width * 3) * scale,
+                height: gameObject.Height + (gameObject.Height * 3) * scale);
+        }
 
         #endregion
     }
