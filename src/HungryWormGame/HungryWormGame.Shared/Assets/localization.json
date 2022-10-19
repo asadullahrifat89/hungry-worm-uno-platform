@@ -327,15 +327,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Healths"
+        "Value": "Health"
       },
       {
         "Culture": "de",
-        "Value": "Leben"
+        "Value": "Gesundheit"
       },
       {
         "Culture": "fr",
-        "Value": "Vies"
+        "Value": "Santé"
       }
     ]
   },

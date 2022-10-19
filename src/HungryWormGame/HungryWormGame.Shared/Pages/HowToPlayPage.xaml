@@ -189,21 +189,6 @@
                                 Height="150"
                                 Margin="5"
                                 Source="ms-appx:///Assets/Images/powerup1.png" />
-                            <Image
-                                Width="50"
-                                Height="150"
-                                Margin="5"
-                                Source="ms-appx:///Assets/Images/powerup2.png" />
-                            <Image
-                                Width="50"
-                                Height="150"
-                                Margin="5"
-                                Source="ms-appx:///Assets/Images/powerup3.png" />
-                            <Image
-                                Width="50"
-                                Height="150"
-                                Margin="5"
-                                Source="ms-appx:///Assets/Images/powerup4.png" />
                         </StackPanel>
                         <TextBlock
                             x:Name="PowerUpsInstructionsHeader"
