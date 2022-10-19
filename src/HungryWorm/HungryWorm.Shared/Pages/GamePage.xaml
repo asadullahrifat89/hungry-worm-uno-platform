@@ -11,18 +11,11 @@
     <Grid x:Name="RootGrid">
 
         <!--#region Animation-->
-
-        <!--  This hosts the islands  -->
-        <!--<GameEnvironment x:Name="SeaView" Background="Transparent" />-->
-
-        <!--  This hosts clouds and cars that do not collide  -->
+        <!--  This hosts dirts  -->
         <GameEnvironment x:Name="UnderView" Background="Transparent" />
 
         <!--  This hosts the player and game elements  -->
         <GameEnvironment x:Name="GameView" Background="Transparent" />
-
-        <!--  This hosts clouds and cars that do not collide  -->
-        <!--<GameEnvironment x:Name="OverView" Background="Transparent" />-->
         <!--#endregion-->
 
         <!--#region Player health, game Score-->
@@ -110,7 +103,7 @@
                 FontSize="20"
                 FontWeight="Bold"
                 Foreground="White"
-                TextAlignment="Left"
+                TextAlignment="Right"
                 Visibility="Collapsed" />
         </StackPanel>
         <!--#endregion-->
@@ -135,22 +128,17 @@
         </StackPanel>
         <!--#endregion-->
 
-
-
-        <!--#region Input Border-->
+        <!--#region Input border-->
         <Border
             x:Name="InputView"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Background="Transparent"
             KeyDown="OnKeyDown"
-            KeyUp="OnKeyUP"
-            PointerMoved="InputView_PointerMoved"
-            PointerPressed="InputView_PointerPressed"
-            PointerReleased="InputView_PointerReleased" />
+            PointerPressed="InputView_PointerPressed" />
         <!--#endregion-->
 
-        <!--#region Pause & Quit game-->
+        <!--#region Pause & quit game-->
         <StackPanel
             HorizontalAlignment="Left"
             VerticalAlignment="Top"

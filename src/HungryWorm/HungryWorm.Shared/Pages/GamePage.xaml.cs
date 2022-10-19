@@ -92,9 +92,6 @@ namespace HungryWorm
             _windowHeight = Window.Current.Bounds.Height;
             _windowWidth = Window.Current.Bounds.Width;
 
-            //TODO: remove this to start page
-            SoundHelper.LoadGameSounds();
-
             LoadGameElements();
             PopulateGameViews();
 
@@ -108,12 +105,9 @@ namespace HungryWorm
 
         #region Page
 
-        private async void GamePage_Loaded(object sender, RoutedEventArgs e)
+        private void GamePage_Loaded(object sender, RoutedEventArgs e)
         {
             SizeChanged += GamePage_SizeChanged;
-
-            //TODO: remove this to start page
-            await LocalizationHelper.LoadLocalizationKeys();
         }
 
         private void GamePage_Unloaded(object sender, RoutedEventArgs e)
@@ -173,25 +167,8 @@ namespace HungryWorm
             }
         }
 
-        private void InputView_PointerMoved(object sender, PointerRoutedEventArgs e)
-        {
-            //if (_isPointerActivated)
-            //{
-            //    PointerPoint point = e.GetCurrentPoint(GameView);
-            //    _pointerPosition = point.Position;            
-            //}
-        }
-
-        private void InputView_PointerReleased(object sender, PointerRoutedEventArgs e)
-        {
-            //_isPointerActivated = false;
-            _pointerPosition = null;
-        }
-
         private void OnKeyDown(object sender, KeyRoutedEventArgs e)
         {
-            //_isPointerActivated = false;
-
             switch (e.Key)
             {
                 case VirtualKey.Left:
@@ -220,11 +197,6 @@ namespace HungryWorm
             }
         }
 
-        private void OnKeyUP(object sender, KeyRoutedEventArgs e)
-        {
-
-        }
-
         #endregion
 
         #region Button
@@ -241,6 +213,7 @@ namespace HungryWorm
 
         private void ConfirmQuitGameButton_Click(object sender, RoutedEventArgs e)
         {
+            //TODO: quit game
             //NavigateToPage(typeof(StartPage));
         }
 
@@ -256,13 +229,13 @@ namespace HungryWorm
 
         private void PopulateGameViews()
         {
+#if DEBUG
             Console.WriteLine("INITIALIZING GAME");
-
+#endif
             SetViewSize();
 
             PopulateUnderView();
             PopulateGameView();
-            //PopulateOverView();
         }
 
         private void PopulateUnderView()
@@ -288,36 +261,6 @@ namespace HungryWorm
             GameView.Children.Add(_player);
 
             _playerHitBox = _player.GetHitBox();
-
-            //// add 5 collectibles
-            //for (int i = 0; i < 3; i++)
-            //{
-            //    SpawnCollectible(); // on game init
-            //}
-        }
-
-        private void PopulateOverView()
-        {
-            // add some clouds above
-            for (int i = 0; i < 5; i++)
-            {
-                //var scaleFactor = _random.Next(1, 4);
-                //var scaleReverseFactor = _random.Next(-1, 2);
-
-                //var cloud = new Cloud()
-                //{
-                //    Width = Constants.CLOUD_WIDTH * _scale,
-                //    Height = Constants.CLOUD_HEIGHT * _scale,
-                //    RenderTransform = new CompositeTransform()
-                //    {
-                //        ScaleX = scaleFactor * scaleReverseFactor,
-                //        ScaleY = scaleFactor,
-                //    }
-                //};
-
-                //RandomizeCloudPosition(cloud);
-                //OverView.Children.Add(cloud);
-            }
         }
 
         private void LoadGameElements()
@@ -335,7 +278,6 @@ namespace HungryWorm
             SoundHelper.PlaySound(SoundType.MENU_SELECT);
 
             _lives = _maxLives;
-            //SetLives();
 
             _playerTrailCount = 0;
             _playerTrailLength = 2;
@@ -400,7 +342,6 @@ namespace HungryWorm
         private void ResetControls()
         {
             _player.MovementDirection = MovementDirection.None;
-            //_isPointerActivated = false;
             _pointerPosition = null;
         }
 
@@ -416,7 +357,6 @@ namespace HungryWorm
             if (_isPowerMode)
             {
                 PowerUpCoolDown();
-
                 if (_powerModeDurationCounter <= 0)
                     PowerDown();
             }
@@ -501,10 +441,7 @@ namespace HungryWorm
 
         private void RemoveGameObjects()
         {
-            //SeaView.RemoveDestroyableGameObjects();
-            //UnderView.RemoveDestroyableGameObjects();
             GameView.RemoveDestroyableGameObjects();
-            //OverView.RemoveDestroyableGameObjects();
         }
 
         private void PauseGame()
@@ -538,9 +475,6 @@ namespace HungryWorm
 
         private void GameOver()
         {
-            //TODO: this will be done automatically once more pages are developed
-            StopGame();
-
             _isGameOver = true;
 
             PlayerScoreHelper.PlayerScore = new HungryWormScore()
@@ -550,15 +484,9 @@ namespace HungryWorm
             };
 
             SoundHelper.PlaySound(SoundType.GAME_OVER);
+
+            //TODO: navigate to game over page
             //NavigateToPage(typeof(GameOverPage));
-        }
-
-        private double DecreaseSpeed(double speed)
-        {
-            //if (_isPowerMode && _powerUpType == PowerUpType.SLOW_DOWN_TIME)
-            //    speed /= 3;
-
-            return speed;
         }
 
         #endregion
@@ -586,14 +514,7 @@ namespace HungryWorm
 
         private void UpdatePlayer()
         {
-            //if (CollisionWithSelf())
-            //    GameOver();
-
-            //RecycleGameObject(_player);
             SpawnPlayerTrail();
-
-            //_player.SetZ(1);
-            //_playerHitBox = _player.GetHitBox();
         }
 
         public bool CollisionWithSelf()
@@ -648,13 +569,12 @@ namespace HungryWorm
             {
                 _playerTrailSpawnCounter = _playerTrailSpawnCounterDefault;
 
-                //double offset = 20 * _scale;
+                //double left = _player.GetLeft();
+                //double top = _player.GetTop();
 
-                //double left = _player.GetLeft() + (_player.MovementDirection == MovementDirection.Right ? offset * -1 : (_player.MovementDirection == MovementDirection.Left ? offset : 0));
-                //double top = _player.GetTop() + (_player.MovementDirection == MovementDirection.Down ? offset * -1 : (_player.MovementDirection == MovementDirection.Up ? offset : 0));
+                double left = _playerHitBox.X;
+                double top = _playerHitBox.Y;
 
-                double left = _player.GetLeft();
-                double top = _player.GetTop();
 
                 PlayerTrail playerTrail = new(Constants.PLAYER_TRAIL_SIZE * _scale);
                 playerTrail.SetPosition(left, top);
@@ -782,7 +702,6 @@ namespace HungryWorm
             _foodCollected++;
 
             SetYummyFace();
-            //SpawnCollectible();
         }
 
         #endregion
@@ -939,26 +858,10 @@ namespace HungryWorm
 
         private void AddScore(double score)
         {
-            //if (_isPowerMode)
-            //{
-            //    switch (_powerUpType)
-            //    {
-            //        case PowerUpType.DOUBLE_SCORE:
-            //            score *= 2;
-            //            break;
-            //        case PowerUpType.QUAD_SCORE:
-            //            score *= 4;
-            //            break;
-            //        default:
-            //            break;
-            //    }
-            //}
+            _score += score;
 
-            //TODO: decide if length effect to keep or not
             if (_playerTrailLength < _playerTrailLengthLimit)
                 _playerTrailLength += 1;
-
-            _score += score;
         }
 
         #endregion
@@ -1183,17 +1086,11 @@ namespace HungryWorm
         {
             _scale = ScalingHelper.GetGameObjectScale(_windowWidth);
 
-            //SeaView.Width = _windowWidth;
-            //SeaView.Height = _windowHeight;
-
             UnderView.Width = _windowWidth;
             UnderView.Height = _windowHeight;
 
             GameView.Width = _windowWidth;
             GameView.Height = _windowHeight;
-
-            //OverView.Width = _windowWidth;
-            //OverView.Height = _windowHeight;
         }
 
         private void NavigateToPage(Type pageType)
