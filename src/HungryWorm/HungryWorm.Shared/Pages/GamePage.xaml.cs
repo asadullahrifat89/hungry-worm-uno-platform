@@ -710,10 +710,10 @@ namespace HungryWorm
 
         private void SpawnDirt()
         {
-            var dot = new Dirt((double)_random.Next(5, 100) * _scale);
+            var dirt = new Dirt((double)_random.Next(5, 100) * _scale);
 
-            dot.SetPosition(_random.Next(50, (int)_windowWidth - 50), _random.Next(50, (int)_windowHeight - 50));
-            UnderView.Children.Add(dot);
+            dirt.SetPosition(_random.Next(50, (int)_windowWidth - 50), _random.Next(50, (int)_windowHeight - 50));
+            UnderView.Children.Add(dirt);
         }
 
         private void UpdateDirt(GameObject dirt)

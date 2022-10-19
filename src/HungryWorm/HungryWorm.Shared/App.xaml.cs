@@ -110,10 +110,7 @@ namespace HungryWorm
 #endif
             {
                 if (rootFrame.Content == null)
-                {
-                    //rootFrame.Navigate(typeof(StartPage), args.Arguments);
-                    rootFrame.Navigate(typeof(GamePage), args.Arguments);
-                }
+                    rootFrame.Navigate(typeof(StartPage), args.Arguments);
 
                 _window.Activate();
             }

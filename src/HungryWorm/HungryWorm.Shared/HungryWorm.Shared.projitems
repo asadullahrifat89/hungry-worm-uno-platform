@@ -59,6 +59,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Pages\GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\StartPage.xaml.cs">
+      <DependentUpon>StartPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Peripherals\AudioPlayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Peripherals\LocalizationKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Contracts\IBackendService.cs" />
@@ -70,6 +73,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)Pages\GamePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Pages\StartPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -93,6 +100,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\collectible4.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\collectible5.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\collectible6.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\logo_game.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player1.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player10.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player11.png" />
@@ -116,6 +124,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\background1.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\game-over.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\power-up.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\intro2.mp3" />
     <_Globbled_Page Include="$(MSBuildThisFileDirectory)**/*.xaml" Exclude="@(Page);@(ApplicationDefinition)">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

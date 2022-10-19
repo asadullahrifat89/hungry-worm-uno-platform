@@ -4,15 +4,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Snake Rush"
+        "Value": "Hungry Worm"
       },
       {
         "Culture": "de",
-        "Value": "Snake Rush"
+        "Value": "Hungry Worm"
       },
       {
         "Culture": "fr",
-        "Value": "Snake Rush"
+        "Value": "Hungry Worm"
       }
     ]
   },
@@ -72,15 +72,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Beat the high score and win great prizes!"
+        "Value": "A rock metal ⚡ sky racer on WebAssembly."
       },
       {
         "Culture": "de",
-        "Value": "Schlage den High Score und gewinne tolle Preise!"
+        "Value": "Ein Rock Metal ⚡ Sky Racer auf WebAssembly."
       },
       {
         "Culture": "fr",
-        "Value": "Battez le meilleur score et gagnez de superbes prix!"
+        "Value": "Un rock metal ⚡ sky racer sur WebAssembly."
       }
     ]
   },
@@ -191,15 +191,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Brought to you with ❤️ by"
+        "Value": "Made with ❤️ by Asadullah Rifat"
       },
       {
         "Culture": "de",
-        "Value": "Hergestellt mit ❤️ von"
+        "Value": "Erstellt mit ❤️ von Asadullah Rifat"
       },
       {
         "Culture": "fr",
-        "Value": "Réalisé avec ❤️ par"
+        "Value": "Fait avec ❤️ par Asadullah Rifat"
       }
     ]
   },
@@ -680,7 +680,7 @@
     ]
   },
   {
-    "Key": "SubscribeNewsLettersCheckBox",
+    "Key": "ConfirmNewsLettersCheckBox",
     "CultureValues": [
       {
         "Culture": "en",

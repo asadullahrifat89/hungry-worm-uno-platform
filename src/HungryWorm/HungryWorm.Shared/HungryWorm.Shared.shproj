@@ -12,6 +12,7 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeSharing\Microsoft.CodeSharing.CSharp.targets" />
   <ItemGroup>
     <UpToDateCheckInput Remove="Pages\GamePage2.xaml" />
+    <UpToDateCheckInput Remove="Pages\StartPage.xaml" />
   </ItemGroup>
   <ItemGroup>
     <_Globbed_Compile Remove="Constants.cs" />
@@ -21,6 +22,7 @@
     <_Globbed_Compile Remove="Elements\Snake.cs" />
     <_Globbed_Compile Remove="Elements\Sound.cs" />
     <_Globbed_Compile Remove="Pages\GamePage2.xaml.cs" />
+    <_Globbed_Compile Remove="Pages\StartPage.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
     <_Globbed_Content Remove="Assets\Images\angel.png" />
@@ -56,5 +58,11 @@
   </ItemGroup>
   <ItemGroup>
     <_Globbled_Page Remove="Pages\GamePage2.xaml" />
+    <_Globbled_Page Remove="Pages\StartPage.xaml" />
   </ItemGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties assets_4localization_1json__JsonSchema="https://blockprotocol.org/schemas/block-metadata.json" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>
