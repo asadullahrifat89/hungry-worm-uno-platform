@@ -72,15 +72,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "A cute 😘 hungry rush on WebAssembly."
+        "Value": "A cute 😘 hungry worm game on WebAssembly."
       },
       {
         "Culture": "de",
-        "Value": "Ein niedlicher 😘 hungriger Ansturm auf WebAssembly."
+        "Value": "Ein niedliches 😘 Spiel mit hungrigen Würmern auf WebAssembly."
       },
       {
         "Culture": "fr",
-        "Value": "Une jolie 😘 ruée vers le WebAssembly."
+        "Value": "Un joli jeu de vers affamés 😘 sur WebAssembly."
       }
     ]
   },

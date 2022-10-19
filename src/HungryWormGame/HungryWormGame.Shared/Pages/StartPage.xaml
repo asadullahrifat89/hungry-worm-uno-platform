@@ -80,7 +80,7 @@
                     Margin="0,0,0,15"
                     FontSize="30"
                     FontWeight="Bold"
-                    Text="Sky Racer"
+                    Text="Hungry Worm"
                     TextAlignment="Center"
                     TextWrapping="WrapWholeWords" />
 
@@ -91,7 +91,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     FontSize="20"
-                    Text="A rock metal ⚡ sky racer on WebAssembly."
+                    Text="A cute 😘 hungry worm game on WebAssembly."
                     TextAlignment="Center"
                     TextWrapping="WrapWholeWords" />
 
