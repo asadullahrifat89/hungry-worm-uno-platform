@@ -606,6 +606,14 @@ namespace HungryWormGame
 
             if (_playerTrailCount > _playerTrailLength)
             {
+                //GameView.Children.Remove(GameView.GetGameObjects<PlayerTrail>().First());                
+
+                //var tail = GameView.GetGameObjects<PlayerTrail>().First();
+                //tail.BorderThickness = new Thickness(5 * _scale);
+                //tail.CornerRadius = new CornerRadius(5 * _scale);
+
+                //_playerTrailCount--;
+
                 var playerTrails = GameView.GetGameObjects<PlayerTrail>().ToList();
 
                 GameView.AddDestroyableGameObject(playerTrails.First());
