@@ -7,7 +7,7 @@ namespace HungryWormGame
     public class Player : GameObject
     {
         #region Fields
-        
+
         private readonly double _thickness;
         private readonly double _radius;
 
@@ -26,7 +26,7 @@ namespace HungryWormGame
 
             Background = Application.Current.Resources["WormBodyColor"] as SolidColorBrush;
             BorderBrush = Application.Current.Resources["WormBorderColor"] as SolidColorBrush;
-           
+
             BorderThickness = new Thickness(_thickness);
 
             Width = Constants.PLAYER_SIZE * scale;
@@ -48,6 +48,7 @@ namespace HungryWormGame
                     {
                         MovementDirection = MovementDirection.Up;
                         BorderThickness = new Thickness(_thickness, _thickness, _thickness, 0);
+                        CornerRadius = new CornerRadius(_radius, _radius, 0, 0);
                     }
                     break;
                 case MovementDirection.Left:
@@ -55,6 +56,8 @@ namespace HungryWormGame
                     {
                         MovementDirection = MovementDirection.Left;
                         BorderThickness = new Thickness(_thickness, _thickness, 0, _thickness);
+                        CornerRadius = new CornerRadius(_radius, 0, 0, _radius);
+
                     }
                     break;
                 case MovementDirection.Down:
@@ -62,6 +65,7 @@ namespace HungryWormGame
                     {
                         MovementDirection = MovementDirection.Down;
                         BorderThickness = new Thickness(_thickness, 0, _thickness, _thickness);
+                        CornerRadius = new CornerRadius(0, 0, _radius, _radius);
                     }
                     break;
                 case MovementDirection.Right:
@@ -69,6 +73,7 @@ namespace HungryWormGame
                     {
                         MovementDirection = MovementDirection.Right;
                         BorderThickness = new Thickness(0, _thickness, _thickness, _thickness);
+                        CornerRadius = new CornerRadius(0, _radius, _radius, 0);
                     }
                     break;
             }

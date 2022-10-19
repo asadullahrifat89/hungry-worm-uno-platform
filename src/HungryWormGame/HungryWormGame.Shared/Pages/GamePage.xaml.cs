@@ -570,12 +570,8 @@ namespace HungryWormGame
             {
                 _playerTrailSpawnCounter = _playerTrailSpawnCounterDefault;
 
-                //double left = _player.GetLeft();
-                //double top = _player.GetTop();
-
                 double left = _playerHitBox.X;
                 double top = _playerHitBox.Y;
-
 
                 PlayerTrail playerTrail = new(_scale);
                 playerTrail.SetPosition(left, top);
@@ -616,7 +612,7 @@ namespace HungryWormGame
 
                 // give tail a proper border
                 var tail = playerTrails[1];
-                tail.BorderThickness = new Thickness(5);
+                tail.BorderThickness = new Thickness(5 * _scale);
             }
         }
 
