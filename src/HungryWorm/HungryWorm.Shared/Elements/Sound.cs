@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace HungryWorm
+﻿namespace HungryWorm
 {
     public class Sound
     {
@@ -67,12 +62,10 @@ namespace HungryWorm
     {
         MENU_SELECT,
         INTRO,
-        BACKGROUND,        
+        BACKGROUND,
         GAME_OVER,
         POWER_UP,
         POWER_DOWN,
-        HEALTH_GAIN,
-        HEALTH_LOSS,
         ATE_FOOD,
     }
 }

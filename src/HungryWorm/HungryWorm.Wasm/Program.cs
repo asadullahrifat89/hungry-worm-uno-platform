@@ -1,7 +1,4 @@
-﻿using Microsoft.UI.Xaml;
-using System;
-
-namespace HungryWorm.Wasm
+﻿namespace HungryWorm.Wasm
 {
     public class Program
     {

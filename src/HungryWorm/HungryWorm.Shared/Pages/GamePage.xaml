@@ -102,6 +102,16 @@
                         TextAlignment="Left" />
                 </StackPanel>
             </Border>
+
+            <TextBlock
+                Name="powerUpText"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                FontSize="20"
+                FontWeight="Bold"
+                Foreground="White"
+                TextAlignment="Left"
+                Visibility="Collapsed" />
         </StackPanel>
         <!--#endregion-->
 

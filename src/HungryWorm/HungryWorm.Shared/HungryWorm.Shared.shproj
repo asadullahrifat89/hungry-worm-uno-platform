@@ -50,6 +50,8 @@
     <_Globbed_Content Remove="Assets\Images\player9.png" />
     <_Globbed_Content Remove="Assets\Images\player_trail.png" />
     <_Globbed_Content Remove="Assets\Images\smart.png" />
+    <_Globbed_Content Remove="Assets\Sounds\power-down.mp3" />
+    <_Globbed_Content Remove="Assets\Sounds\power-up.mp3" />
     <_Globbed_Content Remove="Assets\SplashScreen.png" />
   </ItemGroup>
   <ItemGroup>

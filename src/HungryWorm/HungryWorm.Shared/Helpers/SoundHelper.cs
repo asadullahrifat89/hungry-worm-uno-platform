@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace HungryWorm
 {
@@ -37,12 +36,7 @@ namespace HungryWorm
                             {
                                 sound = new Sound(soundType: x.Key, soundSource: x.Value, volume: 0.9, loop: true);
                             }
-                            break;
-                        case SoundType.ATE_FOOD:
-                            {
-                                sound = new Sound(soundType: x.Key, soundSource: x.Value, volume: 0.9);
-                            }
-                            break;
+                            break;                        
                         default:
                             {
                                 sound = new Sound(soundType: x.Key, soundSource: x.Value);

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace HungryWorm
 {
@@ -16,6 +15,7 @@ namespace HungryWorm
         public const double PLAYER_TRAIL_SIZE = 80;
 
         public const double COLLECTIBLE_SIZE = 80;
+        public const double POWERUP_SIZE = 80;
 
         public const double HEALTH_WIDTH = 80;
         public const double HEALTH_HEIGHT = 80;
@@ -39,14 +39,16 @@ namespace HungryWorm
             new KeyValuePair<ElementType, Uri>(ElementType.PLAYER, new Uri("ms-appx:///Assets/Images/player11.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.PLAYER, new Uri("ms-appx:///Assets/Images/player12.png")),
 
+             new KeyValuePair<ElementType, Uri>(ElementType.PLAYER_TRAIL, new Uri("ms-appx:///Assets/Images/player_trail.png")),
+
+            new KeyValuePair<ElementType, Uri>(ElementType.POWERUP, new Uri("ms-appx:///Assets/Images/powerup1.png")),
+
             new KeyValuePair<ElementType, Uri>(ElementType.COLLECTIBLE, new Uri("ms-appx:///Assets/Images/collectible1.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.COLLECTIBLE, new Uri("ms-appx:///Assets/Images/collectible2.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.COLLECTIBLE, new Uri("ms-appx:///Assets/Images/collectible3.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.COLLECTIBLE, new Uri("ms-appx:///Assets/Images/collectible4.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.COLLECTIBLE, new Uri("ms-appx:///Assets/Images/collectible5.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.COLLECTIBLE, new Uri("ms-appx:///Assets/Images/collectible6.png")),
-
-            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER_TRAIL, new Uri("ms-appx:///Assets/Images/player_trail.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.COLLECTIBLE, new Uri("ms-appx:///Assets/Images/collectible6.png")),           
         };
 
         #endregion
@@ -62,18 +64,16 @@ namespace HungryWorm
 
             new KeyValuePair<SoundType, string>(SoundType.BACKGROUND, "Assets/Sounds/background1.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.BACKGROUND, "Assets/Sounds/background2.mp3"),
-            //new KeyValuePair<SoundType, string>(SoundType.BACKGROUND, "Assets/Sounds/background3.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.BACKGROUND, "Assets/Sounds/background3.mp3"),
 
             new KeyValuePair<SoundType, string>(SoundType.GAME_OVER, "Assets/Sounds/game-over.mp3"),
 
             new KeyValuePair<SoundType, string>(SoundType.POWER_UP, "Assets/Sounds/power-up.mp3"),
-            new KeyValuePair<SoundType, string>(SoundType.POWER_DOWN, "Assets/Sounds/power-down.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.POWER_DOWN, "Assets/Sounds/power-down.mp3"),            
 
-            new KeyValuePair<SoundType, string>(SoundType.HEALTH_GAIN, "Assets/Sounds/health-gain.mp3"),
-            new KeyValuePair<SoundType, string>(SoundType.HEALTH_LOSS, "Assets/Sounds/health-loss.mp3"),
-
-            new KeyValuePair<SoundType, string>(SoundType.ATE_FOOD, "Assets/Sounds/ate-food1.mp3"),
-            new KeyValuePair<SoundType, string>(SoundType.ATE_FOOD, "Assets/Sounds/ate-food2.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.ATE_FOOD, "Assets/Sounds/food-bite1.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.ATE_FOOD, "Assets/Sounds/food-bite2.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.ATE_FOOD, "Assets/Sounds/food-bite3.mp3"),
         };
 
         #endregion
@@ -126,28 +126,4 @@ namespace HungryWorm
         Up,
         Down
     }
-
-    //public enum SnakeSize
-    //{
-    //    Thin = 15,
-    //    Normal = 25,
-    //    Thick = 50
-    //};
-
-    //public enum Movingdirection
-    //{
-    //    Upwards = 8,
-    //    Downwards = 2,
-    //    Toleft = 4,
-    //    Toright = 6
-    //};
-
-    ////TimeSpan values
-    //public enum GameSpeed
-    //{
-    //    Fast = 10,
-    //    Moderate = 18,
-    //    Slow = 50,
-    //    DamnSlow = 100
-    //};
 }

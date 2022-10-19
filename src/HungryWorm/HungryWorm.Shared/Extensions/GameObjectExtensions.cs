@@ -1,11 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Shapes;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
-using Windows.Foundation;
+﻿using Windows.Foundation;
 
 namespace HungryWorm
 {
@@ -42,14 +35,8 @@ namespace HungryWorm
             return false;
         }
 
-        public static Rect GetHitBox(this GameObject gameObject, double scale)
+        public static Rect GetHitBox(this GameObject gameObject)
         {
-            //var rect = new Rect(
-            //    x: gameObject.GetLeft() + (gameObject.Width / 3) - 5 * scale,
-            //    y: gameObject.GetTop() + (gameObject.Height / 6) * scale,
-            //    width: gameObject.Width - (gameObject.Width / 3) - 5 * scale,
-            //    height: gameObject.Height - ((gameObject.Height / 6) * 3) * scale);
-
             var rect = new Rect(
               x: gameObject.GetLeft(),
               y: gameObject.GetTop(),
@@ -59,7 +46,16 @@ namespace HungryWorm
             gameObject.SetHitBoxBorder(rect);
 
             return rect;
-        }      
+        }
+
+        public static Rect GetDistantHitBox(this GameObject gameObject)
+        {
+            return new Rect(
+                x: gameObject.GetLeft() - (gameObject.Width * 3),
+                y: gameObject.GetTop() - (gameObject.Height * 3),
+                width: gameObject.Width + (gameObject.Width * 3),
+                height: gameObject.Height + (gameObject.Height * 3));
+        }
 
         #endregion
     }

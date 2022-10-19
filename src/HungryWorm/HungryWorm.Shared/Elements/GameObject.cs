@@ -1,12 +1,7 @@
-﻿using Microsoft.UI;
-using Microsoft.UI.Xaml.Controls;
+﻿using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Microsoft.UI.Xaml.Shapes;
 using System;
-using System.Collections.Generic;
-using System.Formats.Asn1;
-using System.Text;
 using Windows.Foundation;
 
 namespace HungryWorm
