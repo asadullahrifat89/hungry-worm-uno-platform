@@ -488,27 +488,6 @@ namespace HungryWormGame
             return speed;
         }
 
-        private void MoveGameObject(GameObject gameObject)
-        {
-            switch (_player.MovementDirection)
-            {
-                case MovementDirection.Right:
-                    gameObject.SetLeft(gameObject.GetLeft() - _gameSpeed);
-                    break;
-                case MovementDirection.Left:
-                    gameObject.SetLeft(gameObject.GetLeft() + _gameSpeed);
-                    break;
-                case MovementDirection.Up:
-                    gameObject.SetTop(gameObject.GetTop() + _gameSpeed);
-                    break;
-                case MovementDirection.Down:
-                    gameObject.SetTop(gameObject.GetTop() - _gameSpeed);
-                    break;
-                default:
-                    break;
-            }
-        }
-
         private void RecycleGameObject(GameObject gameObject)
         {
             if (gameObject.GetLeft() > _windowWidth)

@@ -310,15 +310,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Move across the screen with your keyboard or by clicking or tapping on the top, bottom, left or right parts of your screen."
+        "Value": "Move your mouse pointer or your finger on a touchscreen to guide the worm to food."
       },
       {
         "Culture": "de",
-        "Value": "Bewegen Sie sich über den Bildschirm mit der Tastatur oder durch Klicken oder Tippen auf den oberen, unteren, linken oder rechten Teil des Bildschirms."
+        "Value": "Bewege deinen Mauszeiger oder deinen Finger auf einem Touchscreen, um den Wurm zum Futter zu führen."
       },
       {
         "Culture": "fr",
-        "Value": "Déplacez-vous sur l'écran avec votre clavier ou en cliquant ou tapant sur les parties supérieure, inférieure, gauche ou droite de votre écran."
+        "Value": "Déplacez le pointeur de votre souris ou votre doigt sur un écran tactile pour guider le ver vers la nourriture."
       }
     ]
   },
