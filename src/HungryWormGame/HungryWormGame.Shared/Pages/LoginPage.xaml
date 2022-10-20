@@ -84,7 +84,7 @@
                     FontSize="18"
                     FontWeight="SemiBold"
                     Foreground="White"
-                    Tag="ActionButton" />             
+                    Tag="ActionButton" />                 
 
                 <!--  Message text  -->
                 <TextBlock

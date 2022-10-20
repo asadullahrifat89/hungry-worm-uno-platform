@@ -179,7 +179,6 @@
                     IsTabStop="False"
                     NavigateUri="https://www.linkedin.com/in/asadullah-rifat/" />
 
-
                 <!--  Message text  -->
                 <TextBlock
                     x:Name="ProgressBarMessageBlock"

@@ -175,8 +175,7 @@
                             Content="Leaderboard"
                             Visibility="Collapsed" />
 
-                    </StackPanel>
-
+                    </StackPanel>                   
 
                     <!--  Message text  -->
                     <TextBlock
