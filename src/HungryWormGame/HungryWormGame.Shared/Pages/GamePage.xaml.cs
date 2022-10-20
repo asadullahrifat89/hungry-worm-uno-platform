@@ -23,8 +23,6 @@ namespace HungryWormGame
         private double _gameSpeed = 6;
         private readonly double _gameSpeedDefault = 6;
 
-        private readonly int _playerSpeedDefault = 6;
-
         private int _powerUpCount;
         private readonly int _powerUpSpawnLimit = 1;
         private int _powerUpSpawnCounter = 800;
@@ -36,6 +34,7 @@ namespace HungryWormGame
         private bool _isGameOver;
         private bool _isPowerMode;
 
+        private bool _isPointerActivated;
         private Point _pointerPosition;
 
         private double _windowHeight, _windowWidth;
@@ -134,6 +133,8 @@ namespace HungryWormGame
             }
             else
             {
+                _isPointerActivated = true;
+
                 PointerPoint point = e.GetCurrentPoint(GameView);
                 _pointerPosition = point.Position;
 
@@ -159,6 +160,20 @@ namespace HungryWormGame
                     return;
                 }
             }
+        }
+
+        private void InputView_PointerMoved(object sender, PointerRoutedEventArgs e)
+        {
+            if (_isPointerActivated)
+            {
+                //PointerPoint point = e.GetCurrentPoint(GameView);
+                //_pointerPosition = point.Position;
+            }
+        }
+
+        private void InputView_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            _isPointerActivated = false;
         }
 
         private void OnKeyDown(object sender, KeyRoutedEventArgs e)
@@ -490,6 +505,27 @@ namespace HungryWormGame
 
         #region Game Object
 
+        private void MoveGameObject(GameObject gameObject)
+        {
+            switch (_player.MovementDirection)
+            {
+                case MovementDirection.Right:
+                    gameObject.SetLeft(gameObject.GetLeft() - _gameSpeed);
+                    break;
+                case MovementDirection.Left:
+                    gameObject.SetLeft(gameObject.GetLeft() + _gameSpeed);
+                    break;
+                case MovementDirection.Up:
+                    gameObject.SetTop(gameObject.GetTop() + _gameSpeed);
+                    break;
+                case MovementDirection.Down:
+                    gameObject.SetTop(gameObject.GetTop() - _gameSpeed);
+                    break;
+                default:
+                    break;
+            }
+        }
+
         private void RecycleGameObject(GameObject gameObject)
         {
             if (gameObject.GetLeft() > _windowWidth)
@@ -581,23 +617,7 @@ namespace HungryWormGame
 
         private void UpdatePlayerTrail(GameObject playerTrail)
         {
-            switch (_player.MovementDirection)
-            {
-                case MovementDirection.Right:
-                    playerTrail.SetLeft(playerTrail.GetLeft() - _gameSpeed);
-                    break;
-                case MovementDirection.Left:
-                    playerTrail.SetLeft(playerTrail.GetLeft() + _gameSpeed);
-                    break;
-                case MovementDirection.Up:
-                    playerTrail.SetTop(playerTrail.GetTop() + _gameSpeed);
-                    break;
-                case MovementDirection.Down:
-                    playerTrail.SetTop(playerTrail.GetTop() - _gameSpeed);
-                    break;
-                default:
-                    break;
-            }
+            MoveGameObject(playerTrail);
 
             if (_playerTrailCount > _playerTrailLength)
             {
@@ -629,23 +649,7 @@ namespace HungryWormGame
 
         private void UpdateCollectible(GameObject collectible)
         {
-            switch (_player.MovementDirection)
-            {
-                case MovementDirection.Right:
-                    collectible.SetLeft(collectible.GetLeft() - _gameSpeed);
-                    break;
-                case MovementDirection.Left:
-                    collectible.SetLeft(collectible.GetLeft() + _gameSpeed);
-                    break;
-                case MovementDirection.Up:
-                    collectible.SetTop(collectible.GetTop() + _gameSpeed);
-                    break;
-                case MovementDirection.Down:
-                    collectible.SetTop(collectible.GetTop() - _gameSpeed);
-                    break;
-                default:
-                    break;
-            }
+            MoveGameObject(collectible);
 
             // if object goes out of bounds then make it reenter game view
             RecycleGameObject(collectible);
@@ -718,23 +722,7 @@ namespace HungryWormGame
 
         private void UpdateDirt(GameObject dirt)
         {
-            switch (_player.MovementDirection)
-            {
-                case MovementDirection.Right:
-                    dirt.SetLeft(dirt.GetLeft() - _gameSpeed);
-                    break;
-                case MovementDirection.Left:
-                    dirt.SetLeft(dirt.GetLeft() + _gameSpeed);
-                    break;
-                case MovementDirection.Up:
-                    dirt.SetTop(dirt.GetTop() + _gameSpeed);
-                    break;
-                case MovementDirection.Down:
-                    dirt.SetTop(dirt.GetTop() - _gameSpeed);
-                    break;
-                default:
-                    break;
-            }
+            MoveGameObject(dirt);
 
             // if object goes out of bounds then make it reenter game view
             RecycleGameObject(dirt);
@@ -786,23 +774,7 @@ namespace HungryWormGame
 
         private void UpdatePowerUp(GameObject powerUp)
         {
-            switch (_player.MovementDirection)
-            {
-                case MovementDirection.Right:
-                    powerUp.SetLeft(powerUp.GetLeft() - _gameSpeed);
-                    break;
-                case MovementDirection.Left:
-                    powerUp.SetLeft(powerUp.GetLeft() + _gameSpeed);
-                    break;
-                case MovementDirection.Up:
-                    powerUp.SetTop(powerUp.GetTop() + _gameSpeed);
-                    break;
-                case MovementDirection.Down:
-                    powerUp.SetTop(powerUp.GetTop() - _gameSpeed);
-                    break;
-                default:
-                    break;
-            }
+            MoveGameObject(powerUp);
 
             // if object goes out of bounds then make it reenter game view
             RecycleGameObject(powerUp);
@@ -816,14 +788,11 @@ namespace HungryWormGame
 
         private void PowerUp(GameObject powerUp)
         {
-            powerUpText.Visibility = Visibility.Visible;
-
             _isPowerMode = true;
-            _powerModeDurationCounter = _powerModeDuration;
-
-            //TODO: Set speedy face
+            _powerModeDurationCounter = _powerModeDuration;            
             _powerUpCount++;
 
+            powerUpText.Visibility = Visibility.Visible;
             SoundHelper.PlaySound(SoundType.POWER_UP);
         }
 
@@ -833,6 +802,7 @@ namespace HungryWormGame
             double remainingPow = (double)_powerModeDurationCounter / (double)_powerModeDuration * 4;
 
             powerUpText.Text = "";
+
             for (int i = 0; i < remainingPow; i++)
             {
                 powerUpText.Text += "⚡";
@@ -842,11 +812,9 @@ namespace HungryWormGame
         private void PowerDown()
         {
             _isPowerMode = false;
-
-            powerUpText.Visibility = Visibility.Collapsed;
             _powerUpCount--;
 
-            //TODO: set normal face
+            powerUpText.Visibility = Visibility.Collapsed;
             SoundHelper.PlaySound(SoundType.POWER_DOWN);
         }
 
