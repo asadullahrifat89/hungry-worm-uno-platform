@@ -67,8 +67,8 @@ namespace HungryWormGame
 
         private int _playerYummyFaceCounter;
 
-        private int _playerTrailSpawnCounter;
-        private readonly int _playerTrailSpawnCounterDefault = 1;
+        //private int _playerTrailSpawnCounter;
+        //private readonly int _playerTrailSpawnCounterDefault = 1;
 
         #endregion
 
@@ -311,7 +311,7 @@ namespace HungryWormGame
             _playerHealthRejuvenationPoint = _healthGainPointDefault;
             _playerHealthDepletionCounter = 10;
 
-            _playerTrailSpawnCounter = _playerTrailSpawnCounterDefault;
+            //_playerTrailSpawnCounter = _playerTrailSpawnCounterDefault;
 
             foreach (GameObject x in GameView.GetGameObjects<PlayerTrail>())
             {
@@ -509,26 +509,46 @@ namespace HungryWormGame
         {
             if (_pointerPosition.X > _playerHitBox.Right)
             {
-                var distance = ((_pointerPosition.X - _playerHitBox.Right) / _gameSpeed) * 0.5;
-                gameObject.SetLeft(gameObject.GetLeft() - _gameSpeed * distance);
+                var distance = ((_pointerPosition.X - _playerHitBox.Right) / _gameSpeed) * 0.1;
+                var speed = _gameSpeed * distance;
+
+                //if (speed > 15)
+                //    speed = 15;
+
+                gameObject.SetLeft(gameObject.GetLeft() - speed);
             }
 
             if (_pointerPosition.X < _playerHitBox.Left)
             {
-                var distance = ((_playerHitBox.Left - _pointerPosition.X) / _gameSpeed) * 0.5;
-                gameObject.SetLeft(gameObject.GetLeft() + _gameSpeed * distance);
+                var distance = ((_playerHitBox.Left - _pointerPosition.X) / _gameSpeed) * 0.1;
+                var speed = _gameSpeed * distance;
+
+                //if (speed > 15)
+                //    speed = 15;
+
+                gameObject.SetLeft(gameObject.GetLeft() + speed);
             }
 
             if (_pointerPosition.Y < _playerHitBox.Top)
             {
-                var distance = ((_playerHitBox.Top - _pointerPosition.Y) / _gameSpeed) * 0.5;
-                gameObject.SetTop(gameObject.GetTop() + _gameSpeed * distance);
+                var distance = ((_playerHitBox.Top - _pointerPosition.Y) / _gameSpeed) * 0.1;
+                var speed = _gameSpeed * distance;
+
+                //if (speed > 15)
+                //    speed = 15;
+
+                gameObject.SetTop(gameObject.GetTop() + speed);
             }
 
             if (_pointerPosition.Y > _playerHitBox.Bottom)
             {
-                var distance = ((_pointerPosition.Y - _playerHitBox.Bottom) / _gameSpeed) * 0.5;
-                gameObject.SetTop(gameObject.GetTop() - _gameSpeed * distance);
+                var distance = ((_pointerPosition.Y - _playerHitBox.Bottom) / _gameSpeed) * 0.1;
+                var speed = _gameSpeed * distance;
+
+                //if (speed > 15)
+                //    speed = 15;
+
+                gameObject.SetTop(gameObject.GetTop() - speed);
             }
 
             //switch (_player.MovementDirection)
@@ -620,23 +640,23 @@ namespace HungryWormGame
 
         private void SpawnPlayerTrail()
         {
-            _playerTrailSpawnCounter--;
+            //_playerTrailSpawnCounter--;
 
-            if (_playerTrailSpawnCounter <= 0)
-            {
-                _playerTrailSpawnCounter = _playerTrailSpawnCounterDefault;
+            //if (_playerTrailSpawnCounter <= 0)
+            //{
+            //    _playerTrailSpawnCounter = _playerTrailSpawnCounterDefault;
 
-                double left = _playerHitBox.X;
-                double top = _playerHitBox.Y;
+            double left = _playerHitBox.X;
+            double top = _playerHitBox.Y;
 
-                PlayerTrail playerTrail = new(_scale);
-                playerTrail.SetPosition(left, top);
-                playerTrail.SetZ(0);
-                playerTrail.UpdateMovementDirection(_player.MovementDirection);
+            PlayerTrail playerTrail = new(_scale);
+            playerTrail.SetPosition(left, top);
+            playerTrail.SetZ(0);
+            playerTrail.UpdateMovementDirection(_player.MovementDirection);
 
-                GameView.Children.Add(playerTrail);
-                _playerTrailCount++;
-            }
+            GameView.Children.Add(playerTrail);
+            _playerTrailCount++;
+            //}
         }
 
         private void UpdatePlayerTrail(GameObject playerTrail)
