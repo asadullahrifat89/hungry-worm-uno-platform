@@ -19,7 +19,10 @@
         <!--#endregion-->
 
         <!--#region Player health, game Score-->
-        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top">
+        <StackPanel
+            HorizontalAlignment="Center"
+            VerticalAlignment="Bottom"
+            Orientation="Horizontal">
 
             <!--  Player health  -->
             <Border

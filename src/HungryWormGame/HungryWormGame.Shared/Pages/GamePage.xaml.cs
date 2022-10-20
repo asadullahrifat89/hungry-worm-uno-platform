@@ -19,12 +19,10 @@ namespace HungryWormGame
         private readonly TimeSpan _frameTime = TimeSpan.FromMilliseconds(Constants.DEFAULT_FRAME_TIME);
 
         private readonly Random _random = new();
-        //private int _markNum;
 
         private double _gameSpeed = 6;
         private readonly double _gameSpeedDefault = 6;
 
-        private int _playerSpeed = 6;
         private readonly int _playerSpeedDefault = 6;
 
         private int _powerUpCount;
@@ -33,17 +31,11 @@ namespace HungryWormGame
         private int _powerModeDurationCounter;
         private readonly int _powerModeDuration = 800;
 
-        private int _lives;
-        private readonly int _maxLives = 3;
-
-        private readonly int _healthSpawnCounter = 500;
-
         private double _score;
 
         private bool _isGameOver;
         private bool _isPowerMode;
 
-        //private bool _isPointerActivated;
         private Point _pointerPosition;
 
         private double _windowHeight, _windowWidth;
@@ -277,16 +269,13 @@ namespace HungryWormGame
             HideInGameTextMessage();
             SoundHelper.PlaySound(SoundType.MENU_SELECT);
 
-            _lives = _maxLives;
-
             _playerTrailCount = 0;
             _playerTrailLength = 2;
             _foodSpawnLimit = 3;
             _foodCount = 0;
 
             _gameSpeed = _gameSpeedDefault;
-            _playerSpeed = _playerSpeedDefault;
-            _player.Opacity = 1;
+            _player.Opacity = 1;        
 
             ResetControls();
 
@@ -331,6 +320,13 @@ namespace HungryWormGame
             UpdateMovementDirection((MovementDirection)_random.Next(1, directions.Length));
 
             RunGame();
+
+            _player.SetSize(width: Constants.PLAYER_SIZE * _scale, height: Constants.PLAYER_SIZE * _scale);
+
+            foreach (PlayerTrail trail in GameView.GetGameObjects<PlayerTrail>())
+            {
+                trail.SetRoundness(_scale);
+            }
         }
 
         private async void RunGame()
@@ -453,7 +449,7 @@ namespace HungryWormGame
             InputView.Focus(FocusState.Programmatic);
             ShowInGameTextMessage("GAME_PAUSED");
 
-            _gameViewTimer?.Dispose();            
+            _gameViewTimer?.Dispose();
 
             SoundHelper.PlaySound(SoundType.MENU_SELECT);
             PauseGameSounds();
@@ -1099,6 +1095,16 @@ namespace HungryWormGame
 
             GameView.Width = _windowWidth;
             GameView.Height = _windowHeight;
+
+            if (_player is not null)
+            {
+                _player.SetSize(width: Constants.PLAYER_SIZE * _scale, height: Constants.PLAYER_SIZE * _scale);
+
+                foreach (PlayerTrail trail in GameView.GetGameObjects<PlayerTrail>())
+                {
+                    trail.SetRoundness(_scale);
+                }
+            }
         }
 
         private void NavigateToPage(Type pageType)

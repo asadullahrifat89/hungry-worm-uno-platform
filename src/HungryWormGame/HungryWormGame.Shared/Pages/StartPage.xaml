@@ -179,24 +179,6 @@
                     IsTabStop="False"
                     NavigateUri="https://www.linkedin.com/in/asadullah-rifat/" />
 
-                <!--  Brand Tag line  -->
-                <!--<TextBlock
-                    x:Name="BrandProfileButton"
-                    Margin="0,5,0,5"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Bottom"
-                    FontSize="17"
-                    Foreground="White"
-                    Text="Brought to you with ❤ by" />-->
-
-                <!--  Brand logo  -->
-                <!--<HyperlinkButton
-                    Height="80"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    NavigateUri="https://www.spiga-ristorante.ch/">
-                    <Image Source="ms-appx:///Assets/Images/logo_brand.png" />
-                </HyperlinkButton>-->
 
                 <!--  Message text  -->
                 <TextBlock

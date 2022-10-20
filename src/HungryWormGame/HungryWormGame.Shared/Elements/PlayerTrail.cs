@@ -7,8 +7,8 @@ namespace HungryWormGame
     {
         #region Fields
 
-        private readonly double _thickness;
-        private readonly double _radius;
+        private double _thickness;
+        private double _radius;
 
         #endregion
 
@@ -18,10 +18,7 @@ namespace HungryWormGame
         {
             Tag = ElementType.PLAYER_TRAIL;
 
-            _thickness = 5 * scale;
-            _radius = 5 * scale;            
-
-            CornerRadius = new CornerRadius(_radius);
+            SetRoundness(scale);
 
             Background = Application.Current.Resources["WormBodyColor"] as SolidColorBrush;
             BorderBrush = Application.Current.Resources["WormBorderColor"] as SolidColorBrush;
@@ -33,6 +30,14 @@ namespace HungryWormGame
         #endregion
 
         #region Methods
+
+        public void SetRoundness(double scale)
+        {
+            _thickness = 5 * scale;
+            _radius = 5 * scale;
+
+            CornerRadius = new CornerRadius(_radius);
+        }
 
         internal void UpdateMovementDirection(MovementDirection up)
         {

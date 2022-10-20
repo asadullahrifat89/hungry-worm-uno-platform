@@ -177,14 +177,6 @@
 
                     </StackPanel>
 
-                    <!--  Brand logo  -->
-                    <!--<HyperlinkButton
-                        Height="80"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        NavigateUri="https://www.spiga-ristorante.ch/">
-                        <Image Source="ms-appx:///Assets/Images/logo_brand.png" />
-                    </HyperlinkButton>-->
 
                     <!--  Message text  -->
                     <TextBlock
