@@ -140,8 +140,9 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Background="Transparent"
-            KeyDown="OnKeyDown"
-            PointerPressed="InputView_PointerPressed" />
+            PointerMoved="InputView_PointerMoved"
+            PointerPressed="InputView_PointerPressed"
+            PointerReleased="InputView_PointerReleased" />
         <!--#endregion-->
 
         <!--#region Pause & quit game-->
@@ -175,4 +176,5 @@
         <!--#endregion-->
 
     </Grid>
+
 </Page>
