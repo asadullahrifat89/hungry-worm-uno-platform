@@ -145,23 +145,25 @@ namespace HungryWormGame
             }
             else
             {
-                if (_pointerPosition.Y < _playerHitBox.Y && _player.MovementDirection != MovementDirection.Up)
-                {
-                    UpdateMovementDirection(MovementDirection.Up);
-                }
-                else if (_pointerPosition.Y > _playerHitBox.Y && _player.MovementDirection != MovementDirection.Down)
-                {
-                    UpdateMovementDirection(MovementDirection.Down);
-                }
-
                 if (_pointerPosition.X > _playerHitBox.X && _player.MovementDirection != MovementDirection.Right)
                 {
                     UpdateMovementDirection(MovementDirection.Right);
                     return;
                 }
-                else if (_pointerPosition.X < _playerHitBox.X && _player.MovementDirection != MovementDirection.Left)
+                if (_pointerPosition.X < _playerHitBox.X && _player.MovementDirection != MovementDirection.Left)
                 {
                     UpdateMovementDirection(MovementDirection.Left);
+                    return;
+                }
+
+                if (_pointerPosition.Y < _playerHitBox.Y && _player.MovementDirection != MovementDirection.Up)
+                {
+                    UpdateMovementDirection(MovementDirection.Up);
+                    return;
+                }
+                if (_pointerPosition.Y > _playerHitBox.Y && _player.MovementDirection != MovementDirection.Down)
+                {
+                    UpdateMovementDirection(MovementDirection.Down);
                     return;
                 }
             }
