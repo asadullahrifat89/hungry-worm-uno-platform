@@ -140,7 +140,6 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Background="Transparent"
-            KeyDown="OnKeyDown"
             PointerMoved="InputView_PointerMoved"
             PointerPressed="InputView_PointerPressed"
             PointerReleased="InputView_PointerReleased" />

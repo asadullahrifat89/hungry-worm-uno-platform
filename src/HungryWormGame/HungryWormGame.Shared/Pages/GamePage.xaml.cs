@@ -22,6 +22,7 @@ namespace HungryWormGame
 
         private double _gameSpeed = 6;
         private readonly double _gameSpeedDefault = 6;
+        private readonly double _gameSpeedfactor = 0.05;
 
         private int _powerUpCount;
         private readonly int _powerUpSpawnLimit = 1;
@@ -39,8 +40,6 @@ namespace HungryWormGame
 
         private double _windowHeight, _windowWidth;
         private double _scale;
-
-        //private PowerUpType _powerUpType;
 
         private Player _player;
         private Rect _playerHitBox;
@@ -63,12 +62,9 @@ namespace HungryWormGame
 
         private int _playerTrailCount;
         private int _playerTrailLength;
-        private readonly int _playerTrailLengthLimit = 25;
+        private readonly int _playerTrailLengthLimit = 10;
 
         private int _playerYummyFaceCounter;
-
-        //private int _playerTrailSpawnCounter;
-        //private readonly int _playerTrailSpawnCounterDefault = 1;
 
         #endregion
 
@@ -137,28 +133,6 @@ namespace HungryWormGame
 
                 PointerPoint point = e.GetCurrentPoint(GameView);
                 _pointerPosition = point.Position;
-
-                //if (_pointerPosition.X > _playerHitBox.X && _player.MovementDirection != MovementDirection.Right)
-                //{
-                //    UpdateMovementDirection(MovementDirection.Right);
-                //    return;
-                //}
-                //if (_pointerPosition.X < _playerHitBox.X && _player.MovementDirection != MovementDirection.Left)
-                //{
-                //    UpdateMovementDirection(MovementDirection.Left);
-                //    return;
-                //}
-
-                //if (_pointerPosition.Y < _playerHitBox.Y && _player.MovementDirection != MovementDirection.Up)
-                //{
-                //    UpdateMovementDirection(MovementDirection.Up);
-                //    return;
-                //}
-                //if (_pointerPosition.Y > _playerHitBox.Y && _player.MovementDirection != MovementDirection.Down)
-                //{
-                //    UpdateMovementDirection(MovementDirection.Down);
-                //    return;
-                //}
             }
         }
 
@@ -174,35 +148,6 @@ namespace HungryWormGame
         private void InputView_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
             _isPointerActivated = false;
-        }
-
-        private void OnKeyDown(object sender, KeyRoutedEventArgs e)
-        {
-            switch (e.Key)
-            {
-                case VirtualKey.Left:
-                    {
-                        UpdateMovementDirection(MovementDirection.Left);
-                    }
-                    break;
-                case VirtualKey.Up:
-                    {
-                        UpdateMovementDirection(MovementDirection.Up);
-                    }
-                    break;
-                case VirtualKey.Right:
-                    {
-                        UpdateMovementDirection(MovementDirection.Right);
-                    }
-                    break;
-                case VirtualKey.Down:
-                    {
-                        UpdateMovementDirection(MovementDirection.Down);
-                    }
-                    break;
-                default:
-                    break;
-            }
         }
 
         #endregion
@@ -503,71 +448,44 @@ namespace HungryWormGame
 
         #endregion
 
-        #region Game Object
+        #region GameObject
 
         private void MoveGameObject(GameObject gameObject)
         {
             if (_pointerPosition.X > _playerHitBox.Right)
             {
-                var distance = ((_pointerPosition.X - _playerHitBox.Right) / _gameSpeed) * 0.1;
-                var speed = _gameSpeed * distance;
-
-                //if (speed > 15)
-                //    speed = 15;
-
+                var distance = ((_pointerPosition.X - _playerHitBox.Right) / _gameSpeed) * _gameSpeedfactor;
+                double speed = AdjustSpeed(distance);
                 gameObject.SetLeft(gameObject.GetLeft() - speed);
             }
 
             if (_pointerPosition.X < _playerHitBox.Left)
             {
-                var distance = ((_playerHitBox.Left - _pointerPosition.X) / _gameSpeed) * 0.1;
-                var speed = _gameSpeed * distance;
-
-                //if (speed > 15)
-                //    speed = 15;
-
+                var distance = ((_playerHitBox.Left - _pointerPosition.X) / _gameSpeed) * _gameSpeedfactor;
+                double speed = AdjustSpeed(distance);
                 gameObject.SetLeft(gameObject.GetLeft() + speed);
             }
 
             if (_pointerPosition.Y < _playerHitBox.Top)
             {
-                var distance = ((_playerHitBox.Top - _pointerPosition.Y) / _gameSpeed) * 0.1;
-                var speed = _gameSpeed * distance;
-
-                //if (speed > 15)
-                //    speed = 15;
-
+                var distance = ((_playerHitBox.Top - _pointerPosition.Y) / _gameSpeed) * _gameSpeedfactor;
+                double speed = AdjustSpeed(distance);
                 gameObject.SetTop(gameObject.GetTop() + speed);
             }
 
             if (_pointerPosition.Y > _playerHitBox.Bottom)
             {
-                var distance = ((_pointerPosition.Y - _playerHitBox.Bottom) / _gameSpeed) * 0.1;
-                var speed = _gameSpeed * distance;
-
-                //if (speed > 15)
-                //    speed = 15;
-
+                var distance = ((_pointerPosition.Y - _playerHitBox.Bottom) / _gameSpeed) * _gameSpeedfactor;
+                double speed = AdjustSpeed(distance);
                 gameObject.SetTop(gameObject.GetTop() - speed);
             }
+        }
 
-            //switch (_player.MovementDirection)
-            //{
-            //    case MovementDirection.Right:
-            //        gameObject.SetLeft(gameObject.GetLeft() - _gameSpeed);
-            //        break;
-            //    case MovementDirection.Left:
-            //        gameObject.SetLeft(gameObject.GetLeft() + _gameSpeed);
-            //        break;
-            //    case MovementDirection.Up:
-            //        gameObject.SetTop(gameObject.GetTop() + _gameSpeed);
-            //        break;
-            //    case MovementDirection.Down:
-            //        gameObject.SetTop(gameObject.GetTop() - _gameSpeed);
-            //        break;
-            //    default:
-            //        break;
-            //}
+        private double AdjustSpeed(double distance)
+        {
+            var speed = _gameSpeed * distance;
+            speed = speed < _gameSpeedDefault ? _gameSpeedDefault : speed;
+            return speed;
         }
 
         private void RecycleGameObject(GameObject gameObject)
@@ -640,23 +558,15 @@ namespace HungryWormGame
 
         private void SpawnPlayerTrail()
         {
-            //_playerTrailSpawnCounter--;
-
-            //if (_playerTrailSpawnCounter <= 0)
-            //{
-            //    _playerTrailSpawnCounter = _playerTrailSpawnCounterDefault;
-
             double left = _playerHitBox.X;
             double top = _playerHitBox.Y;
 
             PlayerTrail playerTrail = new(_scale);
             playerTrail.SetPosition(left, top);
             playerTrail.SetZ(0);
-            playerTrail.UpdateMovementDirection(_player.MovementDirection);
 
             GameView.Children.Add(playerTrail);
             _playerTrailCount++;
-            //}
         }
 
         private void UpdatePlayerTrail(GameObject playerTrail)
@@ -665,9 +575,6 @@ namespace HungryWormGame
 
             if (_playerTrailCount > _playerTrailLength)
             {
-                if (GameView.GetGameObjects<PlayerTrail>().ToArray()[_playerTrailCount - _playerTrailLength] is PlayerTrail tail)
-                    tail.SetRoundness(_scale);
-
                 GameView.AddDestroyableGameObject(playerTrail);
                 _playerTrailCount--;
             }
