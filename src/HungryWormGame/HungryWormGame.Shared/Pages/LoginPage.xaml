@@ -84,16 +84,7 @@
                     FontSize="18"
                     FontWeight="SemiBold"
                     Foreground="White"
-                    Tag="ActionButton" />
-
-                <!--  Brand logo  -->
-                <!--<HyperlinkButton
-                    Height="80"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    NavigateUri="https://www.spiga-ristorante.ch/">
-                    <Image Source="ms-appx:///Assets/Images/logo_brand.png" />
-                </HyperlinkButton>-->
+                    Tag="ActionButton" />             
 
                 <!--  Message text  -->
                 <TextBlock
