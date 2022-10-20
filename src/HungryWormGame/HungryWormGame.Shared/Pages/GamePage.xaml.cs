@@ -145,6 +145,15 @@ namespace HungryWormGame
             }
             else
             {
+                if (_pointerPosition.Y < _playerHitBox.Y && _player.MovementDirection != MovementDirection.Up)
+                {
+                    UpdateMovementDirection(MovementDirection.Up);
+                }
+                else if (_pointerPosition.Y > _playerHitBox.Y && _player.MovementDirection != MovementDirection.Down)
+                {
+                    UpdateMovementDirection(MovementDirection.Down);
+                }
+
                 if (_pointerPosition.X > _playerHitBox.X && _player.MovementDirection != MovementDirection.Right)
                 {
                     UpdateMovementDirection(MovementDirection.Right);
@@ -153,16 +162,6 @@ namespace HungryWormGame
                 else if (_pointerPosition.X < _playerHitBox.X && _player.MovementDirection != MovementDirection.Left)
                 {
                     UpdateMovementDirection(MovementDirection.Left);
-                    return;
-                }
-
-                if (_pointerPosition.Y < _playerHitBox.Y && _player.MovementDirection != MovementDirection.Up)
-                {
-                    UpdateMovementDirection(MovementDirection.Up);
-                }
-                else if (_pointerPosition.Y > _playerHitBox.Y && _player.MovementDirection != MovementDirection.Down)
-                {
-                    UpdateMovementDirection(MovementDirection.Down);
                     return;
                 }
             }
@@ -192,7 +191,6 @@ namespace HungryWormGame
                         UpdateMovementDirection(MovementDirection.Down);
                     }
                     break;
-
                 default:
                     break;
             }
@@ -453,8 +451,7 @@ namespace HungryWormGame
             InputView.Focus(FocusState.Programmatic);
             ShowInGameTextMessage("GAME_PAUSED");
 
-            _gameViewTimer?.Dispose();
-            ResetControls();
+            _gameViewTimer?.Dispose();            
 
             SoundHelper.PlaySound(SoundType.MENU_SELECT);
             PauseGameSounds();
@@ -669,7 +666,7 @@ namespace HungryWormGame
             else
             {
                 if (_playerHitBox.IntersectsWith(collectible.GetHitBox()))
-                {   
+                {
                     collectible.IsFlaggedForShrinking = true;
                     Collectible();
                 }
@@ -697,7 +694,7 @@ namespace HungryWormGame
                             collectible.SetTop(collectible.GetTop() + _gameSpeed * 1.5);
                     }
                 }
-            }           
+            }
         }
 
         private void Collectible()
