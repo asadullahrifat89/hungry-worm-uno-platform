@@ -133,9 +133,6 @@ namespace HungryWormGame
 
         private void InputView_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            PointerPoint point = e.GetCurrentPoint(GameView);
-            _pointerPosition = point.Position;
-
             if (_isGameOver)
             {
                 App.EnterFullScreen(true);
@@ -145,6 +142,9 @@ namespace HungryWormGame
             }
             else
             {
+                PointerPoint point = e.GetCurrentPoint(GameView);
+                _pointerPosition = point.Position;
+
                 if (_pointerPosition.X > _playerHitBox.X && _player.MovementDirection != MovementDirection.Right)
                 {
                     UpdateMovementDirection(MovementDirection.Right);
