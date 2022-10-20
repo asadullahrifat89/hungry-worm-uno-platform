@@ -109,11 +109,11 @@
         <!--#endregion-->
 
         <!--#region In game message-->
-        <StackPanel
+        <Border
             x:Name="InGameMessagePanel"
-            Margin="10"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
+            CornerRadius="10"
             Visibility="Collapsed">
             <TextBlock
                 x:Name="InGameMessageText"
@@ -125,7 +125,10 @@
                 Foreground="White"
                 TextAlignment="Center"
                 TextWrapping="WrapWholeWords" />
-        </StackPanel>
+            <Border.Background>
+                <SolidColorBrush Opacity="0.5" Color="White" />
+            </Border.Background>
+        </Border>
         <!--#endregion-->
 
         <!--#region Input border-->

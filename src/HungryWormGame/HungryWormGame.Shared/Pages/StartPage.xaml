@@ -11,15 +11,15 @@
     <Grid x:Name="RootGrid">
 
         <!--#region Animation-->
-        <!--  This hosts dirsts and candies  -->
+        <!--  This hosts dirts and collectibles  -->
         <GameEnvironment x:Name="UnderView" Background="Transparent" />
 
         <!--  Fog  -->
-        <!--<Border
+        <Border
             Width="{x:Bind Path=UnderView.Width, Mode=OneWay}"
             Height="{x:Bind Path=UnderView.Height, Mode=OneWay}"
             Background="{StaticResource GameBackgroundColor}"
-            Opacity="0.5" />-->
+            Opacity="0.5" />
         <!--#endregion-->
 
         <!--#region Language selection buttons-->

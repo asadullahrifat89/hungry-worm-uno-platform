@@ -44,7 +44,6 @@ namespace HungryWormGame
             switch (movementDirection)
             {
                 case MovementDirection.Up:
-                    if (MovementDirection != MovementDirection.Down)
                     {
                         MovementDirection = MovementDirection.Up;
 
@@ -61,7 +60,6 @@ namespace HungryWormGame
                     }
                     break;
                 case MovementDirection.Down:
-                    if (MovementDirection != MovementDirection.Up)
                     {
                         MovementDirection = MovementDirection.Down;
 
@@ -78,7 +76,6 @@ namespace HungryWormGame
                     }
                     break;
                 case MovementDirection.Left:
-                    if (MovementDirection != MovementDirection.Right)
                     {
                         MovementDirection = MovementDirection.Left;
 
@@ -96,7 +93,6 @@ namespace HungryWormGame
                     break;
 
                 case MovementDirection.Right:
-                    if (MovementDirection != MovementDirection.Left)
                     {
                         MovementDirection = MovementDirection.Right;
 

@@ -133,9 +133,6 @@ namespace HungryWormGame
 
         private void InputView_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            PointerPoint point = e.GetCurrentPoint(GameView);
-            _pointerPosition = point.Position;
-
             if (_isGameOver)
             {
                 App.EnterFullScreen(true);
@@ -145,12 +142,15 @@ namespace HungryWormGame
             }
             else
             {
+                PointerPoint point = e.GetCurrentPoint(GameView);
+                _pointerPosition = point.Position;
+
                 if (_pointerPosition.X > _playerHitBox.X && _player.MovementDirection != MovementDirection.Right)
                 {
                     UpdateMovementDirection(MovementDirection.Right);
                     return;
                 }
-                else if (_pointerPosition.X < _playerHitBox.X && _player.MovementDirection != MovementDirection.Left)
+                if (_pointerPosition.X < _playerHitBox.X && _player.MovementDirection != MovementDirection.Left)
                 {
                     UpdateMovementDirection(MovementDirection.Left);
                     return;
@@ -159,8 +159,9 @@ namespace HungryWormGame
                 if (_pointerPosition.Y < _playerHitBox.Y && _player.MovementDirection != MovementDirection.Up)
                 {
                     UpdateMovementDirection(MovementDirection.Up);
+                    return;
                 }
-                else if (_pointerPosition.Y > _playerHitBox.Y && _player.MovementDirection != MovementDirection.Down)
+                if (_pointerPosition.Y > _playerHitBox.Y && _player.MovementDirection != MovementDirection.Down)
                 {
                     UpdateMovementDirection(MovementDirection.Down);
                     return;
@@ -192,7 +193,6 @@ namespace HungryWormGame
                         UpdateMovementDirection(MovementDirection.Down);
                     }
                     break;
-
                 default:
                     break;
             }
@@ -453,8 +453,7 @@ namespace HungryWormGame
             InputView.Focus(FocusState.Programmatic);
             ShowInGameTextMessage("GAME_PAUSED");
 
-            _gameViewTimer?.Dispose();
-            ResetControls();
+            _gameViewTimer?.Dispose();            
 
             SoundHelper.PlaySound(SoundType.MENU_SELECT);
             PauseGameSounds();
@@ -669,7 +668,7 @@ namespace HungryWormGame
             else
             {
                 if (_playerHitBox.IntersectsWith(collectible.GetHitBox()))
-                {   
+                {
                     collectible.IsFlaggedForShrinking = true;
                     Collectible();
                 }
@@ -697,7 +696,7 @@ namespace HungryWormGame
                             collectible.SetTop(collectible.GetTop() + _gameSpeed * 1.5);
                     }
                 }
-            }           
+            }
         }
 
         private void Collectible()
