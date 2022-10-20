@@ -25,7 +25,7 @@
             </Style>
 
             <Style BasedOn="{StaticResource DefaultButtonStyle}" TargetType="Button">
-                <Setter Property="Background" Value="#f95428" />
+                <Setter Property="Background" Value="#be1623" />
                 <Setter Property="Foreground" Value="White" />
                 <Setter Property="BorderBrush" Value="White" />
                 <Setter Property="BorderThickness" Value="3" />
