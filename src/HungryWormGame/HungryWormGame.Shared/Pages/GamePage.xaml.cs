@@ -275,7 +275,7 @@ namespace HungryWormGame
             _foodCount = 0;
 
             _gameSpeed = _gameSpeedDefault;
-            _player.Opacity = 1;        
+            _player.Opacity = 1;
 
             ResetControls();
 
@@ -601,14 +601,10 @@ namespace HungryWormGame
 
             if (_playerTrailCount > _playerTrailLength)
             {
-                GameView.AddDestroyableGameObject(playerTrail);
-
                 if (GameView.GetGameObjects<PlayerTrail>().ToArray()[_playerTrailCount - _playerTrailLength] is PlayerTrail tail)
-                {
-                    tail.BorderThickness = new Thickness(5 * _scale);
-                    tail.CornerRadius = new CornerRadius(5 * _scale);
-                }
+                    tail.SetRoundness(_scale);
 
+                GameView.AddDestroyableGameObject(playerTrail);
                 _playerTrailCount--;
             }
         }

@@ -37,6 +37,7 @@ namespace HungryWormGame
             _radius = 5 * scale;
 
             CornerRadius = new CornerRadius(_radius);
+            BorderThickness = new Thickness(_thickness);
         }
 
         internal void UpdateMovementDirection(MovementDirection up)
