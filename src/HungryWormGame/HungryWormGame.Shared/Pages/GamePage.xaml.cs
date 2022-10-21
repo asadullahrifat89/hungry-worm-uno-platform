@@ -985,6 +985,12 @@ namespace HungryWormGame
                 _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 31;
                 _gameSpeed = _gameSpeedDefault + 0.2 * 31;
             }
+            if (_score >= 3000 && _score < 3200)
+            {
+                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 32;
+                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 32;
+                _gameSpeed = _gameSpeedDefault + 0.2 * 32;
+            }
         }
 
         #endregion
