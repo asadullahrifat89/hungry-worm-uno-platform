@@ -267,7 +267,7 @@ namespace HungryWormGame
             // add some dirt underneath
             for (int i = 0; i < 15; i++)
             {
-                SpawnDirt();
+                SpawnSpot();
             }
 
             // add some clouds underneath
@@ -297,9 +297,9 @@ namespace HungryWormGame
                             RecyleCollectible(x);
                         }
                         break;
-                    case ElementType.DIRT:
+                    case ElementType.SPOT:
                         {
-                            RecyleDirt(x);
+                            RecyleSpot(x);
                         }
                         break;
                     default:
@@ -329,9 +329,9 @@ namespace HungryWormGame
             {
                 switch ((ElementType)x.Tag)
                 {
-                    case ElementType.DIRT:
+                    case ElementType.SPOT:
                         {
-                            UpdateDirt(x);
+                            UpdateSpot(x);
                         }
                         break;
                     case ElementType.COLLECTIBLE:
@@ -352,30 +352,30 @@ namespace HungryWormGame
 
         #endregion
 
-        #region Dirt
+        #region Spot
 
-        private void SpawnDirt()
+        private void SpawnSpot()
         {
-            var dirt = new Dirt((double)_random.Next(5, 100) * _scale);
+            var dirt = new Spot((double)_random.Next(5, 100) * _scale);
             UnderView.Children.Add(dirt);
         }
 
-        private void UpdateDirt(GameObject dirt)
+        private void UpdateSpot(GameObject dirt)
         {
             dirt.SetTop(dirt.GetTop() + _gameSpeed);
 
             if (dirt.GetTop() > UnderView.Height)
             {
-                RecyleDirt(dirt);
+                RecyleSpot(dirt);
             }
         }
 
-        private void RecyleDirt(GameObject dirt)
+        private void RecyleSpot(GameObject dirt)
         {
-            RandomizeDirtPosition(dirt);
+            RandomizeSpotPosition(dirt);
         }
 
-        private void RandomizeDirtPosition(GameObject dirt)
+        private void RandomizeSpotPosition(GameObject dirt)
         {
             dirt.SetPosition(
                 left: _random.Next(0, (int)UnderView.Width) - (100 * _scale),

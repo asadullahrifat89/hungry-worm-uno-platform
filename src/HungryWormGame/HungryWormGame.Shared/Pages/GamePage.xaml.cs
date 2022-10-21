@@ -195,7 +195,7 @@ namespace HungryWormGame
             // add some dirt underneath
             for (int i = 0; i < 15; i++)
             {
-                SpawnDirt();
+                SpawnSpot();
             }
         }
 
@@ -388,9 +388,9 @@ namespace HungryWormGame
             {
                 switch ((ElementType)x.Tag)
                 {
-                    case ElementType.DIRT:
+                    case ElementType.SPOT:
                         {
-                            UpdateDirt(x);
+                            UpdateSpot(x);
                         }
                         break;
                     default:
@@ -671,17 +671,17 @@ namespace HungryWormGame
 
         #endregion
 
-        #region Dirt
+        #region Spot
 
-        private void SpawnDirt()
+        private void SpawnSpot()
         {
-            var dirt = new Dirt((double)_random.Next(5, 100) * _scale);
+            var dirt = new Spot((double)_random.Next(5, 100) * _scale);
 
             dirt.SetPosition(_random.Next(50, (int)_windowWidth - 50), _random.Next(50, (int)_windowHeight - 50));
             UnderView.Children.Add(dirt);
         }
 
-        private void UpdateDirt(GameObject dirt)
+        private void UpdateSpot(GameObject dirt)
         {
             MoveGameObject(dirt);
 
