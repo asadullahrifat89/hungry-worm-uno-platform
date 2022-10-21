@@ -37,6 +37,8 @@ namespace HungryWormGame
 
         public bool HasShrinked => _compositeTransform.ScaleX <= 0;
 
+        public bool HasAppeared { get; set; } = false;
+
         #endregion
 
         #region Ctor
@@ -132,10 +134,29 @@ namespace HungryWormGame
             //_hitBoxborder.Width = rect.Width;
         }
 
+        public void SetScaleTransform(double scaleTransform)
+        {
+            _compositeTransform.ScaleX = scaleTransform;
+            _compositeTransform.ScaleY = scaleTransform;
+        }
+
         public void Shrink()
         {
             _compositeTransform.ScaleX -= 0.1;
             _compositeTransform.ScaleY -= 0.1;
+        }
+
+        public void Appear()
+        {
+            if (_compositeTransform.ScaleX >= 1)
+            {
+                HasAppeared = true;
+            }
+            else
+            {
+                _compositeTransform.ScaleX += 0.1;
+                _compositeTransform.ScaleY += 0.1;
+            }
         }
 
         #endregion
@@ -152,4 +173,3 @@ namespace HungryWormGame
         DIRT,
     }
 }
-

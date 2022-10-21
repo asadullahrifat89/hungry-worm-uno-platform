@@ -594,55 +594,65 @@ namespace HungryWormGame
                 left: _random.Next(0, (int)_windowWidth),
                 top: _random.Next(0, (int)_windowHeight));
 
+            collectible.SetScaleTransform(0);
+
             GameView.Children.Add(collectible);
             _foodCount++;
         }
 
         private void UpdateCollectible(GameObject collectible)
         {
-            MoveGameObject(collectible);
-
-            // if object goes out of bounds then make it reenter game view
-            RecycleGameObject(collectible);
-
-            if (collectible.IsFlaggedForShrinking)
-            {
-                collectible.Shrink();
-
-                if (collectible.HasShrinked)
-                    GameView.AddDestroyableGameObject(collectible);
-            }
+            if (!collectible.HasAppeared)
+                collectible.Appear();
             else
             {
-                if (_playerHitBox.IntersectsWith(collectible.GetHitBox()))
+                MoveGameObject(collectible);
+
+                // if object goes out of bounds then make it reenter game view
+                RecycleGameObject(collectible);
+
+                if (collectible.IsFlaggedForShrinking)
                 {
-                    collectible.IsFlaggedForShrinking = true;
-                    Collectible();
+                    collectible.Shrink();
+
+                    if (collectible.HasShrinked)
+                        GameView.AddDestroyableGameObject(collectible);
                 }
-
-                // in power mode draw the collectible closer
-                if (_isPowerMode)
+                else
                 {
-                    var playerHitBoxDistant = _player.GetDistantHitBox();
-                    var collectibleHitBoxDistant = collectible.GetDistantHitBox();
-
-                    if (playerHitBoxDistant.IntersectsWith(collectibleHitBoxDistant))
+                    if (_playerHitBox.IntersectsWith(collectible.GetHitBox()))
                     {
-                        var collectibleHitBox = collectible.GetHitBox();
-
-                        if (_playerHitBox.Left < collectibleHitBox.Left)
-                            collectible.SetLeft(collectible.GetLeft() - _gameSpeed * 1.5);
-
-                        if (collectibleHitBox.Right < _playerHitBox.Left)
-                            collectible.SetLeft(collectible.GetLeft() + _gameSpeed * 1.5);
-
-                        if (collectibleHitBox.Top > _playerHitBox.Bottom)
-                            collectible.SetTop(collectible.GetTop() - _gameSpeed * 1.5);
-
-                        if (collectibleHitBox.Bottom < _playerHitBox.Top)
-                            collectible.SetTop(collectible.GetTop() + _gameSpeed * 1.5);
+                        collectible.IsFlaggedForShrinking = true;
+                        Collectible();
                     }
+
+                    // in power mode draw the collectible closer
+                    if (_isPowerMode)
+                        MagnetPull(collectible);
                 }
+            }
+        }
+
+        private void MagnetPull(GameObject collectible)
+        {
+            var playerHitBoxDistant = _player.GetDistantHitBox();
+            var collectibleHitBoxDistant = collectible.GetDistantHitBox();
+
+            if (playerHitBoxDistant.IntersectsWith(collectibleHitBoxDistant))
+            {
+                var collectibleHitBox = collectible.GetHitBox();
+
+                if (_playerHitBox.Left < collectibleHitBox.Left)
+                    collectible.SetLeft(collectible.GetLeft() - _gameSpeed * 1.5);
+
+                if (collectibleHitBox.Right < _playerHitBox.Left)
+                    collectible.SetLeft(collectible.GetLeft() + _gameSpeed * 1.5);
+
+                if (collectibleHitBox.Top > _playerHitBox.Bottom)
+                    collectible.SetTop(collectible.GetTop() - _gameSpeed * 1.5);
+
+                if (collectibleHitBox.Bottom < _playerHitBox.Top)
+                    collectible.SetTop(collectible.GetTop() + _gameSpeed * 1.5);
             }
         }
 
@@ -974,6 +984,12 @@ namespace HungryWormGame
                 _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 31;
                 _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 31;
                 _gameSpeed = _gameSpeedDefault + 0.2 * 31;
+            }
+            if (_score >= 3000 && _score < 3200)
+            {
+                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 32;
+                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 32;
+                _gameSpeed = _gameSpeedDefault + 0.2 * 32;
             }
         }
 
