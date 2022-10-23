@@ -4,11 +4,11 @@ using System;
 
 namespace HungryWormGame
 {
-    public class Dirt : GameObject
+    public class Spot : GameObject
     {
-        public Dirt(double size)
+        public Spot(double size)
         {
-            Tag = ElementType.DIRT;
+            Tag = ElementType.SPOT;
 
             Width = size;
             Height = size;
@@ -16,7 +16,7 @@ namespace HungryWormGame
             CornerRadius = new CornerRadius(size);
 
             var template = new Random().Next(1, 3);
-            Background = Application.Current.Resources[$"DirtBackgroundColor{template}"] as SolidColorBrush;
+            Background = Application.Current.Resources[$"SpotBackgroundColor{template}"] as SolidColorBrush;
         }
     }
 }

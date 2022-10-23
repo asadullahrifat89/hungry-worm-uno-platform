@@ -170,6 +170,6 @@ namespace HungryWormGame
         POWERUP,
         HEALTH,
         COLLECTIBLE,
-        DIRT,
+        SPOT,
     }
 }
