@@ -246,8 +246,8 @@ namespace HungryWormGame
             _powerUpCount = 0;
 
             _score = 0;
-            _difficultyMultiplier = 1;
             _scoreCap = 20;
+            _difficultyMultiplier = 1;
 
             _foodCollected = 0;
             ScoreText.Text = "0";
