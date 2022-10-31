@@ -20,6 +20,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\Collectible.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Elements\Enemy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\Spot.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\GameEnvironment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\GameObject.cs" />
@@ -130,6 +131,8 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\collectible4.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\collectible5.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\collectible6.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\collectible7.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\enemy1.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player3.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\logo_game.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player1.png" />
@@ -143,10 +146,11 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player7.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player8.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player9.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\powerup1.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\powerup.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\game_over.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\localization.json" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\background3.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\health_loss.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\intro1.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\power-down.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\food-bite3.mp3" />

@@ -27,8 +27,6 @@ namespace HungryWormGame
 
         #region Properties
 
-        public MovementDirection MovementDirection { get; set; }
-
         public double X { get; set; }
 
         public double Y { get; set; }
@@ -140,6 +138,11 @@ namespace HungryWormGame
             _compositeTransform.ScaleY = scaleTransform;
         }
 
+        public void SetScaleX(double scaleX)
+        {
+            _compositeTransform.ScaleX = scaleX;
+        }
+
         public void Shrink()
         {
             _compositeTransform.ScaleX -= 0.1;
@@ -171,5 +174,6 @@ namespace HungryWormGame
         HEALTH,
         COLLECTIBLE,
         SPOT,
+        ENEMY
     }
 }

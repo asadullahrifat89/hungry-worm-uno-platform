@@ -14,11 +14,10 @@ namespace HungryWormGame
         public const double PLAYER_SIZE = 80;
         public const double PLAYER_TRAIL_SIZE = 80;
 
-        public const double COLLECTIBLE_SIZE = 80;
+        public const double COLLECTIBLE_SIZE = 70;
         public const double POWERUP_SIZE = 80;
 
-        public const double HEALTH_WIDTH = 80;
-        public const double HEALTH_HEIGHT = 80;
+        public const double ENEMY_SIZE = 100;
 
         #endregion
 
@@ -39,7 +38,7 @@ namespace HungryWormGame
             new KeyValuePair<ElementType, Uri>(ElementType.PLAYER, new Uri("ms-appx:///Assets/Images/player11.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.PLAYER, new Uri("ms-appx:///Assets/Images/player12.png")),
 
-            new KeyValuePair<ElementType, Uri>(ElementType.POWERUP, new Uri("ms-appx:///Assets/Images/powerup1.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.POWERUP, new Uri("ms-appx:///Assets/Images/powerup.png")),
 
             new KeyValuePair<ElementType, Uri>(ElementType.COLLECTIBLE, new Uri("ms-appx:///Assets/Images/collectible1.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.COLLECTIBLE, new Uri("ms-appx:///Assets/Images/collectible2.png")),
@@ -47,6 +46,9 @@ namespace HungryWormGame
             new KeyValuePair<ElementType, Uri>(ElementType.COLLECTIBLE, new Uri("ms-appx:///Assets/Images/collectible4.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.COLLECTIBLE, new Uri("ms-appx:///Assets/Images/collectible5.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.COLLECTIBLE, new Uri("ms-appx:///Assets/Images/collectible6.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.COLLECTIBLE, new Uri("ms-appx:///Assets/Images/collectible7.png")),
+
+            new KeyValuePair<ElementType, Uri>(ElementType.ENEMY, new Uri("ms-appx:///Assets/Images/enemy1.png")),
         };
 
         #endregion
@@ -69,9 +71,11 @@ namespace HungryWormGame
             new KeyValuePair<SoundType, string>(SoundType.POWER_UP, "Assets/Sounds/power-up.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.POWER_DOWN, "Assets/Sounds/power-down.mp3"),
 
-            new KeyValuePair<SoundType, string>(SoundType.ATE_FOOD, "Assets/Sounds/food-bite1.mp3"),
-            new KeyValuePair<SoundType, string>(SoundType.ATE_FOOD, "Assets/Sounds/food-bite2.mp3"),
-            new KeyValuePair<SoundType, string>(SoundType.ATE_FOOD, "Assets/Sounds/food-bite3.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.COLLECTIBLE, "Assets/Sounds/food-bite1.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.COLLECTIBLE, "Assets/Sounds/food-bite2.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.COLLECTIBLE, "Assets/Sounds/food-bite3.mp3"),
+
+            new KeyValuePair<SoundType, string>(SoundType.HEALTH_LOSS, "Assets/Sounds/health_loss.mp3"),
         };
 
         #endregion
@@ -98,6 +102,7 @@ namespace HungryWormGame
         public const string Action_GetGameProfiles = "/api/Query/GetGameProfiles";
         public const string Action_GetGameScores = "/api/Query/GetGameScores";
         public const string Action_GetUser = "/api/Query/GetUser";
+        public const string Action_CheckIdentityAvailability = "/api/Query/CheckIdentityAvailability";
 
         #endregion
 
@@ -114,14 +119,5 @@ namespace HungryWormGame
         public const string COOKIE_ACCEPTED_KEY = "Accepted";
 
         #endregion
-    }
-
-    public enum MovementDirection
-    {
-        None,
-        Right,
-        Left,
-        Up,
-        Down
     }
 }

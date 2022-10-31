@@ -39,11 +39,6 @@ namespace HungryWormGame
             CornerRadius = new CornerRadius(_radius);
         }
 
-        public void UpdateMovementDirection(MovementDirection movementDirection)
-        {
-            MovementDirection = movementDirection;
-        }
-
         #endregion
     }
 }

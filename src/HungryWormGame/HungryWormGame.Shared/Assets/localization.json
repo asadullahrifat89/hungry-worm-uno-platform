@@ -191,15 +191,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Made with ❤️ by Asadullah Rifat"
+        "Value": "Brought to you with ❤️ by"
       },
       {
         "Culture": "de",
-        "Value": "Erstellt mit ❤️ von Asadullah Rifat"
+        "Value": "Hergestellt mit ❤️ von"
       },
       {
         "Culture": "fr",
-        "Value": "Fait avec ❤️ par Asadullah Rifat"
+        "Value": "Réalisé avec ❤️ par"
       }
     ]
   },
@@ -357,6 +357,40 @@
     ]
   },
   {
+    "Key": "EnemiesInstructionsHeader",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Enemies"
+      },
+      {
+        "Culture": "de",
+        "Value": "Feinde"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Ennemis"
+      }
+    ]
+  },
+  {
+    "Key": "EnemiesInstructionsDetail",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Avoid bumping into enemies and loosing health."
+      },
+      {
+        "Culture": "de",
+        "Value": "Vermeide es, mit Feinden zusammenzustoßen und Gesundheit zu verlieren."
+      },
+      {
+        "Culture": "fr",
+        "Value": "Évitez de vous heurter à des ennemis et de perdre de la santé."
+      }
+    ]
+  },
+  {
     "Key": "CollectiblesInstructionsHeader",
     "CultureValues": [
       {
@@ -399,7 +433,7 @@
       },
       {
         "Culture": "de",
-        "Value": "Einschalten"
+        "Value": "Power-ups"
       },
       {
         "Culture": "fr",
@@ -501,7 +535,7 @@
       },
       {
         "Culture": "de",
-        "Value": "Sammlerstücke"
+        "Value": "Sammelobjekte"
       },
       {
         "Culture": "fr",
@@ -646,7 +680,7 @@
     ]
   },
   {
-    "Key": "ConfirmNewsLettersCheckBox",
+    "Key": "SubscribeNewsLettersCheckBox",
     "CultureValues": [
       {
         "Culture": "en",
@@ -654,7 +688,7 @@
       },
       {
         "Culture": "de",
-        "Value": "Ja, ich möchte Newsletter abonnieren."
+        "Value": "Ja, ich möchte den Newsletter abonnieren."
       },
       {
         "Culture": "fr",
@@ -722,7 +756,7 @@
       },
       {
         "Culture": "de",
-        "Value": "🕹️ Letzter Spielpunkt"
+        "Value": "🕹️ Letzter Spielstand"
       },
       {
         "Culture": "fr",
@@ -756,7 +790,7 @@
       },
       {
         "Culture": "de",
-        "Value": "👑 Alle Zeiten"
+        "Value": "👑 Allzeit"
       },
       {
         "Culture": "fr",
@@ -825,7 +859,7 @@
       },
       {
         "Culture": "de",
-        "Value": "Laden von Daten..."
+        "Value": "Daten laden..."
       },
       {
         "Culture": "fr",
@@ -876,7 +910,7 @@
       },
       {
         "Culture": "de",
-        "Value": "Passwörter stimmten nicht überein"
+        "Value": "Passwörter stimmen nicht überein"
       },
       {
         "Culture": "fr",
@@ -893,7 +927,7 @@
       },
       {
         "Culture": "de",
-        "Value": "Matchierte Passwörter"
+        "Value": "Passwörter stimmen überein"
       },
       {
         "Culture": "fr",
@@ -910,7 +944,7 @@
       },
       {
         "Culture": "de",
-        "Value": "Das Passwort muss mindestens acht Zeichen betragen"
+        "Value": "Das Passwort muss mindestens acht Zeichen enthalten"
       },
       {
         "Culture": "fr",
@@ -927,7 +961,7 @@
       },
       {
         "Culture": "de",
-        "Value": "Das Passwort muss weniger als vierzehn Zeichen betragen"
+        "Value": "Das Passwort muss weniger als vierzehn Zeichen enthalten"
       },
       {
         "Culture": "fr",
@@ -944,7 +978,7 @@
       },
       {
         "Culture": "de",
-        "Value": "Passwort muss einen Großbuchstaben enthalten"
+        "Value": "Passwort muss einen Grossbuchstaben enthalten"
       },
       {
         "Culture": "fr",
@@ -978,7 +1012,7 @@
       },
       {
         "Culture": "de",
-        "Value": "Kennwort darf keine Leerzeichen enthalten"
+        "Value": "Das Passwort darf keine Leerzeichen enthalten"
       },
       {
         "Culture": "fr",

@@ -37,10 +37,13 @@
 		<UpToDateCheckInput Include="..\HungryWormGame.Shared\**\*.xaml" />
 	</ItemGroup>
 	<ItemGroup>
-		<Content Remove="manifest.json" />
+	  <Compile Remove="Assets\**" />
+	  <Content Remove="Assets\**" />
+	  <EmbeddedResource Remove="Assets\**" />
+	  <None Remove="Assets\**" />
 	</ItemGroup>
 	<ItemGroup>
-		<None Remove="Assets\Icon192x192.png" />
+		<Content Remove="manifest.json" />
 	</ItemGroup>
 	<ItemGroup>
 		<EmbeddedResource Include="WasmCSS\Fonts.css" />
@@ -72,9 +75,6 @@
 		<PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.5.12" Condition="'$(Configuration)'=='Debug'" />
 		<PackageReference Include="Uno.Wasm.Bootstrap" Version="3.3.1" />
 		<PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="3.3.1" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Assets\" />
 	</ItemGroup>
 	<Import Project="..\HungryWormGame.Shared\HungryWormGame.Shared.projitems" Label="Shared" Condition="Exists('..\HungryWormGame.Shared\HungryWormGame.Shared.projitems')" />
 </Project>

@@ -66,6 +66,7 @@
         GAME_OVER,
         POWER_UP,
         POWER_DOWN,
-        ATE_FOOD,
+        COLLECTIBLE,
+        HEALTH_LOSS,
     }
 }

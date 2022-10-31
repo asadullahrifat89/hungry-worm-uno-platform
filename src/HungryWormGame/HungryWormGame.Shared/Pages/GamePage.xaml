@@ -85,7 +85,7 @@
                         Margin="0,2,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        Source="ms-appx:///Assets/Images/collectible1.png" />
+                        Source="ms-appx:///Assets/Images/collectible3.png" />
                     <TextBlock
                         Name="ScoreText"
                         Margin="5,0,0,0"
@@ -93,19 +93,18 @@
                         VerticalAlignment="Center"
                         FontSize="20"
                         FontWeight="Bold"
-                        Foreground="White"
                         Text="0"
                         TextAlignment="Left" />
                 </StackPanel>
             </Border>
 
+            <!--  Power up  -->
             <TextBlock
                 Name="powerUpText"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 FontSize="20"
                 FontWeight="Bold"
-                Foreground="White"
                 TextAlignment="Right"
                 Visibility="Collapsed" />
         </StackPanel>
@@ -155,7 +154,7 @@
             <ToggleButton
                 x:Name="QuitGameButton"
                 Width="50"
-                Height="50"
+                Height="45"
                 Margin="5"
                 Checked="QuitGameButton_Checked"
                 CornerRadius="100"
@@ -166,7 +165,7 @@
             <!--  Confirm quit game  -->
             <Button
                 x:Name="ConfirmQuitGameButton"
-                Height="50"
+                Height="45"
                 Margin="5"
                 Click="ConfirmQuitGameButton_Click"
                 Content="Quit Game?"
@@ -174,6 +173,13 @@
 
         </StackPanel>
         <!--#endregion-->
+
+        <TextBlock
+            x:Name="GameElementsCount"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            FontSize="20"
+            FontWeight="SemiBold" />
 
     </Grid>
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace HungryWormGame
     public static class AssetHelper
     {
         #region Fields
-        
+
         private static string _baseUrl;
 
         private static bool _assetsPreloaded;
@@ -33,7 +34,7 @@ namespace HungryWormGame
             return _baseUrl;
         }
 
-        public static async void PreloadAssets(ProgressBar progressBar, Action completed = null)
+        public static async void PreloadAssets(ProgressBar progressBar, TextBlock messageBlock)
         {
             if (!_assetsPreloaded)
             {
@@ -43,6 +44,10 @@ namespace HungryWormGame
                 progressBar.Minimum = 0;
                 progressBar.Maximum = Constants.ELEMENT_TEMPLATES.Length;
 
+                messageBlock.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
+                messageBlock.Foreground = App.Current.Resources["ProgressBarOkColor"] as SolidColorBrush;
+                messageBlock.Text = LocalizationHelper.GetLocalizedResource("LOADING_GAME_ASSETS");
+
                 foreach (var uri in Constants.ELEMENT_TEMPLATES.Select(x => x.Value).ToArray())
                 {
                     await GetFileAsync(uri, progressBar);
@@ -50,11 +55,8 @@ namespace HungryWormGame
 
                 _assetsPreloaded = true;
 
-                completed?.Invoke();
-            }
-            else
-            {
-                completed?.Invoke();
+                messageBlock.Text = string.Empty;
+                messageBlock.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
             }
         }
 
