@@ -66,13 +66,13 @@
             <StackPanel
                 x:Name="ActionStack"
                 Width="315"
-                Margin="10"
+                Margin="10,5,10,10"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Orientation="Vertical">
 
                 <!--  Game logo  -->
-                <Image Height="100" Source="ms-appx:///Assets/Images/logo_game.png" />
+                <Image Height="80" Source="ms-appx:///Assets/Images/logo_game.png" />
 
                 <!--  Game name  -->
                 <TextBlock
@@ -87,10 +87,10 @@
                 <!--  Tag line  -->
                 <TextBlock
                     x:Name="StartPage_Tagline"
-                    Margin="10,0,10,10"
+                    Margin="10,0,10,0"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    FontSize="20"
+                    FontSize="18"
                     Text="A cute 😘 hungry worm game on WebAssembly."
                     TextAlignment="Center"
                     TextWrapping="WrapWholeWords" />
@@ -98,7 +98,7 @@
                 <!--  How to play button  -->
                 <Button
                     x:Name="HowToPlayButton"
-                    Height="50"
+                    Height="45"
                     Margin="30,10,30,5"
                     HorizontalAlignment="Stretch"
                     Click="HowToPlayButton_Click"
@@ -108,7 +108,7 @@
                 <!--  Start game button  -->
                 <Button
                     x:Name="PlayButton"
-                    Height="50"
+                    Height="45"
                     Margin="30,5,30,5"
                     HorizontalAlignment="Stretch"
                     Click="PlayButton_Click"
@@ -120,7 +120,7 @@
                     <!--  Leaderboard button  -->
                     <Button
                         x:Name="LeaderboardButton"
-                        Height="50"
+                        Height="45"
                         HorizontalAlignment="Stretch"
                         Click="LeaderboardButton_Click"
                         Content="Leaderboard"
@@ -129,7 +129,7 @@
                     <!--  Login Button  -->
                     <Button
                         x:Name="LoginButton"
-                        Height="50"
+                        Height="45"
                         HorizontalAlignment="Stretch"
                         Click="LoginButton_Click"
                         Content="Login"
@@ -146,6 +146,7 @@
                         Click="LogoutButton_Click"
                         Content="Logout"
                         FontSize="18"
+                        Foreground="{StaticResource ProgressBarForegroundColor}"
                         Tag="ActionButton"
                         Visibility="Collapsed" />
 
@@ -155,7 +156,7 @@
                 <Button
                     x:Name="RegisterButton"
                     Height="40"
-                    Margin="5,5,5,5"
+                    Margin="5,0,5,0"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Background="Transparent"
@@ -163,28 +164,33 @@
                     Click="RegisterButton_Click"
                     Content="No account yet?"
                     FontSize="18"
+                    Foreground="{StaticResource ProgressBarForegroundColor}"
                     Tag="ActionButton"
                     Visibility="Collapsed" />
 
                 <!--  Brand Tag line  -->
-                <HyperlinkButton
+                <TextBlock
                     x:Name="BrandProfileButton"
                     Margin="0,5,0,5"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Bottom"
-                    Content="Made with ❤️ by Asadullah Rifat"
                     FontSize="17"
-                    Foreground="White"
-                    IsFocusEngagementEnabled="False"
-                    IsTabStop="False"
-                    NavigateUri="https://www.linkedin.com/in/asadullah-rifat/" />
+                    Text="Brought to you with ❤ by" />
+
+                <!--  Brand logo  -->
+                <HyperlinkButton
+                    Height="45"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    NavigateUri="https://www.linkedin.com/in/asadullah-rifat/">
+                    Asadullah Rifat
+                </HyperlinkButton>
 
                 <!--  Message text  -->
                 <TextBlock
                     x:Name="ProgressBarMessageBlock"
                     Margin="5"
                     FontWeight="SemiBold"
-                    Foreground="Crimson"
                     TextWrapping="WrapWholeWords"
                     Visibility="Collapsed" />
 

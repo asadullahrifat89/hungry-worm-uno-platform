@@ -233,7 +233,7 @@
                     <Button
                         x:Name="PlayNowButton"
                         Width="180"
-                        Height="50"
+                        Height="45"
                         Margin="30,10,30,15"
                         HorizontalAlignment="Center"
                         Click="PlayAgainButton_Click"

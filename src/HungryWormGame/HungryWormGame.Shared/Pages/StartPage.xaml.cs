@@ -24,7 +24,7 @@ namespace HungryWormGame
         private readonly int _gameSpeed = 5;
 
         private int _markNum;
-                
+
         private Uri[] _collectibles;
 
         private readonly IBackendService _backendService;
@@ -43,12 +43,6 @@ namespace HungryWormGame
 
             LoadGameElements();
             PopulateGameViews();
-
-            SoundHelper.LoadGameSounds(() =>
-            {
-                StartGameSounds();
-                AssetHelper.PreloadAssets(ProgressBar);
-            });
 
             Loaded += GamePage_Loaded;
             Unloaded += GamePage_Unloaded;
@@ -69,6 +63,12 @@ namespace HungryWormGame
             await LocalizationHelper.LoadLocalizationKeys(() =>
             {
                 this.SetLocalization();
+
+                SoundHelper.LoadGameSounds(() =>
+                {
+                    StartGameSounds();
+                    AssetHelper.PreloadAssets(progressBar: ProgressBar, messageBlock: ProgressBarMessageBlock);
+                });
             });
 
             await CheckUserSession();
@@ -305,7 +305,7 @@ namespace HungryWormGame
         }
 
         private void LoadGameElements()
-        {            
+        {
             _collectibles = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.COLLECTIBLE).Select(x => x.Value).ToArray();
         }
 
@@ -403,7 +403,7 @@ namespace HungryWormGame
 
         private void SpawnSpot()
         {
-            var dirt = new Spot((double)_random.Next(5, 100) * _scale);            
+            var dirt = new Spot((double)_random.Next(5, 100) * _scale);
             UnderView.Children.Add(dirt);
         }
 
@@ -437,7 +437,7 @@ namespace HungryWormGame
         {
             Collectible collectible = new(_scale);
             RandomizeCollectiblePosition(collectible);
-          
+
             UnderView.Children.Add(collectible);
         }
 

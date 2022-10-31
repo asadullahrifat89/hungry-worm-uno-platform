@@ -4,8 +4,6 @@ namespace HungryWormGame
 {
     public class PowerUp : GameObject
     {
-        //public PowerUpType PowerUpType { get; set; }
-
         public PowerUp(double scale)
         {
             Tag = ElementType.POWERUP;
@@ -16,11 +14,5 @@ namespace HungryWormGame
             SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key == ElementType.POWERUP).Value);
         }
     }
-
-    //public enum PowerUpType
-    //{
-    //    NONE,
-    //    FOOD_MAGNET,
-    //}
 }
 

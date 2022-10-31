@@ -11,71 +11,15 @@
   <Import Project="HungryWormGame.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeSharing\Microsoft.CodeSharing.CSharp.targets" />
   <ItemGroup>
-    <UpToDateCheckInput Remove="Pages\GamePage2.xaml" />
-    <UpToDateCheckInput Remove="Pages\HowToPlayPage.xaml" />
-    <UpToDateCheckInput Remove="Pages\LeaderboardPage.xaml" />
-    <UpToDateCheckInput Remove="Pages\LoginPage.xaml" />
-    <UpToDateCheckInput Remove="Pages\SignUpPage.xaml" />
-    <UpToDateCheckInput Remove="Pages\StartPage.xaml" />
+    <_Globbed_Compile Remove="Elements\Enemy.cs" />
   </ItemGroup>
   <ItemGroup>
-    <_Globbed_Compile Remove="Constants.cs" />
-    <_Globbed_Compile Remove="Elements\GameEnvironment.cs" />
-    <_Globbed_Compile Remove="Elements\GameObject.cs" />
-    <_Globbed_Compile Remove="Elements\Player.cs" />
-    <_Globbed_Compile Remove="Elements\Snake.cs" />
-    <_Globbed_Compile Remove="Elements\Sound.cs" />
-    <_Globbed_Compile Remove="Pages\GameOverPage.xaml.cs" />
-    <_Globbed_Compile Remove="Pages\GamePage2.xaml.cs" />
-    <_Globbed_Compile Remove="Pages\HowToPlayPage.xaml.cs" />
-    <_Globbed_Compile Remove="Pages\LeaderboardPage.xaml.cs" />
-    <_Globbed_Compile Remove="Pages\LoginPage.xaml.cs" />
-    <_Globbed_Compile Remove="Pages\SignUpPage.xaml.cs" />
-    <_Globbed_Compile Remove="Pages\StartPage.xaml.cs" />
+    <_Globbed_Content Remove="Assets\Images\collectible7.png" />
+    <_Globbed_Content Remove="Assets\Images\enemy1.png" />
+    <_Globbed_Content Remove="Assets\Images\enemy2.png" />
+    <_Globbed_Content Remove="Assets\Images\enemy2_attack.png" />
+    <_Globbed_Content Remove="Assets\Images\enemy3.png" />
+    <_Globbed_Content Remove="Assets\Images\enemy3_attack.png" />
+    <_Globbed_Content Remove="Assets\Sounds\health_loss.mp3" />
   </ItemGroup>
-  <ItemGroup>
-    <_Globbed_Content Remove="Assets\Images\angel.png" />
-    <_Globbed_Content Remove="Assets\Images\character_maleAdventurer_run0.png" />
-    <_Globbed_Content Remove="Assets\Images\collectible1.png" />
-    <_Globbed_Content Remove="Assets\Images\collectible2.png" />
-    <_Globbed_Content Remove="Assets\Images\collectible3.png" />
-    <_Globbed_Content Remove="Assets\Images\collectible4.png" />
-    <_Globbed_Content Remove="Assets\Images\collectible5.png" />
-    <_Globbed_Content Remove="Assets\Images\collectible6.png" />
-    <_Globbed_Content Remove="Assets\Images\happy1.png" />
-    <_Globbed_Content Remove="Assets\Images\kiss1.png" />
-    <_Globbed_Content Remove="Assets\Images\kiss2.png" />
-    <_Globbed_Content Remove="Assets\Images\laughing1.png" />
-    <_Globbed_Content Remove="Assets\Images\player10.png" />
-    <_Globbed_Content Remove="Assets\Images\player11.png" />
-    <_Globbed_Content Remove="Assets\Images\player12.png" />
-    <_Globbed_Content Remove="Assets\Images\player13.png" />
-    <_Globbed_Content Remove="Assets\Images\player14.png" />
-    <_Globbed_Content Remove="Assets\Images\player2.png" />
-    <_Globbed_Content Remove="Assets\Images\player3.png" />
-    <_Globbed_Content Remove="Assets\Images\player4.png" />
-    <_Globbed_Content Remove="Assets\Images\player5.png" />
-    <_Globbed_Content Remove="Assets\Images\player6.png" />
-    <_Globbed_Content Remove="Assets\Images\player7.png" />
-    <_Globbed_Content Remove="Assets\Images\player8.png" />
-    <_Globbed_Content Remove="Assets\Images\player9.png" />
-    <_Globbed_Content Remove="Assets\Images\player_trail.png" />
-    <_Globbed_Content Remove="Assets\Images\smart.png" />
-    <_Globbed_Content Remove="Assets\Sounds\power-down.mp3" />
-    <_Globbed_Content Remove="Assets\Sounds\power-up.mp3" />
-    <_Globbed_Content Remove="Assets\SplashScreen.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <_Globbled_Page Remove="Pages\GamePage2.xaml" />
-    <_Globbled_Page Remove="Pages\HowToPlayPage.xaml" />
-    <_Globbled_Page Remove="Pages\LeaderboardPage.xaml" />
-    <_Globbled_Page Remove="Pages\LoginPage.xaml" />
-    <_Globbled_Page Remove="Pages\SignUpPage.xaml" />
-    <_Globbled_Page Remove="Pages\StartPage.xaml" />
-  </ItemGroup>
-  <ProjectExtensions>
-    <VisualStudio>
-      <UserProperties assets_4localization_1json__JsonSchema="https://blockprotocol.org/schemas/block-metadata.json" />
-    </VisualStudio>
-  </ProjectExtensions>
 </Project>

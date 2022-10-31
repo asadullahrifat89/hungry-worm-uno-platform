@@ -19,5 +19,7 @@ namespace HungryWormGame
         Task<(bool IsSuccess, string Message, GameScore[] GameScores)> GetUserGameScores(int pageIndex, int pageSize);
 
         Task<(bool IsSuccess, string Message, GameProfile[] GameProfiles)> GetUserGameProfiles(int pageIndex, int pageSize);
+
+        Task<(bool IsSuccess, string Message)> CheckUserIdentityAvailability(string userName, string email);
     }
 }

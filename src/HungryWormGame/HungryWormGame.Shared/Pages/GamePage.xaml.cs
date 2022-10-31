@@ -5,9 +5,7 @@ using Microsoft.UI.Xaml.Input;
 using System;
 using System.Linq;
 using System.Threading;
-using Uno.Extensions;
 using Windows.Foundation;
-using Windows.System;
 
 namespace HungryWormGame
 {
@@ -31,6 +29,8 @@ namespace HungryWormGame
         private readonly int _powerModeDuration = 800;
 
         private double _score;
+        private double _scoreCap;
+        private double _difficultyMultiplier;
 
         private bool _isGameOver;
         private bool _isPowerMode;
@@ -44,21 +44,36 @@ namespace HungryWormGame
         private Player _player;
         private Rect _playerHitBox;
 
-        private int _foodSpawnCounter;
-        private int _foodSpawnLimit;
-        private int _foodCount;
-        private int _foodCollected;
+        private int _collectibleSpawnCounter;
+        private readonly int _collectibleSpawnCounterDefault = 10;
+        private readonly int _collectibleSpawnLimit = 2;
 
-        private Uri[] _playerTemplates;
-        private Uri[] _collectibleTemplates;
+        private int _collectibleCount;
+        private int _collectibleCollected;
+
+        private int _enemyCount;
+        private int _enemySpawnCounter;
+        private readonly int _enemySpawnCounterDefault = 10;
+        private readonly int _enemySpawnLimit = 2;
+
+        private Uri[] _playerFaces;
+        private Uri[] _collectibles;
+        private Uri[] _enemies;
 
         private double _playerHealth;
+
+        private int _damageRecoveryOpacityFrameSkip;
+        private int _damageRecoveryCounter = 300;
+        private readonly int _damageRecoveryDelay = 300;
+
         private int _playerHealthDepletionCounter;
         private double _playerHealthDepletionPoint;
         private double _playerHealthRejuvenationPoint;
 
         private readonly double _healthDepletePointDefault = 0.5;
         private readonly double _healthGainPointDefault = 10;
+
+        private bool _isPlayerRecoveringFromDamage;
 
         private int _playerTrailCount;
         private int _playerTrailLength;
@@ -179,6 +194,13 @@ namespace HungryWormGame
 
         #region Game
 
+        private void LoadGameElements()
+        {
+            _playerFaces = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.PLAYER).Select(x => x.Value).ToArray();
+            _collectibles = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.COLLECTIBLE).Select(x => x.Value).ToArray();
+            _enemies = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.ENEMY).Select(x => x.Value).ToArray();
+        }
+
         private void PopulateGameViews()
         {
 #if DEBUG
@@ -215,12 +237,6 @@ namespace HungryWormGame
             _playerHitBox = _player.GetHitBox();
         }
 
-        private void LoadGameElements()
-        {
-            _playerTemplates = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.PLAYER).Select(x => x.Value).ToArray();
-            _collectibleTemplates = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.COLLECTIBLE).Select(x => x.Value).ToArray();
-        }
-
         private void StartGame()
         {
 #if DEBUG
@@ -231,8 +247,11 @@ namespace HungryWormGame
 
             _playerTrailCount = 0;
             _playerTrailLength = 2;
-            _foodSpawnLimit = 3;
-            _foodCount = 0;
+            _collectibleSpawnCounter = _collectibleSpawnCounterDefault;
+            _collectibleCount = 0;
+
+            _enemyCount = 0;
+            _enemySpawnCounter = _enemySpawnCounterDefault;
 
             _gameSpeed = _gameSpeedDefault;
             _player.Opacity = 1;
@@ -241,12 +260,15 @@ namespace HungryWormGame
 
             _isGameOver = false;
             _isPowerMode = false;
-            //_powerUpType = 0;
+
             _powerModeDurationCounter = _powerModeDuration;
             _powerUpCount = 0;
 
             _score = 0;
-            _foodCollected = 0;
+            _scoreCap = 20;
+            _difficultyMultiplier = 1;
+
+            _collectibleCollected = 0;
             ScoreText.Text = "0";
 
             PlayerHealthBarPanel.Visibility = Visibility.Visible;
@@ -256,7 +278,6 @@ namespace HungryWormGame
             _playerHealthRejuvenationPoint = _healthGainPointDefault;
             _playerHealthDepletionCounter = 10;
 
-            //_playerTrailSpawnCounter = _playerTrailSpawnCounterDefault;
 
             foreach (GameObject x in GameView.GetGameObjects<PlayerTrail>())
             {
@@ -273,11 +294,13 @@ namespace HungryWormGame
                 GameView.AddDestroyableGameObject(x);
             }
 
+            foreach (GameObject x in GameView.GetGameObjects<Enemy>())
+            {
+                GameView.AddDestroyableGameObject(x);
+            }
+
             RemoveGameObjects();
             StartGameSounds();
-
-            var directions = Enum.GetNames<MovementDirection>();
-            UpdateMovementDirection((MovementDirection)_random.Next(1, directions.Length));
 
             RunGame();
 
@@ -299,12 +322,6 @@ namespace HungryWormGame
             }
         }
 
-        private void ResetControls()
-        {
-            _player.MovementDirection = MovementDirection.None;
-            _pointerPosition = null;
-        }
-
         private void GameViewLoop()
         {
             ScoreText.Text = _score.ToString("#");
@@ -322,86 +339,15 @@ namespace HungryWormGame
             }
 
             DepleteHealth();
-            ScaleDifficulty();
+
+#if DEBUG
+            GameElementsCount.Text = (GameView.Children.Count + UnderView.Children.Count).ToString();
+#endif
         }
 
-        private void SpawnGameObjects()
+        private void ResetControls()
         {
-            if (_powerUpCount < _powerUpSpawnLimit)
-            {
-                _powerUpSpawnCounter--;
-
-                if (_powerUpSpawnCounter < 1)
-                {
-                    SpawnPowerUp();
-                    _powerUpSpawnCounter = _random.Next(1000, 1200);
-                }
-            }
-
-            if (_foodCount < _foodSpawnLimit)
-            {
-                _foodSpawnCounter--;
-
-                if (_foodSpawnCounter <= 0)
-                {
-                    SpawnCollectible();
-                    _foodSpawnCounter = 10; // regular spawn
-                }
-            }
-        }
-
-        private void UpdateGameObjects()
-        {
-            foreach (GameObject x in GameView.GetGameObjects<GameObject>())
-            {
-                switch ((ElementType)x.Tag)
-                {
-                    case ElementType.PLAYER:
-                        {
-                            if (_player.MovementDirection != MovementDirection.None)
-                                UpdatePlayer();
-
-                            YummyFaceCoolDown();
-                        }
-                        break;
-                    case ElementType.COLLECTIBLE:
-                        {
-                            UpdateCollectible(x);
-                        }
-                        break;
-                    case ElementType.PLAYER_TRAIL:
-                        {
-                            UpdatePlayerTrail(x);
-                        }
-                        break;
-                    case ElementType.POWERUP:
-                        {
-                            UpdatePowerUp(x);
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            foreach (GameObject x in UnderView.GetGameObjects<GameObject>())
-            {
-                switch ((ElementType)x.Tag)
-                {
-                    case ElementType.SPOT:
-                        {
-                            UpdateSpot(x);
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-
-        private void RemoveGameObjects()
-        {
-            GameView.RemoveDestroyableGameObjects();
+            _pointerPosition = null;
         }
 
         private void PauseGame()
@@ -439,7 +385,7 @@ namespace HungryWormGame
             PlayerScoreHelper.PlayerScore = new HungryWormGameScore()
             {
                 Score = Math.Ceiling(_score),
-                CollectiblesCollected = _foodCollected
+                CollectiblesCollected = _collectibleCollected
             };
 
             SoundHelper.PlaySound(SoundType.GAME_OVER);
@@ -449,6 +395,99 @@ namespace HungryWormGame
         #endregion
 
         #region GameObject
+
+        private void SpawnGameObjects()
+        {
+            if (_powerUpCount < _powerUpSpawnLimit)
+            {
+                _powerUpSpawnCounter--;
+
+                if (_powerUpSpawnCounter < 1)
+                {
+                    SpawnPowerUp();
+                    _powerUpSpawnCounter = _random.Next(1000, 1200);
+                }
+            }
+
+            if (_collectibleCount < _collectibleSpawnLimit)
+            {
+                _collectibleSpawnCounter--;
+
+                if (_collectibleSpawnCounter <= 0)
+                {
+                    SpawnCollectible();
+                    _collectibleSpawnCounter = _collectibleSpawnCounterDefault; // regular spawn
+                }
+            }
+
+            if (_enemyCount < _enemySpawnLimit)
+            {
+                _enemySpawnCounter--;
+
+                if (_enemySpawnCounter <= 0)
+                {
+                    SpawnEnemy();
+                    _enemySpawnCounter = _enemySpawnCounterDefault; // regular spawn
+                }
+            }
+        }
+
+        private void UpdateGameObjects()
+        {
+            foreach (GameObject x in GameView.GetGameObjects<GameObject>())
+            {
+                switch ((ElementType)x.Tag)
+                {
+                    case ElementType.PLAYER:
+                        {
+                            UpdatePlayer();
+                            YummyFaceCoolDown();
+                        }
+                        break;
+                    case ElementType.COLLECTIBLE:
+                        {
+                            UpdateCollectible(x);
+                        }
+                        break;
+                    case ElementType.PLAYER_TRAIL:
+                        {
+                            UpdatePlayerTrail(x);
+                        }
+                        break;
+                    case ElementType.POWERUP:
+                        {
+                            UpdatePowerUp(x);
+                        }
+                        break;
+                    case ElementType.ENEMY:
+                        {
+                            UpdateEnemy(x as Enemy);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            foreach (GameObject x in UnderView.GetGameObjects<GameObject>())
+            {
+                switch ((ElementType)x.Tag)
+                {
+                    case ElementType.SPOT:
+                        {
+                            UpdateSpot(x);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        private void RemoveGameObjects()
+        {
+            GameView.RemoveDestroyableGameObjects();
+        }
 
         private void MoveGameObject(GameObject gameObject)
         {
@@ -509,6 +548,10 @@ namespace HungryWormGame
 
         private void UpdatePlayer()
         {
+            // animate damange recovery
+            if (_isPlayerRecoveringFromDamage)
+                DamageRecovering();
+
             SpawnPlayerTrail();
         }
 
@@ -529,16 +572,10 @@ namespace HungryWormGame
             return false;
         }
 
-        public void UpdateMovementDirection(MovementDirection movementDirection)
-        {
-            if (_player != null && !_isGameOver)
-                _player.UpdateMovementDirection(movementDirection);
-        }
-
         private void SetYummyFace()
         {
             _playerYummyFaceCounter = 50;
-            _player.SetContent(_playerTemplates[_random.Next(0, _playerTemplates.Length)]);
+            _player.SetContent(_playerFaces[_random.Next(0, _playerFaces.Length)]);
         }
 
         private void YummyFaceCoolDown()
@@ -548,7 +585,30 @@ namespace HungryWormGame
                 _playerYummyFaceCounter--;
 
                 if (_playerYummyFaceCounter <= 0)
-                    _player.SetContent(_playerTemplates.First());
+                    _player.SetContent(_playerFaces.First());
+            }
+        }
+
+        private void DamageRecovering()
+        {
+            _damageRecoveryOpacityFrameSkip--;
+
+            if (_damageRecoveryOpacityFrameSkip < 0)
+            {
+                _player.Opacity = 0.33;
+                _damageRecoveryOpacityFrameSkip = 5;
+            }
+            else
+            {
+                _player.Opacity = 1;
+            }
+
+            _damageRecoveryCounter--;
+
+            if (_damageRecoveryCounter <= 0)
+            {
+                _player.Opacity = 1;
+                _isPlayerRecoveringFromDamage = false;
             }
         }
 
@@ -588,22 +648,24 @@ namespace HungryWormGame
         {
             Collectible collectible = new(_scale);
 
-            collectible.SetContent(_collectibleTemplates[_random.Next(0, _collectibleTemplates.Length)]);
+            collectible.SetContent(_collectibles[_random.Next(0, _collectibles.Length)]);
 
             collectible.SetPosition(
-                left: _random.Next(0, (int)_windowWidth),
-                top: _random.Next(0, (int)_windowHeight));
+                left: _random.Next(0, (int)_windowWidth) * _random.Next(-1, 3),
+                top: _random.Next(0, (int)_windowHeight) * _random.Next(-1, 3));
 
             collectible.SetScaleTransform(0);
 
             GameView.Children.Add(collectible);
-            _foodCount++;
+            _collectibleCount++;
         }
 
         private void UpdateCollectible(GameObject collectible)
         {
             if (!collectible.HasAppeared)
+            {
                 collectible.Appear();
+            }
             else
             {
                 MoveGameObject(collectible);
@@ -633,40 +695,92 @@ namespace HungryWormGame
             }
         }
 
-        private void MagnetPull(GameObject collectible)
+        private void Collectible()
         {
-            var playerHitBoxDistant = _player.GetDistantHitBox();
-            var collectibleHitBoxDistant = collectible.GetDistantHitBox();
+            SoundHelper.PlayRandomSound(SoundType.COLLECTIBLE);
 
-            if (playerHitBoxDistant.IntersectsWith(collectibleHitBoxDistant))
+            AddScore(5);
+            AddHealth(_playerHealthRejuvenationPoint);
+
+            _collectibleCount--;
+            _collectibleCollected++;
+
+            SetYummyFace();
+        }
+
+        #endregion
+
+        #region Enemy
+
+        private void SpawnEnemy()
+        {
+            Enemy enemy = new(_scale);
+
+            enemy.SetContent(_enemies[_random.Next(0, _enemies.Length)]);
+            enemy.SetPosition(
+                left: _random.Next(0, (int)_windowWidth) * _random.Next(-2, 3),
+                top: _random.Next(0, (int)_windowHeight) * _random.Next(-2, 3));
+
+            enemy.HasAppeared = false;
+            enemy.SetScaleTransform(0);
+
+            GameView.Children.Add(enemy);
+            _enemyCount++;
+        }
+
+        private void UpdateEnemy(Enemy enemy)
+        {
+            if (!enemy.HasAppeared)
             {
-                var collectibleHitBox = collectible.GetHitBox();
+                enemy.Appear();
+            }
+            else
+            {
+                MoveGameObject(enemy);
 
-                if (_playerHitBox.Left < collectibleHitBox.Left)
-                    collectible.SetLeft(collectible.GetLeft() - _gameSpeed * 1.5);
+                var enemyHitBox = enemy.GetHitBox();
+                var speed = _gameSpeed / 2.5;
 
-                if (collectibleHitBox.Right < _playerHitBox.Left)
-                    collectible.SetLeft(collectible.GetLeft() + _gameSpeed * 1.5);
+                if (_playerHitBox.Right < enemyHitBox.Left)
+                {
+                    enemy.SetFacingDirectionX(MovementDirectionX.Left);
+                    enemy.SetLeft(enemy.GetLeft() - speed);
+                }
 
-                if (collectibleHitBox.Top > _playerHitBox.Bottom)
-                    collectible.SetTop(collectible.GetTop() - _gameSpeed * 1.5);
+                if (_playerHitBox.Left > enemyHitBox.Right)
+                {
+                    enemy.SetFacingDirectionX(MovementDirectionX.Right);
+                    enemy.SetLeft(enemy.GetLeft() + speed);
+                }
 
-                if (collectibleHitBox.Bottom < _playerHitBox.Top)
-                    collectible.SetTop(collectible.GetTop() + _gameSpeed * 1.5);
+                if (_playerHitBox.Bottom < enemyHitBox.Top)
+                    enemy.SetTop(enemy.GetTop() - speed);
+
+                if (_playerHitBox.Top > enemyHitBox.Bottom)
+                    enemy.SetTop(enemy.GetTop() + speed);
+
+                if (!_isPlayerRecoveringFromDamage && _playerHitBox.IntersectsWith(enemyHitBox))
+                    LooseHealth();
+
+                // if object goes out of bounds then make it reenter game view
+                RecycleEnemy(enemy);
             }
         }
 
-        private void Collectible()
+        private void RecycleEnemy(Enemy enemy)
         {
-            SoundHelper.PlayRandomSound(SoundType.ATE_FOOD);
+            if (enemy.GetLeft() > _windowWidth
+                || enemy.GetLeft() + enemy.Width < 0
+                || enemy.GetTop() > _windowHeight
+                || enemy.GetTop() + enemy.Height < 0)
+            {
+                enemy.SetPosition(
+                  left: _random.Next(0, (int)_windowWidth) * _random.Next(-2, 3),
+                  top: _random.Next(0, (int)_windowHeight) * _random.Next(-2, 3));
 
-            AddScore(10);
-            AddHealth(_playerHealthRejuvenationPoint);
-
-            _foodCount--;
-            _foodCollected++;
-
-            SetYummyFace();
+                enemy.HasAppeared = false;
+                enemy.SetScaleTransform(0);
+            }
         }
 
         #endregion
@@ -713,6 +827,19 @@ namespace HungryWormGame
                 _playerHealth -= _playerHealthDepletionPoint;
                 _playerHealthDepletionCounter = 10;
             }
+
+            if (_playerHealth <= 0)
+                GameOver();
+        }
+
+        private void LooseHealth()
+        {
+            SoundHelper.PlaySound(SoundType.HEALTH_LOSS);
+
+            _damageRecoveryCounter = _damageRecoveryDelay;
+            _isPlayerRecoveringFromDamage = true;
+
+            _playerHealth -= _playerHealthDepletionPoint * 10;
 
             if (_playerHealth <= 0)
                 GameOver();
@@ -779,6 +906,29 @@ namespace HungryWormGame
             SoundHelper.PlaySound(SoundType.POWER_DOWN);
         }
 
+        private void MagnetPull(GameObject collectible)
+        {
+            var playerHitBoxDistant = _player.GetDistantHitBox();
+            var collectibleHitBoxDistant = collectible.GetDistantHitBox();
+
+            if (playerHitBoxDistant.IntersectsWith(collectibleHitBoxDistant))
+            {
+                var collectibleHitBox = collectible.GetHitBox();
+
+                if (_playerHitBox.Left < collectibleHitBox.Left)
+                    collectible.SetLeft(collectible.GetLeft() - _gameSpeed * 1.5);
+
+                if (collectibleHitBox.Right < _playerHitBox.Left)
+                    collectible.SetLeft(collectible.GetLeft() + _gameSpeed * 1.5);
+
+                if (collectibleHitBox.Top > _playerHitBox.Bottom)
+                    collectible.SetTop(collectible.GetTop() - _gameSpeed * 1.5);
+
+                if (collectibleHitBox.Bottom < _playerHitBox.Top)
+                    collectible.SetTop(collectible.GetTop() + _gameSpeed * 1.5);
+            }
+        }
+
         #endregion
 
         #endregion
@@ -791,6 +941,8 @@ namespace HungryWormGame
 
             if (_playerTrailLength < _playerTrailLengthLimit)
                 _playerTrailLength += 1;
+
+            ScaleDifficulty();
         }
 
         #endregion
@@ -799,197 +951,19 @@ namespace HungryWormGame
 
         private void ScaleDifficulty()
         {
-            if (_score >= 10 && _score < 20)
+            if (_score > _scoreCap)
             {
-                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 1;
-                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 1;
-                _gameSpeed = _gameSpeedDefault + 0.2 * 1;
-            }
-            if (_score >= 20 && _score < 30)
-            {
-                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 2;
-                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 2;
-                _gameSpeed = _gameSpeedDefault + 0.2 * 2;
-            }
-            if (_score >= 30 && _score < 40)
-            {
-                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 3;
-                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 3;
-                _gameSpeed = _gameSpeedDefault + 0.2 * 3;
-            }
-            if (_score >= 40 && _score < 50)
-            {
-                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 4;
-                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 4;
-                _gameSpeed = _gameSpeedDefault + 0.2 * 4;
-            }
-            if (_score >= 50 && _score < 80)
-            {
-                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 5;
-                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 5;
-                _gameSpeed = _gameSpeedDefault + 0.2 * 5;
-            }
-            if (_score >= 80 && _score < 100)
-            {
-                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 6;
-                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 6;
-                _gameSpeed = _gameSpeedDefault + 0.2 * 6;
-            }
-            if (_score >= 100 && _score < 130)
-            {
-                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 7;
-                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 7;
-                _gameSpeed = _gameSpeedDefault + 0.2 * 7;
-            }
-            if (_score >= 130 && _score < 150)
-            {
-                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 8;
-                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 8;
-                _gameSpeed = _gameSpeedDefault + 0.2 * 8;
-            }
-            if (_score >= 150 && _score < 180)
-            {
-                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 9;
-                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 9;
-                _gameSpeed = _gameSpeedDefault + 0.2 * 9;
-            }
-            if (_score >= 180 && _score < 200)
-            {
-                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 10;
-                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 10;
-                _gameSpeed = _gameSpeedDefault + 0.2 * 10;
-            }
-            if (_score >= 200 && _score < 220)
-            {
-                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 11;
-                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 11;
-                _gameSpeed = _gameSpeedDefault + 0.2 * 11;
-            }
-            if (_score >= 220 && _score < 250)
-            {
-                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 12;
-                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 12;
-                _gameSpeed = _gameSpeedDefault + 0.2 * 12;
-            }
-            if (_score >= 250 && _score < 300)
-            {
-                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 13;
-                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 13;
-                _gameSpeed = _gameSpeedDefault + 0.2 * 13;
-            }
-            if (_score >= 300 && _score < 350)
-            {
-                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 14;
-                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 14;
-                _gameSpeed = _gameSpeedDefault + 0.2 * 14;
-            }
-            if (_score >= 350 && _score < 400)
-            {
-                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 15;
-                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 15;
-                _gameSpeed = _gameSpeedDefault + 0.2 * 15;
-            }
-            if (_score >= 400 && _score < 500)
-            {
-                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 16;
-                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 16;
-                _gameSpeed = _gameSpeedDefault + 0.2 * 16;
-            }
-            if (_score >= 500 && _score < 600)
-            {
-                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 17;
-                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 17;
-                _gameSpeed = _gameSpeedDefault + 0.2 * 17;
-            }
-            if (_score >= 600 && _score < 700)
-            {
-                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 18;
-                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 18;
-                _gameSpeed = _gameSpeedDefault + 0.2 * 18;
-            }
-            if (_score >= 700 && _score < 800)
-            {
-                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 19;
-                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 19;
-                _gameSpeed = _gameSpeedDefault + 0.2 * 19;
-            }
-            if (_score >= 800 && _score < 900)
-            {
-                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 20;
-                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 20;
-                _gameSpeed = _gameSpeedDefault + 0.2 * 20;
-            }
-            if (_score >= 900 && _score < 1000)
-            {
-                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 21;
-                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 21;
-                _gameSpeed = _gameSpeedDefault + 0.2 * 21;
-            }
-            if (_score >= 1000 && _score < 1200)
-            {
-                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 22;
-                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 22;
-                _gameSpeed = _gameSpeedDefault + 0.2 * 22;
-            }
-            if (_score >= 1200 && _score < 1400)
-            {
-                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 23;
-                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 23;
-                _gameSpeed = _gameSpeedDefault + 0.2 * 23;
-            }
-            if (_score >= 1400 && _score < 1600)
-            {
-                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 24;
-                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 24;
-                _gameSpeed = _gameSpeedDefault + 0.2 * 24;
-            }
-            if (_score >= 1600 && _score < 1800)
-            {
-                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 25;
-                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 25;
-                _gameSpeed = _gameSpeedDefault + 0.2 * 25;
-            }
-            if (_score >= 1800 && _score < 2000)
-            {
-                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 26;
-                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 26;
-                _gameSpeed = _gameSpeedDefault + 0.2 * 26;
-            }
-            if (_score >= 2000 && _score < 2200)
-            {
-                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 27;
-                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 27;
-                _gameSpeed = _gameSpeedDefault + 0.2 * 27;
-            }
-            if (_score >= 2200 && _score < 2400)
-            {
-                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 28;
-                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 28;
-                _gameSpeed = _gameSpeedDefault + 0.2 * 28;
-            }
-            if (_score >= 2400 && _score < 2600)
-            {
-                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 29;
-                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 29;
-                _gameSpeed = _gameSpeedDefault + 0.2 * 29;
-            }
-            if (_score >= 2600 && _score < 2800)
-            {
-                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 30;
-                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 30;
-                _gameSpeed = _gameSpeedDefault + 0.2 * 30;
-            }
-            if (_score >= 2800 && _score < 3000)
-            {
-                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 31;
-                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 31;
-                _gameSpeed = _gameSpeedDefault + 0.2 * 31;
-            }
-            if (_score >= 3000 && _score < 3200)
-            {
-                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * 32;
-                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * 32;
-                _gameSpeed = _gameSpeedDefault + 0.2 * 32;
+                _playerHealthRejuvenationPoint = _healthGainPointDefault + 0.1 * _difficultyMultiplier;
+                _playerHealthDepletionPoint = _healthDepletePointDefault + 0.1 * _difficultyMultiplier;
+                _gameSpeed = _gameSpeedDefault + 0.2 * _difficultyMultiplier;
+
+                _difficultyMultiplier++;
+                _scoreCap += 50;
+
+#if DEBUG
+                Console.WriteLine($"GAME SPEED: {_gameSpeed}");
+                Console.WriteLine($"SCORE CAP: {_scoreCap}");
+#endif
             }
         }
 
@@ -1046,7 +1020,7 @@ namespace HungryWormGame
 
         #endregion
 
-        #region In Game Message
+        #region InGameMessage
 
         private void ShowInGameTextMessage(string resourceKey)
         {

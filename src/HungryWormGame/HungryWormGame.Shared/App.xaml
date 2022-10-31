@@ -33,7 +33,7 @@
                 <Setter Property="BorderBrush" Value="White" />
                 <Setter Property="BorderThickness" Value="3" />
                 <Setter Property="FontWeight" Value="SemiBold" />
-                <Setter Property="FontSize" Value="24" />
+                <Setter Property="FontSize" Value="22" />
                 <Setter Property="CornerRadius" Value="15" />
                 <Setter Property="IsTabStop" Value="False" />
                 <Setter Property="IsFocusEngagementEnabled" Value="False" />
@@ -93,8 +93,8 @@
 
             <SolidColorBrush x:Key="FrameBackgroundColor" Color="#f7b239" />
             <SolidColorBrush x:Key="ProgressBarErrorColor" Color="Red" />
-            <SolidColorBrush x:Key="ProgressBarForegroundColor" Color="#f95428" />
-            <SolidColorBrush x:Key="ProgressBarOkColor" Color="Green" />
+            <SolidColorBrush x:Key="ProgressBarForegroundColor" Color="#be1623" />
+            <SolidColorBrush x:Key="ProgressBarOkColor" Color="White" />
 
             <SolidColorBrush x:Key="WormBodyColor" Color="#f7b239" />
             <SolidColorBrush x:Key="WormBorderColor" Color="Chocolate" />

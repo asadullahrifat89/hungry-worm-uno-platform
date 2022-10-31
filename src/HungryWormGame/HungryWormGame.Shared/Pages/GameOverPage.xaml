@@ -64,7 +64,7 @@
                     <!--  Login button  -->
                     <Button
                         x:Name="LoginButton"
-                        Height="50"
+                        Height="45"
                         Margin="10,0,10,5"
                         HorizontalAlignment="Stretch"
                         Click="LoginButton_Click"
@@ -137,7 +137,7 @@
                                 Width="35"
                                 Height="35"
                                 Margin="4"
-                                Source="ms-appx:///Assets/Images/collectible1.png" />
+                                Source="ms-appx:///Assets/Images/collectible3.png" />
                             <TextBlock
                                 x:Name="CollectiblesCollectedText"
                                 Margin="5"
@@ -158,7 +158,7 @@
                         <!--  Play Again button  -->
                         <Button
                             x:Name="PlayAgainButton"
-                            Height="50"
+                            Height="45"
                             Margin="0,5"
                             HorizontalAlignment="Stretch"
                             Click="PlayAgainButton_Click"
@@ -168,14 +168,23 @@
                         <!--  Leaderboard button  -->
                         <Button
                             x:Name="LeaderboardButton"
-                            Height="50"
+                            Height="45"
                             Margin="0,5"
                             HorizontalAlignment="Stretch"
                             Click="LeaderboardButton_Click"
                             Content="Leaderboard"
                             Visibility="Collapsed" />
 
-                    </StackPanel>                   
+                    </StackPanel>
+
+                    <!--  Brand logo  -->
+                    <HyperlinkButton
+                        Height="45"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        NavigateUri="https://www.linkedin.com/in/asadullah-rifat/">
+                        Asadullah Rifat
+                    </HyperlinkButton>
 
                     <!--  Message text  -->
                     <TextBlock
