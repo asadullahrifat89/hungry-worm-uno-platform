@@ -480,15 +480,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "You could win an exciting prize if you login."
+        "Value": "Log in, to have a chance to be at the top of the leaderboard."
       },
       {
         "Culture": "de",
-        "Value": "Sie können einen aufregenden Preis gewinnen, wenn Sie sich anmelden."
+        "Value": "Melden Sie sich an, um die Chance zu haben, an der Spitze der Rangliste zu stehen."
       },
       {
         "Culture": "fr",
-        "Value": "Vous pourriez gagner un prix passionnant si vous vous connectez."
+        "Value": "Connectez-vous, pour avoir une chance d'être en tête du classement."
       }
     ]
   },
