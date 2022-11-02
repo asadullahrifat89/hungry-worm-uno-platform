@@ -62,9 +62,8 @@ namespace HungryWormGame
 
         private double _playerHealth;
 
-        private int _damageRecoveryOpacityFrameSkip;
-        private int _damageRecoveryCounter = 300;
-        private readonly int _damageRecoveryDelay = 300;
+        private int _damageRecoveryCounter;
+        private readonly int _damageRecoveryCounterDefault = 50;
 
         private int _playerHealthDepletionCounter;
         private double _playerHealthDepletionPoint;
@@ -278,7 +277,6 @@ namespace HungryWormGame
             _playerHealthRejuvenationPoint = _healthGainPointDefault;
             _playerHealthDepletionCounter = 10;
 
-
             foreach (GameObject x in GameView.GetGameObjects<PlayerTrail>())
             {
                 GameView.AddDestroyableGameObject(x);
@@ -441,7 +439,9 @@ namespace HungryWormGame
                     case ElementType.PLAYER:
                         {
                             UpdatePlayer();
-                            YummyFaceCoolDown();
+
+                            if (!_isPlayerRecoveringFromDamage)
+                                YummyFaceCoolDown();
                         }
                         break;
                     case ElementType.COLLECTIBLE:
@@ -591,23 +591,13 @@ namespace HungryWormGame
 
         private void DamageRecovering()
         {
-            _damageRecoveryOpacityFrameSkip--;
-
-            if (_damageRecoveryOpacityFrameSkip < 0)
-            {
-                _player.Opacity = 0.33;
-                _damageRecoveryOpacityFrameSkip = 5;
-            }
-            else
-            {
-                _player.Opacity = 1;
-            }
+            _player.SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key == ElementType.HEALTH_LOSS).Value);
 
             _damageRecoveryCounter--;
 
             if (_damageRecoveryCounter <= 0)
             {
-                _player.Opacity = 1;
+                _player.SetContent(_playerFaces.First());
                 _isPlayerRecoveringFromDamage = false;
             }
         }
@@ -705,7 +695,8 @@ namespace HungryWormGame
             _collectibleCount--;
             _collectibleCollected++;
 
-            SetYummyFace();
+            if (!_isPlayerRecoveringFromDamage)
+                SetYummyFace();
         }
 
         #endregion
@@ -836,7 +827,7 @@ namespace HungryWormGame
         {
             SoundHelper.PlaySound(SoundType.HEALTH_LOSS);
 
-            _damageRecoveryCounter = _damageRecoveryDelay;
+            _damageRecoveryCounter = _damageRecoveryCounterDefault;
             _isPlayerRecoveringFromDamage = true;
 
             _playerHealth -= _playerHealthDepletionPoint * 10;

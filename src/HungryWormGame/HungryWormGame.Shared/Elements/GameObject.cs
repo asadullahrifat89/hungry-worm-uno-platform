@@ -174,6 +174,7 @@ namespace HungryWormGame
         HEALTH,
         COLLECTIBLE,
         SPOT,
-        ENEMY
+        ENEMY,
+        HEALTH_LOSS
     }
 }

@@ -49,6 +49,8 @@ namespace HungryWormGame
             new KeyValuePair<ElementType, Uri>(ElementType.COLLECTIBLE, new Uri("ms-appx:///Assets/Images/collectible7.png")),
 
             new KeyValuePair<ElementType, Uri>(ElementType.ENEMY, new Uri("ms-appx:///Assets/Images/enemy1.png")),
+            
+            new KeyValuePair<ElementType, Uri>(ElementType.HEALTH_LOSS, new Uri("ms-appx:///Assets/Images/game_over.png")),
         };
 
         #endregion
