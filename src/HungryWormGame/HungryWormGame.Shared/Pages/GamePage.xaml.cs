@@ -1,7 +1,9 @@
-﻿using Microsoft.UI.Input;
+﻿using Microsoft.UI;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 using System;
 using System.Linq;
 using System.Threading;
@@ -61,6 +63,7 @@ namespace HungryWormGame
         private Uri[] _enemies;
 
         private double _playerHealth;
+        private readonly double _playerHealthDefault = 100;
 
         private int _damageRecoveryCounter;
         private readonly int _damageRecoveryCounterDefault = 50;
@@ -273,9 +276,10 @@ namespace HungryWormGame
             PlayerHealthBarPanel.Visibility = Visibility.Visible;
 
             _playerHealthDepletionPoint = _healthDepletePointDefault;
-            _playerHealth = 100;
+            _playerHealth = _playerHealthDefault;
             _playerHealthRejuvenationPoint = _healthGainPointDefault;
             _playerHealthDepletionCounter = 10;
+            PlayerHealthBar.Foreground = new SolidColorBrush(Colors.Green);
 
             foreach (GameObject x in GameView.GetGameObjects<PlayerTrail>())
             {
@@ -555,23 +559,6 @@ namespace HungryWormGame
             SpawnPlayerTrail();
         }
 
-        public bool CollisionWithSelf()
-        {
-            if (_player != null)
-            {
-                foreach (var target in GameView.GetGameObjects<PlayerTrail>())
-                {
-                    if (target.GetLeft() == _player.GetLeft() && target.GetTop() == _player.GetTop())
-                    {
-                        Console.WriteLine("COLLIDED WITH SELF");
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        }
-
         private void SetYummyFace()
         {
             _playerYummyFaceCounter = 50;
@@ -817,6 +804,19 @@ namespace HungryWormGame
             {
                 _playerHealth -= _playerHealthDepletionPoint;
                 _playerHealthDepletionCounter = 10;
+            }
+
+            if (_playerHealth < _playerHealthDefault / 3)
+            {
+                PlayerHealthBar.Foreground = new SolidColorBrush(Colors.Crimson);
+            }
+            else if (_playerHealth < _playerHealthDefault / 2)
+            {
+                PlayerHealthBar.Foreground = new SolidColorBrush(Colors.Orange);
+            }
+            else if (_playerHealth > _playerHealthDefault / 2)
+            {
+                PlayerHealthBar.Foreground = new SolidColorBrush(Colors.Green);
             }
 
             if (_playerHealth <= 0)
