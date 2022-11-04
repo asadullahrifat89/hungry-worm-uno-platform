@@ -21,7 +21,7 @@
                 x:Key="DefaultButton"
                 BasedOn="{StaticResource DefaultButtonStyle}"
                 TargetType="Button">
-                <Setter Property="CornerRadius" Value="50" />
+                <Setter Property="CornerRadius" Value="15" />
                 <Setter Property="IsTabStop" Value="False" />
                 <Setter Property="IsFocusEngagementEnabled" Value="False" />
                 <Setter Property="FontFamily" Value="Frutiger" />
@@ -91,7 +91,7 @@
             <SolidColorBrush x:Key="SystemAccentColorLight2" Color="#ff6852" />
             <SolidColorBrush x:Key="SystemAccentColorDark1" Color="#ff6852" />
 
-            <SolidColorBrush x:Key="FrameBackgroundColor" Color="#f7b239" />
+            <SolidColorBrush x:Key="FrameBackgroundColor" Color="#be1623" />
             <SolidColorBrush x:Key="ProgressBarErrorColor" Color="Red" />
             <SolidColorBrush x:Key="ProgressBarForegroundColor" Color="#be1623" />
             <SolidColorBrush x:Key="ProgressBarOkColor" Color="White" />
