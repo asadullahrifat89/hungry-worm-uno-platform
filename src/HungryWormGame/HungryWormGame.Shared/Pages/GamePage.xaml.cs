@@ -183,7 +183,7 @@ namespace HungryWormGame
 
         private void ConfirmQuitGameButton_Click(object sender, RoutedEventArgs e)
         {
-            NavigateToPage(typeof(StartPage));
+            GameOver();
         }
 
         #endregion
