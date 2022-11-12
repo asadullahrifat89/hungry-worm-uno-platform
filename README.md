@@ -1,5 +1,6 @@
 # hungry-worm-uno-platform
 A hungry platformer game built with Uno Platform and WASM. The goal is to survive as long as you can by eating food and avoiding enemies.
+
 Play here: https://asadullahrifat89.github.io/hungry-worm-uno-platform/
 
 ![master](https://github.com/asadullahrifat89/candy-craze-uno-platform/actions/workflows/main.yml/badge.svg)
