@@ -1,0 +1,1108 @@
+﻿[
+  {
+    "Key": "GameName",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Hungry Worm"
+      },
+      {
+        "Culture": "de",
+        "Value": "Hungry Worm"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Hungry Worm"
+      }
+    ]
+  },
+  {
+    "Key": "EnglishButton",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "English"
+      },
+      {
+        "Culture": "de",
+        "Value": "Englisch"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Anglais"
+      }
+    ]
+  },
+  {
+    "Key": "FrenchButton",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "French"
+      },
+      {
+        "Culture": "de",
+        "Value": "Französisch"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Français"
+      }
+    ]
+  },
+  {
+    "Key": "DeutschButton",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Deutsch"
+      },
+      {
+        "Culture": "de",
+        "Value": "Deutsch"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Deutsch"
+      }
+    ]
+  },
+  {
+    "Key": "StartPage_Tagline",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "A cute 😘 hungry worm game on WebAssembly."
+      },
+      {
+        "Culture": "de",
+        "Value": "Ein niedliches 😘 Spiel mit hungrigen Würmern auf WebAssembly."
+      },
+      {
+        "Culture": "fr",
+        "Value": "Un joli jeu de vers affamés 😘 sur WebAssembly."
+      }
+    ]
+  },
+  {
+    "Key": "HowToPlayButton",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "How To Play"
+      },
+      {
+        "Culture": "de",
+        "Value": "Wie man spielt"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Comment jouer"
+      }
+    ]
+  },
+  {
+    "Key": "PlayButton",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Start Game"
+      },
+      {
+        "Culture": "de",
+        "Value": "Spiel starten"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Commencer le jeu"
+      }
+    ]
+  },
+  {
+    "Key": "LeaderboardButton",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Leaderboard"
+      },
+      {
+        "Culture": "de",
+        "Value": "Bestenliste"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Tableau des leaders"
+      }
+    ]
+  },
+  {
+    "Key": "LoginButton",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Login"
+      },
+      {
+        "Culture": "de",
+        "Value": "Login"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Connexion"
+      }
+    ]
+  },
+  {
+    "Key": "LogoutButton",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Logout"
+      },
+      {
+        "Culture": "de",
+        "Value": "Ausloggen"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Se Déconnecter"
+      }
+    ]
+  },
+  {
+    "Key": "RegisterButton",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "No account yet?"
+      },
+      {
+        "Culture": "de",
+        "Value": "Du hast noch keinen Account?"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Tu n'as pas encore de compte?"
+      }
+    ]
+  },
+  {
+    "Key": "BrandProfileButton",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Brought to you with ❤️ by"
+      },
+      {
+        "Culture": "de",
+        "Value": "Hergestellt mit ❤️ von"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Réalisé avec ❤️ par"
+      }
+    ]
+  },
+  {
+    "Key": "WelcomeBackText",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "👋 Welcome Back!"
+      },
+      {
+        "Culture": "de",
+        "Value": "👋 Willkommen Zurück!"
+      },
+      {
+        "Culture": "fr",
+        "Value": "👋 Bienvenue à nouveau!"
+      }
+    ]
+  },
+  {
+    "Key": "CookieText",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "We use cookies to provide the best gaming experience!"
+      },
+      {
+        "Culture": "de",
+        "Value": "Wir verwenden Cookies, um Ihnen das beste Spielerlebnis zu bieten!"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Nous utilisons des cookies pour vous offrir la meilleure expérience de jeu possible !"
+      }
+    ]
+  },
+  {
+    "Key": "CookieDeclineButton",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "👎"
+      },
+      {
+        "Culture": "de",
+        "Value": "👎"
+      },
+      {
+        "Culture": "fr",
+        "Value": "👎"
+      }
+    ]
+  },
+  {
+    "Key": "CookieAcceptButton",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "👍"
+      },
+      {
+        "Culture": "de",
+        "Value": "👍"
+      },
+      {
+        "Culture": "fr",
+        "Value": "👍"
+      }
+    ]
+  },
+  {
+    "Key": "HowToPlayPage_Tagline",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "How To Play"
+      },
+      {
+        "Culture": "de",
+        "Value": "Wie man spielt"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Comment Jouer"
+      }
+    ]
+  },
+  {
+    "Key": "PlayerInstructionsHeader",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Player"
+      },
+      {
+        "Culture": "de",
+        "Value": "Spieler"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Joueur"
+      }
+    ]
+  },
+  {
+    "Key": "PlayerInstructionsDetail",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Move your mouse pointer or your finger on a touchscreen to guide the worm to food."
+      },
+      {
+        "Culture": "de",
+        "Value": "Bewege deinen Mauszeiger oder deinen Finger auf einem Touchscreen, um den Wurm zum Futter zu führen."
+      },
+      {
+        "Culture": "fr",
+        "Value": "Déplacez le pointeur de votre souris ou votre doigt sur un écran tactile pour guider le ver vers la nourriture."
+      }
+    ]
+  },
+  {
+    "Key": "HealthsInstructionsHeader",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Health"
+      },
+      {
+        "Culture": "de",
+        "Value": "Gesundheit"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Santé"
+      }
+    ]
+  },
+  {
+    "Key": "HealthsInstructionsDetail",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "This is your health bar. It depletes with time. When it runs out its game over."
+      },
+      {
+        "Culture": "de",
+        "Value": "Dies ist deine Gesundheitsleiste. Sie verbraucht sich mit der Zeit. Wenn sie aufgebraucht ist, ist das Spiel vorbei."
+      },
+      {
+        "Culture": "fr",
+        "Value": "C'est votre barre de santé. Elle s'épuise avec le temps. Quand elle est épuisée, le jeu est terminé."
+      }
+    ]
+  },
+  {
+    "Key": "EnemiesInstructionsHeader",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Enemies"
+      },
+      {
+        "Culture": "de",
+        "Value": "Feinde"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Ennemis"
+      }
+    ]
+  },
+  {
+    "Key": "EnemiesInstructionsDetail",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Avoid bumping into enemies and loosing health."
+      },
+      {
+        "Culture": "de",
+        "Value": "Vermeide es, mit Feinden zusammenzustoßen und Gesundheit zu verlieren."
+      },
+      {
+        "Culture": "fr",
+        "Value": "Évitez de vous heurter à des ennemis et de perdre de la santé."
+      }
+    ]
+  },
+  {
+    "Key": "CollectiblesInstructionsHeader",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Collectibles"
+      },
+      {
+        "Culture": "de",
+        "Value": "Sammlerstücke"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Pièces de collection"
+      }
+    ]
+  },
+  {
+    "Key": "CollectiblesInstructionsDetail",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Collect these as much as you can to survive and earn points."
+      },
+      {
+        "Culture": "de",
+        "Value": "Sammle sie so oft wie möglich ein, um zu überleben und Punkte zu sammeln."
+      },
+      {
+        "Culture": "fr",
+        "Value": "Collectez-les autant que vous le pouvez pour survivre et gagner des points."
+      }
+    ]
+  },
+  {
+    "Key": "PowerUpsInstructionsHeader",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Power-ups"
+      },
+      {
+        "Culture": "de",
+        "Value": "Power-ups"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Powerups"
+      }
+    ]
+  },
+  {
+    "Key": "PowerUpsInstructionsDetail",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Collect these to pull collectibles like a magnet."
+      },
+      {
+        "Culture": "de",
+        "Value": "Sammle diese, um Sammlerstücke wie ein Magnet anzuziehen."
+      },
+      {
+        "Culture": "fr",
+        "Value": "Collectionnez-les pour attirer les objets de collection comme un aimant."
+      }
+    ]
+  },
+  {
+    "Key": "NextButton",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Next"
+      },
+      {
+        "Culture": "de",
+        "Value": "Weiter"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Suivant"
+      }
+    ]
+  },
+  {
+    "Key": "SignupPromptText",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Log in, to have a chance to be at the top of the leaderboard."
+      },
+      {
+        "Culture": "de",
+        "Value": "Melden Sie sich an, um die Chance zu haben, an der Spitze der Rangliste zu stehen."
+      },
+      {
+        "Culture": "fr",
+        "Value": "Connectez-vous, pour avoir une chance d'être en tête du classement."
+      }
+    ]
+  },
+  {
+    "Key": "GameOverPage_Tagline",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Game Over"
+      },
+      {
+        "Culture": "de",
+        "Value": "Das Spiel ist vorbei"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Jeu Terminé"
+      }
+    ]
+  },
+  {
+    "Key": "YourScoreText",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Your Score"
+      },
+      {
+        "Culture": "de",
+        "Value": "Ihr Spielstand"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Votre score"
+      }
+    ]
+  },
+  {
+    "Key": "CollectiblesCollectedText",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Collectibles"
+      },
+      {
+        "Culture": "de",
+        "Value": "Sammelobjekte"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Pièces de collection"
+      }
+    ]
+  },
+  {
+    "Key": "PlayAgainButton",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Play Again"
+      },
+      {
+        "Culture": "de",
+        "Value": "Erneut spielen"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Rejouer"
+      }
+    ]
+  },
+  {
+    "Key": "SignupPage_Header",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Welcome to"
+      },
+      {
+        "Culture": "de",
+        "Value": "Willkommen bei"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Bienvenue à"
+      }
+    ]
+  },
+  {
+    "Key": "UserFullNameBox",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Full name"
+      },
+      {
+        "Culture": "de",
+        "Value": "Vollständiger Name"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Nom complet"
+      }
+    ]
+  },
+  {
+    "Key": "UserEmailBox",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Email address"
+      },
+      {
+        "Culture": "de",
+        "Value": "Email-Adresse"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Adresse e-mail"
+      }
+    ]
+  },
+  {
+    "Key": "UserNameBox",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Username or Email"
+      },
+      {
+        "Culture": "de",
+        "Value": "Benutzername oder E-Mail-Adresse"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Nom d'utilisateur ou e-mail"
+      }
+    ]
+  },
+  {
+    "Key": "PasswordBox",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Password"
+      },
+      {
+        "Culture": "de",
+        "Value": "Passwort"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Mot de passe"
+      }
+    ]
+  },
+  {
+    "Key": "ConfirmPasswordBox",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Confirm password"
+      },
+      {
+        "Culture": "de",
+        "Value": "Passwort bestätigen"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Confirmez le mot de passe"
+      }
+    ]
+  },
+  {
+    "Key": "ConfirmCheckBox",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Yes, I agree to the conditions of participation."
+      },
+      {
+        "Culture": "de",
+        "Value": "Ja, ich stimme den Teilnahmebedingungen zu."
+      },
+      {
+        "Culture": "fr",
+        "Value": "Oui, j'accepte les conditions de participation."
+      }
+    ]
+  },
+  {
+    "Key": "SubscribeNewsLettersCheckBox",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Yes, I would like to subscribe to newsletters."
+      },
+      {
+        "Culture": "de",
+        "Value": "Ja, ich möchte den Newsletter abonnieren."
+      },
+      {
+        "Culture": "fr",
+        "Value": "Oui, je voudrais souscrire aux newsletters."
+      }
+    ]
+  },
+  {
+    "Key": "SignupButton",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Signup"
+      },
+      {
+        "Culture": "de",
+        "Value": "Anmelden"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Inscription"
+      }
+    ]
+  },
+  {
+    "Key": "LoginToExistingAccountButton",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "You already have an account?"
+      },
+      {
+        "Culture": "de",
+        "Value": "Du hast bereits einen Account?"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Tu as déjà un compte ??"
+      }
+    ]
+  },
+  {
+    "Key": "LeaderboardPage_Tagline",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "🏆 Leaderboard"
+      },
+      {
+        "Culture": "de",
+        "Value": "🏆 Bestenliste"
+      },
+      {
+        "Culture": "fr",
+        "Value": "🏆 Tableau des leaders"
+      }
+    ]
+  },
+  {
+    "Key": "LastGameScoreText",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "🕹️ Last Game Score"
+      },
+      {
+        "Culture": "de",
+        "Value": "🕹️ Letzter Spielstand"
+      },
+      {
+        "Culture": "fr",
+        "Value": "🕹️ Score du dernier match"
+      }
+    ]
+  },
+  {
+    "Key": "DailyScoreboardToggle",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "📅 Daily"
+      },
+      {
+        "Culture": "de",
+        "Value": "📅 Täglich"
+      },
+      {
+        "Culture": "fr",
+        "Value": "📅 Quotidiennement"
+      }
+    ]
+  },
+  {
+    "Key": "AllTimeScoreboardToggle",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "👑 All time"
+      },
+      {
+        "Culture": "de",
+        "Value": "👑 Allzeit"
+      },
+      {
+        "Culture": "fr",
+        "Value": "👑 Tout le temps"
+      }
+    ]
+  },
+  {
+    "Key": "PersonalBestScoreText",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Personal Best Score"
+      },
+      {
+        "Culture": "de",
+        "Value": "Persönliche Beste Punktzahl"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Meilleur Score Personnel"
+      }
+    ]
+  },
+  {
+    "Key": "PlayNowButton",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Play now"
+      },
+      {
+        "Culture": "de",
+        "Value": "Jetzt spielen"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Jouer maintenant"
+      }
+    ]
+  },
+  {
+    "Key": "ConfirmQuitGameButton",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Quit Game?"
+      },
+      {
+        "Culture": "de",
+        "Value": "Spiel Verlassen?"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Quitter Le Jeu?"
+      }
+    ]
+  },
+
+  {
+    "Key": "LOADING_DATA",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Loading data..."
+      },
+      {
+        "Culture": "de",
+        "Value": "Daten laden..."
+      },
+      {
+        "Culture": "fr",
+        "Value": "Chargement des données..."
+      }
+    ]
+  },
+  {
+    "Key": "NO_DATA_AVAILABLE",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "No data available."
+      },
+      {
+        "Culture": "de",
+        "Value": "Keine Daten verfügbar."
+      },
+      {
+        "Culture": "fr",
+        "Value": "Pas de données disponibles."
+      }
+    ]
+  },
+  {
+    "Key": "LOADING_GAME_ASSETS",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Loading game assets..."
+      },
+      {
+        "Culture": "de",
+        "Value": "Laden von Spiel-Assets..."
+      },
+      {
+        "Culture": "fr",
+        "Value": "Chargement des actifs de jeu..."
+      }
+    ]
+  },
+  {
+    "Key": "PASSWORDS_DIDNT_MATCH",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Passwords didn't match"
+      },
+      {
+        "Culture": "de",
+        "Value": "Passwörter stimmen nicht überein"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Les mots de passe ne correspondent pas"
+      }
+    ]
+  },
+  {
+    "Key": "PASSWORDS_MATCHED",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Passwords matched"
+      },
+      {
+        "Culture": "de",
+        "Value": "Passwörter stimmen überein"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Mots de passe correspondants"
+      }
+    ]
+  },
+  {
+    "Key": "LENGTH_MUST_BE_GREATER_THAN_8_CHARS",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Password must be at least eight characters"
+      },
+      {
+        "Culture": "de",
+        "Value": "Das Passwort muss mindestens acht Zeichen enthalten"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Le mot de passe doit comporter au moins huit caractères"
+      }
+    ]
+  },
+  {
+    "Key": "LENGTH_MUST_BE_LESS_THAN_14_CHARS",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Password must be less than fourteen characters"
+      },
+      {
+        "Culture": "de",
+        "Value": "Das Passwort muss weniger als vierzehn Zeichen enthalten"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Le mot de passe doit être inférieur à quatorze caractères"
+      }
+    ]
+  },
+  {
+    "Key": "MUST_CONTAIN_ONE_UPPERCASE_CHAR",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Password must contain one uppercase character"
+      },
+      {
+        "Culture": "de",
+        "Value": "Passwort muss einen Grossbuchstaben enthalten"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Le mot de passe doit contenir un caractère majuscule"
+      }
+    ]
+  },
+  {
+    "Key": "MUST_CONTAIN_ONE_LOWERCASE_CHAR",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Password must contain one lowercase character"
+      },
+      {
+        "Culture": "de",
+        "Value": "Das Passwort muss einen Kleinbuchstabencharakter enthalten"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Le mot de passe doit contenir un caractère minuscule"
+      }
+    ]
+  },
+  {
+    "Key": "MUST_NOT_CONTAIN_SPACE",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Password cannot contain spaces"
+      },
+      {
+        "Culture": "de",
+        "Value": "Das Passwort darf keine Leerzeichen enthalten"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Le mot de passe ne peut pas contenir d'espaces"
+      }
+    ]
+  },
+  {
+    "Key": "MUST_CONTAIN_ONE_SPECIAL_CHAR",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Password must contain one special character"
+      },
+      {
+        "Culture": "de",
+        "Value": "Das Passwort muss ein Sonderzeichen enthalten"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Le mot de passe doit contenir un caractère spécial"
+      }
+    ]
+  },
+  {
+    "Key": "PASSWORD_IS_STRONG",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Password is strong"
+      },
+      {
+        "Culture": "de",
+        "Value": "Das Passwort ist sicher"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Le mot de passe est fort"
+      }
+    ]
+  },
+  {
+    "Key": "INVALID_CHARACTERS_IN_FULLNAME",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Invalid characters in full name"
+      },
+      {
+        "Culture": "de",
+        "Value": "Ungültige Zeichen im vollständigen Namen"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Caractères non valides dans le nom complet"
+      }
+    ]
+  },
+  {
+    "Key": "TAP_ON_SCREEN_TO_BEGIN",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "TAP ON THE SCREEN TO BEGIN"
+      },
+      {
+        "Culture": "de",
+        "Value": "TIPPEN SIE AUF DEN BILDSCHIRM, UM ZU BEGINNEN"
+      },
+      {
+        "Culture": "fr",
+        "Value": "APPUYEZ SUR L'ÉCRAN POUR COMMENCER"
+      }
+    ]
+  },
+  {
+    "Key": "GAME_PAUSED",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "GAME PAUSED"
+      },
+      {
+        "Culture": "de",
+        "Value": "SPIEL PAUSIERT"
+      },
+      {
+        "Culture": "fr",
+        "Value": "JEU PAUSÉ"
+      }
+    ]
+  }
+]
