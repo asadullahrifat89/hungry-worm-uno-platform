@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
+using Uno.Extensions;
 
 namespace HungryWormGame
 {
@@ -44,8 +45,8 @@ namespace HungryWormGame
             LoadGameElements();
             PopulateGameViews();
 
-            Loaded += GamePage_Loaded;
-            Unloaded += GamePage_Unloaded;
+            Loaded += GamePlayPage_Loaded;
+            Unloaded += GamePlayPage_Unloaded;
         }
 
         #endregion
@@ -54,10 +55,12 @@ namespace HungryWormGame
 
         #region Page
 
-        private async void GamePage_Loaded(object sender, RoutedEventArgs e)
+        private async void GamePlayPage_Loaded(object sender, RoutedEventArgs e)
         {
-            SizeChanged += GamePage_SizeChanged;
+            SizeChanged += GamePlayPage_SizeChanged;
             StartAnimation();
+
+            await AppSettingsHelper.LoadAppSettings();
 
             LocalizationHelper.CheckLocalizationCache();
             await LocalizationHelper.LoadLocalizationKeys(() =>
@@ -67,20 +70,24 @@ namespace HungryWormGame
                 SoundHelper.LoadGameSounds(() =>
                 {
                     StartGameSounds();
-                    AssetHelper.PreloadAssets(progressBar: ProgressBar, messageBlock: ProgressBarMessageBlock);
+                    AssetHelper.PreloadAssets(progressBar: ProgressBar, messageBlock: ProgressBarMessageBlock, completed: () =>
+                    {
+                        PlayButton.IsEnabled = true;
+                    });
                 });
             });
 
-            await CheckUserSession();
+            if (await GetCompanyBrand())
+                await CheckUserSession();
         }
 
-        private void GamePage_Unloaded(object sender, RoutedEventArgs e)
+        private void GamePlayPage_Unloaded(object sender, RoutedEventArgs e)
         {
-            SizeChanged -= GamePage_SizeChanged;
+            SizeChanged -= GamePlayPage_SizeChanged;
             StopAnimation();
         }
 
-        private void GamePage_SizeChanged(object sender, SizeChangedEventArgs args)
+        private void GamePlayPage_SizeChanged(object sender, SizeChangedEventArgs args)
         {
             _windowWidth = args.NewSize.Width;
             _windowHeight = args.NewSize.Height;
@@ -116,9 +123,10 @@ namespace HungryWormGame
             NavigateToPage(typeof(HowToPlayPage));
         }
 
-        private void PlayButton_Click(object sender, RoutedEventArgs e)
+        private async void PlayButton_Click(object sender, RoutedEventArgs e)
         {
-            NavigateToPage(typeof(GamePage));
+            if (GameProfileHelper.HasUserLoggedIn() ? await GenerateSession() : true)
+                NavigateToPage(typeof(GamePlayPage));
         }
 
         private void LeaderboardButton_Click(object sender, RoutedEventArgs e)
@@ -145,6 +153,7 @@ namespace HungryWormGame
         {
             CookieHelper.SetCookieAccepted();
             CookieToast.Visibility = Visibility.Collapsed;
+            LocalizationHelper.SaveLocalizationCache(LocalizationHelper.CurrentCulture);
         }
 
         private void CookieDeclineButton_Click(object sender, RoutedEventArgs e)
@@ -161,52 +170,74 @@ namespace HungryWormGame
 
         #region Logic
 
+        private async Task<bool> GetCompanyBrand()
+        {
+            // if company is not already fetched, fetch it
+            if (CompanyHelper.Company is null)
+            {
+                (bool IsSuccess, string Message, Company Company) = await _backendService.GetCompanyBrand();
+
+                if (!IsSuccess)
+                {
+                    var error = Message;
+                    this.ShowError(error);
+                    return false;
+                }
+
+                if (Company is not null)
+                    CompanyHelper.Company = Company;
+            }
+
+            if (CompanyHelper.Company is not null)
+            {
+                if (!CompanyHelper.Company.WebSiteUrl.IsNullOrBlank())
+                    BrandButton.NavigateUri = new Uri(CompanyHelper.Company.WebSiteUrl);
+
+                if (!CookieHelper.IsCookieAccepted() && !CompanyHelper.Company.DefaultLanguage.IsNullOrBlank())
+                {
+                    LocalizationHelper.CurrentCulture = CompanyHelper.Company.DefaultLanguage;
+                    this.SetLocalization();
+                }
+            }
+
+            return true;
+        }
+
+        private async Task<bool> GenerateSession()
+        {
+            (bool IsSuccess, string Message) = await _backendService.GenerateUserSession();
+
+            if (!IsSuccess)
+            {
+                var error = Message;
+                this.ShowError(error);
+                return false;
+            }
+
+            return true;
+        }
+
         private async Task CheckUserSession()
         {
-            SessionHelper.TryLoadSession();
+            AuthTokenHelper.TryLoadRefreshToken();
 
             if (GameProfileHelper.HasUserLoggedIn())
             {
-                if (SessionHelper.HasSessionExpired())
-                {
-                    SessionHelper.RemoveCachedSession();
-                    SetLoginContext();
-                }
-                else
-                {
-                    SetLogoutContext();
-                }
+                SetLogoutContext();
             }
             else
             {
-                if (SessionHelper.HasSessionExpired())
+                if (!AuthTokenHelper.RefreshToken.IsNullOrEmpty() && await GetGameProfile())
                 {
-                    SessionHelper.RemoveCachedSession();
-                    SetLoginContext();
-                    ShowCookieToast();
+                    SetLogoutContext();
+                    ShowWelcomeBackToast();
                 }
                 else
                 {
-                    if (SessionHelper.GetCachedSession() is Session session
-                        && await ValidateSession(session)
-                        && await GetGameProfile())
-                    {
-                        SetLogoutContext();
-                        ShowWelcomeBackToast();
-                    }
-                    else
-                    {
-                        SetLoginContext();
-                        ShowCookieToast();
-                    }
+                    SetLoginContext();
+                    ShowCookieToast();
                 }
             }
-        }
-
-        private async Task<bool> ValidateSession(Session session)
-        {
-            var (IsSuccess, _) = await _backendService.ValidateUserSession(session);
-            return IsSuccess;
         }
 
         private async Task<bool> GetGameProfile()
@@ -226,8 +257,12 @@ namespace HungryWormGame
         private void PerformLogout()
         {
             SoundHelper.PlaySound(SoundType.MENU_SELECT);
-            SessionHelper.RemoveCachedSession();
+
+            AuthTokenHelper.RemoveCachedRefreshToken();
+
             AuthTokenHelper.AuthToken = null;
+            AuthTokenHelper.RefreshToken = null;
+
             GameProfileHelper.GameProfile = null;
             PlayerScoreHelper.PlayerScore = null;
 
@@ -280,7 +315,7 @@ namespace HungryWormGame
 
         private void NavigateToPage(Type pageType)
         {
-            if (pageType == typeof(GamePage))
+            if (pageType == typeof(GamePlayPage))
                 SoundHelper.StopSound(SoundType.INTRO);
 
             SoundHelper.PlaySound(SoundType.MENU_SELECT);

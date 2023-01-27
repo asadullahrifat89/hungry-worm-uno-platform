@@ -34,7 +34,7 @@ namespace HungryWormGame
             return _baseUrl;
         }
 
-        public static async void PreloadAssets(ProgressBar progressBar, TextBlock messageBlock)
+        public static async void PreloadAssets(ProgressBar progressBar, TextBlock messageBlock, Action completed = null)
         {
             if (!_assetsPreloaded)
             {
@@ -57,6 +57,12 @@ namespace HungryWormGame
 
                 messageBlock.Text = string.Empty;
                 messageBlock.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+
+                completed?.Invoke();
+            }
+            else
+            {
+                completed?.Invoke();
             }
         }
 

@@ -11,7 +11,7 @@ using Windows.Foundation;
 
 namespace HungryWormGame
 {
-    public sealed partial class GamePage : Page
+    public sealed partial class GamePlayPage : Page
     {
         #region Fields
 
@@ -87,7 +87,7 @@ namespace HungryWormGame
 
         #region Ctor
 
-        public GamePage()
+        public GamePlayPage()
         {
             InitializeComponent();
 
@@ -100,8 +100,8 @@ namespace HungryWormGame
             LoadGameElements();
             PopulateGameViews();
 
-            Loaded += GamePage_Loaded;
-            Unloaded += GamePage_Unloaded;
+            Loaded += GamePlayPage_Loaded;
+            Unloaded += GamePlayPage_Unloaded;
         }
 
         #endregion
@@ -110,18 +110,18 @@ namespace HungryWormGame
 
         #region Page
 
-        private void GamePage_Loaded(object sender, RoutedEventArgs e)
+        private void GamePlayPage_Loaded(object sender, RoutedEventArgs e)
         {
-            SizeChanged += GamePage_SizeChanged;
+            SizeChanged += GamePlayPage_SizeChanged;
         }
 
-        private void GamePage_Unloaded(object sender, RoutedEventArgs e)
+        private void GamePlayPage_Unloaded(object sender, RoutedEventArgs e)
         {
-            SizeChanged -= GamePage_SizeChanged;
+            SizeChanged -= GamePlayPage_SizeChanged;
             StopGame();
         }
 
-        private void GamePage_SizeChanged(object sender, SizeChangedEventArgs args)
+        private void GamePlayPage_SizeChanged(object sender, SizeChangedEventArgs args)
         {
             _windowWidth = args.NewSize.Width;
             _windowHeight = args.NewSize.Height;

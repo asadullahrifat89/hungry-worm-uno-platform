@@ -66,12 +66,21 @@
                         x:Name="FullNameContainer"
                         Margin="10"
                         VerticalAlignment="Center">
+
                         <!--  Fullname  -->
                         <TextBox
                             x:Name="UserFullNameBox"
                             Margin="5"
                             Header="Enter your full name"
-                            TextChanged="UserFullNameBox_TextChanged" />
+                            TextChanged="SignupField_TextChanged" />
+
+                        <!--  City  -->
+                        <TextBox
+                            x:Name="UserCityBox"
+                            Margin="5"
+                            Header="Enter your city"
+                            TextChanged="SignupField_TextChanged" />
+
                     </StackPanel>
 
                     <StackPanel
@@ -83,14 +92,14 @@
                             x:Name="UserEmailBox"
                             Margin="5"
                             Header="Enter email"
-                            TextChanged="UserEmailBox_TextChanged" />
+                            TextChanged="SignupField_TextChanged" />
 
                         <!--  Username  -->
                         <TextBox
                             x:Name="UserNameBox"
                             Margin="5"
                             Header="Set a username"
-                            TextChanged="UserNameBox_TextChanged" />
+                            TextChanged="SignupField_TextChanged" />
                     </StackPanel>
 
                     <StackPanel
@@ -103,7 +112,7 @@
                             Margin="5"
                             Header="Set a password"
                             KeyDown="PasswordBox_KeyDown"
-                            TextChanged="PasswordBox_TextChanged" />
+                            TextChanged="SignupField_TextChanged" />
 
                         <!--  Confirm password  -->
                         <PasswordBox
@@ -111,13 +120,21 @@
                             Margin="5"
                             Header="Confirm password"
                             KeyDown="PasswordBox_KeyDown"
-                            TextChanged="ConfirmPasswordBox_TextChanged" />
+                            TextChanged="SignupField_TextChanged" />
                     </StackPanel>
 
                     <StackPanel
                         x:Name="AcceptanceContainer"
                         Margin="10"
                         VerticalAlignment="Center">
+
+                        <!--  Terms & conditions  -->
+                        <HyperlinkButton
+                            x:Name="TermsAndConditionsButton"
+                            Margin="5"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center" />
+
                         <!--  I agree  -->
                         <CheckBox
                             x:Name="ConfirmCheckBox"
@@ -133,6 +150,7 @@
                             Margin="5"
                             Content="Yes, I would like to subscribe to newsletters."
                             FontSize="14" />
+
                     </StackPanel>
 
                 </Grid>

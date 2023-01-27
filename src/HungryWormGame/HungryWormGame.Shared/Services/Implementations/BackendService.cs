@@ -30,13 +30,15 @@ namespace HungryWormGame
 
         public async Task<(bool IsSuccess, string Message)> SignupUser(
             string fullName,
+            string city,
             string userName,
             string email,
-            string password, 
+            string password,
             bool subscribedNewsletters)
         {
             ServiceResponse response = await Signup(
                    fullName: fullName,
+                   city: city,
                    userName: userName,
                    email: email,
                    password: password,
@@ -71,26 +73,11 @@ namespace HungryWormGame
             }
 
             // hold auth token
-            var authToken = ParseResult<AuthToken>(response.Result);
-            AuthTokenHelper.AuthToken = authToken;
+            SetAuthTokenAndRefreshToken(response);
 
             PlayerCredentialsHelper.SetPlayerCredentials(
                 userName: userNameOrEmail,
                 password: password);
-
-            return (true, "OK");
-        }
-
-        public async Task<(bool IsSuccess, string Message)> ValidateUserSession(Session session)
-        {
-            ServiceResponse response = await ValidateSession(Constants.GAME_ID, session.SessionId);
-
-            if (response is null || response.HttpStatusCode != HttpStatusCode.OK)
-                return (false, "ERROR");
-
-            // store auth token
-            var authToken = ParseResult<AuthToken>(response.Result);
-            AuthTokenHelper.AuthToken = authToken;
 
             return (true, "OK");
         }
@@ -111,23 +98,20 @@ namespace HungryWormGame
             var session = ParseResult<Session>(response.Result);
             SessionHelper.Session = session;
 
-            if (CookieHelper.IsCookieAccepted())
-                SessionHelper.SetCachedSession(session);
-
             return (true, "OK");
         }
 
-        public async Task<(bool IsSuccess, string Message)> SubmitUserGameScore(double score)
+        public async Task<(bool IsSuccess, string Message, GamePlayResult GamePlayResult)> SubmitUserGameScore(double score)
         {
             ServiceResponse response = await SubmitGameScore(score);
 
             if (response is null || response.HttpStatusCode != HttpStatusCode.OK)
             {
                 var error = response?.ExternalError;
-                return (false, error);
+                return (false, error, null);
             }
 
-            return (true, "OK");
+            return (true, "OK", ParseResult<GamePlayResult>(response.Result));
         }
 
         public async Task<(bool IsSuccess, string Message, GameProfile GameProfile)> GetUserGameProfile()
@@ -184,8 +168,8 @@ namespace HungryWormGame
         }
 
         public async Task<(bool IsSuccess, string Message)> CheckUserIdentityAvailability(
-          string userName,
-          string email)
+            string userName,
+            string email)
         {
             var recordResponse = await CheckIdentityAvailability(
                 userName: userName,
@@ -198,6 +182,45 @@ namespace HungryWormGame
             }
 
             return (true, "OK");
+        }
+
+        public async Task<(bool IsSuccess, string Message, Season Season)> GetGameSeason()
+        {
+            var recordResponse = await GetSeason();
+
+            if (!recordResponse.IsSuccess)
+            {
+                var error = recordResponse.Errors.Errors;
+                return (false, string.Join("\n", error), null);
+            }
+
+            return (true, "OK", recordResponse.Result);
+        }
+
+        public async Task<(bool IsSuccess, string Message, GamePrizeOfTheDay GamePrize)> GetGameDailyPrize()
+        {
+            var recordResponse = await GetGamePrize();
+
+            if (!recordResponse.IsSuccess)
+            {
+                var error = recordResponse.Errors.Errors;
+                return (false, string.Join("\n", error), null);
+            }
+
+            return (true, "OK", recordResponse.Result);
+        }
+
+        public async Task<(bool IsSuccess, string Message, Company Company)> GetCompanyBrand()
+        {
+            var recordResponse = await GetCompany();
+
+            if (!recordResponse.IsSuccess)
+            {
+                var error = recordResponse.Errors.Errors;
+                return (false, string.Join("\n", error), null);
+            }
+
+            return (true, "OK", recordResponse.Result);
         }
 
         #endregion
@@ -214,8 +237,11 @@ namespace HungryWormGame
             string gameId,
             string userId)
         {
+            if (!await RefreshAuthToken())
+                return new ServiceResponse() { HttpStatusCode = HttpStatusCode.InternalServerError, ExternalError = "Failed to refresh token." };
+
             var response = await _httpRequestService.SendRequest<ServiceResponse, ServiceResponse>(
-                baseUrl: Constants.GAME_API_BASEURL,
+                baseUrl: AppSettingsHelper.AppSettings.BackendApiBaseUrl,
                 path: Constants.Action_GenerateSession,
                 httpHeaders: new Dictionary<string, string>() { { "Authorization", $"bearer {AuthTokenHelper.AuthToken.AccessToken}" } },
                 httpMethod: HttpMethod.Post,
@@ -230,19 +256,17 @@ namespace HungryWormGame
                 : response.ErrorResponse ?? new ServiceResponse() { HttpStatusCode = HttpStatusCode.InternalServerError, ExternalError = "Internal server error." };
         }
 
-        private async Task<ServiceResponse> ValidateSession(
-            string gameId,
-            string sessionId)
+        private async Task<ServiceResponse> ValidateToken(string refreshToken)
         {
             var response = await _httpRequestService.SendRequest<ServiceResponse, ServiceResponse>(
-                baseUrl: Constants.GAME_API_BASEURL,
-                path: Constants.Action_ValidateSession,
+                baseUrl: AppSettingsHelper.AppSettings.BackendApiBaseUrl,
+                path: Constants.Action_ValidateToken,
                 httpHeaders: new Dictionary<string, string>(),
                 httpMethod: HttpMethod.Post,
                 payload: new
                 {
-                    GameId = gameId,
-                    SessionId = sessionId,
+                    CompanyId = Constants.COMPANY_ID,
+                    RefreshToken = refreshToken,
                 });
 
             return response.StatusCode == HttpStatusCode.OK
@@ -254,100 +278,53 @@ namespace HungryWormGame
             string userNameOrEmail,
             string password)
         {
+            var payload = new
+            {
+                UserName = userNameOrEmail,
+                Password = password,
+                CompanyId = Constants.COMPANY_ID,
+            };
+
             var response = await _httpRequestService.SendRequest<ServiceResponse, ServiceResponse>(
-                baseUrl: Constants.GAME_API_BASEURL,
-                path: Constants.Action_Authenticate,
-                httpHeaders: new Dictionary<string, string>(),
-                httpMethod: HttpMethod.Post,
-                payload: new
-                {
-                    UserName = userNameOrEmail,
-                    Password = password,
-                });
+               baseUrl: AppSettingsHelper.AppSettings.BackendApiBaseUrl,
+               path: Constants.Action_Authenticate,
+               httpHeaders: new Dictionary<string, string>(),
+               httpMethod: HttpMethod.Post,
+               contentType: "application/x-www-form-urlencoded",
+               formUrlEncodedContent: ObjectExtensions.GetProperties(payload));
 
             return response.StatusCode == HttpStatusCode.OK
                 ? response.SuccessResponse ?? new ServiceResponse() { HttpStatusCode = HttpStatusCode.OK }
                 : response.ErrorResponse ?? new ServiceResponse() { HttpStatusCode = HttpStatusCode.InternalServerError, ExternalError = "Internal server error." };
         }
 
-        private async Task<bool> RefreshAuthToken()
-        {
-            // taking in account that user has already logged in and a session and auth token exists
-            if (SessionHelper.WillSessionExpireSoon() || AuthTokenHelper.WillAuthTokenExpireSoon())
-            {
-                if (SessionHelper.GetCachedSession() is Session session)
-                {
-                    // validate session and get new auth token
-                    if (!await ValidateSession(session.SessionId))
-                        return false;
-
-                    if (SessionHelper.WillSessionExpireSoon())
-                    {
-                        // with new auth token generate a new session and validate it, get new auth token for new session
-                        if (!await GenerateAndValidateSession())
-                            return false;
-                    }
-                }
-            }
-
-            return true;
-        }
-
-        private async Task<bool> GenerateAndValidateSession()
-        {
-            var response = await GenerateSession(gameId: Constants.GAME_ID, userId: GameProfileHelper.GameProfile.User.UserId);
-
-            if (response is null || response.HttpStatusCode != HttpStatusCode.OK)
-                return false;
-
-            var session = ParseResult<Session>(response.Result);
-            SessionHelper.Session = session;
-
-            if (CookieHelper.IsCookieAccepted())
-                SessionHelper.SetCachedSession(session);
-
-            return await ValidateSession(session.SessionId);
-        }
-
-        private async Task<bool> ValidateSession(string sessionId)
-        {
-            var response = await ValidateSession(
-                gameId: Constants.GAME_ID,
-                sessionId: sessionId);
-
-            if (response is null || response.HttpStatusCode != HttpStatusCode.OK)
-                return false;
-
-            var authToken = ParseResult<AuthToken>(response.Result);
-            AuthTokenHelper.AuthToken = authToken;
-
-            return true;
-        }
-
         private async Task<ServiceResponse> Signup(
             string fullName,
+            string city,
             string userName,
             string email,
             string password,
             bool subscribedNewsletters)
         {
+            var payload = new
+            {
+                Email = email,
+                FullName = fullName,
+                UserName = userName,
+                Password = password,
+                City = city,
+                GameId = Constants.GAME_ID,
+                CompanyId = Constants.COMPANY_ID,
+                SubscribedNewsletters = subscribedNewsletters.ToString(),
+            };
+
             var response = await _httpRequestService.SendRequest<ServiceResponse, ServiceResponse>(
-                 baseUrl: Constants.GAME_API_BASEURL,
+                 baseUrl: AppSettingsHelper.AppSettings.BackendApiBaseUrl,
                  path: Constants.Action_SignUp,
                  httpHeaders: new Dictionary<string, string>(),
                  httpMethod: HttpMethod.Post,
-                 payload: new
-                 {
-                     Email = email,
-                     FullName = fullName,
-                     UserName = userName,
-                     Password = password,
-                     GameId = Constants.GAME_ID,
-                     MetaData = new Dictionary<string, string>()
-                     {
-                         { "SubscribedNewsletters", subscribedNewsletters.ToString() }
-                     },
-                 });
+                 contentType: "application/x-www-form-urlencoded",
+                 formUrlEncodedContent: ObjectExtensions.GetProperties(payload));
 
             return response.StatusCode == HttpStatusCode.OK
                 ? response.SuccessResponse ?? new ServiceResponse() { HttpStatusCode = HttpStatusCode.OK }
@@ -360,20 +337,20 @@ namespace HungryWormGame
                 return new ServiceResponse() { HttpStatusCode = HttpStatusCode.Conflict, ExternalError = "Failed to refresh token." };
 
             var response = await _httpRequestService.SendRequest<ServiceResponse, ServiceResponse>(
-                baseUrl: Constants.GAME_API_BASEURL,
+                baseUrl: AppSettingsHelper.AppSettings.BackendApiBaseUrl,
                 path: Constants.Action_SubmitGameScore,
                 httpHeaders: new Dictionary<string, string>() { { "Authorization", $"bearer {AuthTokenHelper.AuthToken.AccessToken}" } },
                 httpMethod: HttpMethod.Post,
                 payload: new
                 {
                     User = new AttachedUser()
-                    {
-                        UserEmail = GameProfileHelper.GameProfile.User.UserEmail,
+                    {                        
                         UserName = GameProfileHelper.GameProfile.User.UserName,
                         UserId = GameProfileHelper.GameProfile.User.UserId,
                     },
                     Score = score,
                     GameId = Constants.GAME_ID,
+                    SessionId = SessionHelper.Session.SessionId.UnBitShift()
                 });
 
             return response.StatusCode == HttpStatusCode.OK
@@ -384,10 +361,10 @@ namespace HungryWormGame
         private async Task<QueryRecordResponse<GameProfile>> GetGameProfile()
         {
             if (!await RefreshAuthToken())
-                new QueryRecordResponse<GameProfile>().BuildErrorResponse(new ErrorResponse() { Errors = new string[] { "Failed to refresh token." } });
+                return new QueryRecordResponse<GameProfile>().BuildErrorResponse(new ErrorResponse() { Errors = new string[] { "Failed to refresh token." } });
 
             var response = await _httpRequestService.SendRequest<QueryRecordResponse<GameProfile>, QueryRecordResponse<GameProfile>>(
-                 baseUrl: Constants.GAME_API_BASEURL,
+                 baseUrl: AppSettingsHelper.AppSettings.BackendApiBaseUrl,
                  path: Constants.Action_GetGameProfile,
                  httpHeaders: new Dictionary<string, string>() { { "Authorization", $"bearer {AuthTokenHelper.AuthToken.AccessToken}" } },
                  httpMethod: HttpMethod.Get,
@@ -406,10 +383,10 @@ namespace HungryWormGame
             int pageSize)
         {
             if (!await RefreshAuthToken())
-                new QueryRecordsResponse<GameProfile>().BuildErrorResponse(new ErrorResponse() { Errors = new string[] { "Failed to refresh token." } });
+                return new QueryRecordsResponse<GameProfile>().BuildErrorResponse(new ErrorResponse() { Errors = new string[] { "Failed to refresh token." } });
 
             var response = await _httpRequestService.SendRequest<QueryRecordsResponse<GameProfile>, QueryRecordsResponse<GameProfile>>(
-                 baseUrl: Constants.GAME_API_BASEURL,
+                 baseUrl: AppSettingsHelper.AppSettings.BackendApiBaseUrl,
                  path: Constants.Action_GetGameProfiles,
                  httpHeaders: new Dictionary<string, string>() { { "Authorization", $"bearer {AuthTokenHelper.AuthToken.AccessToken}" } },
                  httpMethod: HttpMethod.Get,
@@ -430,18 +407,18 @@ namespace HungryWormGame
             int pageSize)
         {
             if (!await RefreshAuthToken())
-                new QueryRecordsResponse<GameScore>().BuildErrorResponse(new ErrorResponse() { Errors = new string[] { "Failed to refresh token." } });
+                return new QueryRecordsResponse<GameScore>().BuildErrorResponse(new ErrorResponse() { Errors = new string[] { "Failed to refresh token." } });
 
             var response = await _httpRequestService.SendRequest<QueryRecordsResponse<GameScore>, QueryRecordsResponse<GameScore>>(
-                 baseUrl: Constants.GAME_API_BASEURL,
-                 path: Constants.Action_GetGameScores,
+                 baseUrl: AppSettingsHelper.AppSettings.BackendApiBaseUrl,
+                 path: Constants.Action_GetGameScoresOfTheDay,
                  httpHeaders: new Dictionary<string, string>() { { "Authorization", $"bearer {AuthTokenHelper.AuthToken.AccessToken}" } },
                  httpMethod: HttpMethod.Get,
                  payload: new
                  {
                      PageIndex = pageIndex,
                      PageSize = pageSize,
-                     ScoreDay = DateTime.UtcNow.Date.ToString("dd-MMM-yyyy"),
+                     //ScoreDay = DateTime.UtcNow.Date.ToString("dd-MMM-yyyy"),
                      GameId = Constants.GAME_ID,
                  });
 
@@ -451,27 +428,117 @@ namespace HungryWormGame
         }
 
         private async Task<QueryRecordResponse<bool>> CheckIdentityAvailability(
-        string userName,
-        string email)
+             string userName,
+             string email)
         {
+            var payload = new
+            {
+                Email = email,
+                UserName = userName,
+                GameId = Constants.GAME_ID,
+                CompanyId = Constants.COMPANY_ID,
+            };
+
             var response = await _httpRequestService.SendRequest<QueryRecordResponse<bool>, QueryRecordResponse<bool>>(
-                 baseUrl: Constants.GAME_API_BASEURL,
+                 baseUrl: AppSettingsHelper.AppSettings.BackendApiBaseUrl,
                  path: Constants.Action_CheckIdentityAvailability,
                  httpHeaders: new Dictionary<string, string>(),
-                 httpMethod: HttpMethod.Get,
-                 payload: new
-                 {
-                     Email = email,
-                     UserName = userName,
-                     GameId = Constants.GAME_ID,
-                 });
+                 httpMethod: HttpMethod.Post,
+                 contentType: "application/x-www-form-urlencoded",
+                 formUrlEncodedContent: ObjectExtensions.GetProperties(payload));
 
             return response.StatusCode == HttpStatusCode.OK
                 ? response.SuccessResponse ?? new QueryRecordResponse<bool>()
                 : response.ErrorResponse ?? new QueryRecordResponse<bool>().BuildErrorResponse(new ErrorResponse() { Errors = new string[] { "No data found." } });
         }
 
-        #endregion      
+        private async Task<QueryRecordResponse<Season>> GetSeason()
+        {
+            var response = await _httpRequestService.SendRequest<QueryRecordResponse<Season>, QueryRecordResponse<Season>>(
+                 baseUrl: AppSettingsHelper.AppSettings.BackendApiBaseUrl,
+                 path: Constants.Action_GetSeason,
+                 httpHeaders: new Dictionary<string, string>(),
+                 httpMethod: HttpMethod.Get,
+                 payload: new
+                 {
+                     CompanyId = Constants.COMPANY_ID,
+                 });
+
+            return response.StatusCode == HttpStatusCode.OK
+                ? response.SuccessResponse ?? new QueryRecordResponse<Season>()
+                : response.ErrorResponse ?? new QueryRecordResponse<Season>().BuildErrorResponse(new ErrorResponse() { Errors = new string[] { "No data found." } });
+        }
+
+        private async Task<QueryRecordResponse<GamePrizeOfTheDay>> GetGamePrize()
+        {
+            //_ = int.TryParse(DateTime.UtcNow.ToString("dd-MMM-yyyy").Split('-')[0], out int day); // take the day part
+
+            var response = await _httpRequestService.SendRequest<QueryRecordResponse<GamePrizeOfTheDay>, QueryRecordResponse<GamePrizeOfTheDay>>(
+                baseUrl: AppSettingsHelper.AppSettings.BackendApiBaseUrl,
+                path: Constants.Action_GetGamePrizeOfTheDay,
+                httpHeaders: new Dictionary<string, string>(),
+                httpMethod: HttpMethod.Get,
+                payload: new
+                {
+                    Culture = LocalizationHelper.CurrentCulture,
+                    //Day = day,
+                    GameId = Constants.GAME_ID,
+                    CompanyId = Constants.COMPANY_ID,
+                });
+
+            return response.StatusCode == HttpStatusCode.OK
+                ? response.SuccessResponse ?? new QueryRecordResponse<GamePrizeOfTheDay>()
+                : response.ErrorResponse ?? new QueryRecordResponse<GamePrizeOfTheDay>().BuildErrorResponse(new ErrorResponse() { Errors = new string[] { "No data found." } });
+        }
+
+        private async Task<QueryRecordResponse<Company>> GetCompany()
+        {
+            var response = await _httpRequestService.SendRequest<QueryRecordResponse<Company>, QueryRecordResponse<Company>>(
+                 baseUrl: AppSettingsHelper.AppSettings.BackendApiBaseUrl,
+                 path: Constants.Action_GetCompany,
+                 httpHeaders: new Dictionary<string, string>(),
+                 httpMethod: HttpMethod.Get,
+                 payload: new
+                 {
+                     CompanyId = Constants.COMPANY_ID,
+                 });
+
+            return response.StatusCode == HttpStatusCode.OK
+                ? response.SuccessResponse ?? new QueryRecordResponse<Company>()
+                : response.ErrorResponse ?? new QueryRecordResponse<Company>().BuildErrorResponse(new ErrorResponse() { Errors = new string[] { "No data found." } });
+        }
+
+        private async Task<bool> RefreshAuthToken()
+        {
+            if (AuthTokenHelper.WillAuthTokenExpireSoon())
+                return await ValidateToken();
+
+            return true;
+        }
+
+        private async Task<bool> ValidateToken()
+        {
+            var response = await ValidateToken(refreshToken: AuthTokenHelper.RefreshToken);
+
+            if (response is null || response.HttpStatusCode != HttpStatusCode.OK)
+                return false;
+
+            SetAuthTokenAndRefreshToken(response);
+
+            return true;
+        }
+
+        private void SetAuthTokenAndRefreshToken(ServiceResponse response)
+        {
+            var authToken = ParseResult<AuthToken>(response.Result);
+            AuthTokenHelper.AuthToken = authToken;
+            AuthTokenHelper.RefreshToken = authToken.RefreshToken;
+
+            if (CookieHelper.IsCookieAccepted())
+                AuthTokenHelper.SetCachedRefreshToken(authToken.RefreshToken);
+        }
+
+        #endregion
 
         #endregion
     }

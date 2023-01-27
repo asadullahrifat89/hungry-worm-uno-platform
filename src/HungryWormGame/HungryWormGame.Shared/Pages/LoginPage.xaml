@@ -47,7 +47,7 @@
                     TextWrapping="WrapWholeWords" />
 
                 <TextBox
-                    x:Name="UserNameBox"
+                    x:Name="UserNameEmailBox"
                     Margin="5"
                     Header="Username or Email"
                     TextChanged="UserNameBox_TextChanged" />
@@ -88,11 +88,11 @@
 
                 <!--  Brand logo  -->
                 <HyperlinkButton
-                    Height="45"
+                    x:Name="BrandButton"
+                    Height="100"
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    NavigateUri="https://www.linkedin.com/in/asadullah-rifat/">
-                    Asadullah Rifat
+                    VerticalAlignment="Center">
+                    <Image Source="ms-appx:///Assets/Images/logo_brand.png" />
                 </HyperlinkButton>
 
                 <!--  Message text  -->

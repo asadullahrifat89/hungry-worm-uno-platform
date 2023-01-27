@@ -30,9 +30,9 @@
 		<!--PWA-->
 		<!--<WasmPWAManifestFile>manifest.json</WasmPWAManifestFile>-->
 	</PropertyGroup>
-	<!--<ItemGroup>
+	<ItemGroup>
 		<WasmShellExtraEmccFlags Include="-s MAXIMUM_MEMORY=4GB" />
-	</ItemGroup>-->
+	</ItemGroup>
 	<ItemGroup>
 		<UpToDateCheckInput Include="..\HungryWormGame.Shared\**\*.xaml" />
 	</ItemGroup>

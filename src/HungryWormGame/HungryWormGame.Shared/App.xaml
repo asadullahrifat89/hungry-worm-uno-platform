@@ -27,10 +27,13 @@
                 <Setter Property="FontFamily" Value="Frutiger" />
             </Style>
 
-            <Style BasedOn="{StaticResource DefaultButtonStyle}" TargetType="Button">
-                <Setter Property="Background" Value="#be1623" />
-                <Setter Property="Foreground" Value="White" />
-                <Setter Property="BorderBrush" Value="White" />
+            <Style
+                x:Key="GameButtonStyle"
+                BasedOn="{StaticResource DefaultButtonStyle}"
+                TargetType="Button">
+                <Setter Property="Background" Value="#206fa3" />
+                <Setter Property="Foreground" Value="#ffffff" />
+                <Setter Property="BorderBrush" Value="#ffffff" />
                 <Setter Property="BorderThickness" Value="3" />
                 <Setter Property="FontWeight" Value="SemiBold" />
                 <Setter Property="FontSize" Value="22" />
@@ -39,6 +42,9 @@
                 <Setter Property="IsFocusEngagementEnabled" Value="False" />
                 <Setter Property="FontFamily" Value="Frutiger" />
             </Style>
+
+            <!--  Applying game button style globally  -->
+            <Style BasedOn="{StaticResource GameButtonStyle}" TargetType="Button" />
 
             <Style BasedOn="{StaticResource DefaultToggleButtonStyle}" TargetType="ToggleButton">
                 <Setter Property="CornerRadius" Value="15" />
@@ -70,8 +76,8 @@
 
             <!--#region Game UI Container Style-->
             <Style x:Key="GameUIContainer" TargetType="Border">
-                <Setter Property="Background" Value="#f7b239" />
-                <Setter Property="BorderBrush" Value="White" />
+                <Setter Property="Background" Value="#ffffff" />
+                <Setter Property="BorderBrush" Value="#85878a" />
                 <Setter Property="CornerRadius" Value="10" />
                 <Setter Property="BorderThickness" Value="0,3,0,3" />
                 <Setter Property="HorizontalAlignment" Value="Center" />
@@ -81,27 +87,29 @@
 
             <!--#region Leaderboard Style-->
             <Style x:Key="LeaderboardRecordContainer" TargetType="Border">
-                <Setter Property="Background" Value="#f95428" />
-                <Setter Property="BorderBrush" Value="White" />
+                <Setter Property="Background" Value="#206fa3" />
+                <Setter Property="BorderBrush" Value="#ffffff" />
                 <Setter Property="CornerRadius" Value="10" />
             </Style>
             <!--#endregion-->
 
             <!--#region Colors-->
-            <SolidColorBrush x:Key="SystemAccentColorLight2" Color="#ff6852" />
-            <SolidColorBrush x:Key="SystemAccentColorDark1" Color="#ff6852" />
+            <SolidColorBrush x:Key="LeaderboardRecordForegroundColor" Color="#ffffff" />
 
-            <SolidColorBrush x:Key="FrameBackgroundColor" Color="#be1623" />
-            <SolidColorBrush x:Key="ProgressBarErrorColor" Color="Red" />
-            <SolidColorBrush x:Key="ProgressBarForegroundColor" Color="#be1623" />
-            <SolidColorBrush x:Key="ProgressBarOkColor" Color="White" />
+            <SolidColorBrush x:Key="SystemAccentColorLight2" Color="#206fa3" />
+            <SolidColorBrush x:Key="SystemAccentColorDark1" Color="#206fa3" />
+
+            <SolidColorBrush x:Key="FrameBackgroundColor" Color="#206fa3" />
+            <SolidColorBrush x:Key="ProgressBarErrorColor" Color="#9d2235" />
+            <SolidColorBrush x:Key="ProgressBarForegroundColor" Color="#206fa3" />
+            <SolidColorBrush x:Key="ProgressBarOkColor" Color="#206fa3" />
 
             <SolidColorBrush x:Key="WormBodyColor" Color="#f7b239" />
-            <SolidColorBrush x:Key="WormBorderColor" Color="Chocolate" />
+            <SolidColorBrush x:Key="WormBorderColor" Color="#be1623" />
 
-            <SolidColorBrush x:Key="GameBackgroundColor" Color="#723a23" />
-            <SolidColorBrush x:Key="SpotBackgroundColor1" Color="#602811" />
-            <SolidColorBrush x:Key="SpotBackgroundColor2" Color="#8c4831" />
+            <SolidColorBrush x:Key="GameBackgroundColor" Color="#b9e1ff" />
+            <SolidColorBrush x:Key="SpotBackgroundColor1" Color="#80c8ff" />
+            <SolidColorBrush x:Key="SpotBackgroundColor2" Color="#a6d9ff" />
             <!--#endregion-->
 
         </ResourceDictionary>
