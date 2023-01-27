@@ -9,17 +9,5 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeSharing\Microsoft.CodeSharing.Common.props" />
   <PropertyGroup />
   <Import Project="HungryWormGame.Shared.projitems" Label="Shared" />
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeSharing\Microsoft.CodeSharing.CSharp.targets" />
-  <ItemGroup>
-    <_Globbed_Compile Remove="Elements\Enemy.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <_Globbed_Content Remove="Assets\Images\collectible7.png" />
-    <_Globbed_Content Remove="Assets\Images\enemy1.png" />
-    <_Globbed_Content Remove="Assets\Images\enemy2.png" />
-    <_Globbed_Content Remove="Assets\Images\enemy2_attack.png" />
-    <_Globbed_Content Remove="Assets\Images\enemy3.png" />
-    <_Globbed_Content Remove="Assets\Images\enemy3_attack.png" />
-    <_Globbed_Content Remove="Assets\Sounds\health_loss.mp3" />
-  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeSharing\Microsoft.CodeSharing.CSharp.targets" /> 
 </Project>

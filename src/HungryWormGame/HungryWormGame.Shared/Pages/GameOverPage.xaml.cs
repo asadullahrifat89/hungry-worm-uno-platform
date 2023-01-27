@@ -56,7 +56,7 @@ namespace HungryWormGame
 
         private async void GameOverPage_Loaded(object sender, RoutedEventArgs e)
         {
-            SizeChanged += GamePage_SizeChanged;
+            SizeChanged += GamePlayPage_SizeChanged;
             StartAnimation();
 
             this.SetLocalization();
@@ -64,10 +64,11 @@ namespace HungryWormGame
             SetGameResults();
             ShowUserName();
 
-            // if user has not logged in or session has expired
-            if (!GameProfileHelper.HasUserLoggedIn() || SessionHelper.HasSessionExpired())
+            // if user has not logged in
+            if (!GameProfileHelper.HasUserLoggedIn())
             {
                 SetLoginContext();
+                await ShowGamePrize();
             }
             else
             {
@@ -84,15 +85,17 @@ namespace HungryWormGame
 
                 this.StopProgressBar();
             }
+
+            await GetCompanyBrand();
         }
 
         private void GameOverPage_Unloaded(object sender, RoutedEventArgs e)
         {
-            SizeChanged -= GamePage_SizeChanged;
+            SizeChanged -= GamePlayPage_SizeChanged;
             StopAnimation();
         }
 
-        private void GamePage_SizeChanged(object sender, SizeChangedEventArgs args)
+        private void GamePlayPage_SizeChanged(object sender, SizeChangedEventArgs args)
         {
             _windowWidth = args.NewSize.Width;
             _windowHeight = args.NewSize.Height;
@@ -113,9 +116,10 @@ namespace HungryWormGame
             NavigateToPage(typeof(LoginPage));
         }
 
-        private void PlayAgainButton_Click(object sender, RoutedEventArgs e)
+        private async void PlayAgainButton_Click(object sender, RoutedEventArgs e)
         {
-            NavigateToPage(typeof(GamePage));
+            if (GameProfileHelper.HasUserLoggedIn() ? await GenerateSession() : true)
+                NavigateToPage(typeof(GamePlayPage));
         }
 
         private void LeaderboardButton_Click(object sender, RoutedEventArgs e)
@@ -131,9 +135,65 @@ namespace HungryWormGame
 
         #region Logic
 
-        private async Task<bool> SubmitScore()
+        private async Task<bool> GetCompanyBrand()
         {
-            (bool IsSuccess, string Message) = await _backendService.SubmitUserGameScore(PlayerScoreHelper.PlayerScore.Score);
+            // if company is not already fetched, fetch it
+            if (CompanyHelper.Company is null)
+            {
+                (bool IsSuccess, string Message, Company Company) = await _backendService.GetCompanyBrand();
+
+                if (!IsSuccess)
+                {
+                    var error = Message;
+                    this.ShowError(error);
+                    return false;
+                }
+
+                if (Company is not null && !Company.WebSiteUrl.IsNullOrBlank())
+                {
+                    CompanyHelper.Company = Company;
+                }
+            }
+
+            if (CompanyHelper.Company is not null)
+                BrandButton.NavigateUri = new Uri(CompanyHelper.Company.WebSiteUrl);
+
+            return true;
+        }
+
+        private async Task<bool> ShowGamePrize()
+        {
+            (bool IsSuccess, string Message, GamePrizeOfTheDay GamePrize) = await _backendService.GetGameDailyPrize();
+
+            if (!IsSuccess)
+            {
+                var error = Message;
+                this.ShowError(error);
+                return false;
+            }
+
+            if (GamePrize is not null
+                && GamePrize.WinningCriteria is not null
+                && GamePrize.WinningCriteria.CriteriaDescriptions is not null
+                && GamePrize.PrizeDescriptions is not null
+                && GamePrize.WinningCriteria.CriteriaDescriptions.Length > 0
+                && GamePrize.PrizeDescriptions.Length > 0)
+            {
+                ShowGamePlayResult(new GamePlayResult()
+                {
+                    GameId = GamePrize.GameId,
+                    PrizeDescriptions = GamePrize.PrizeDescriptions,
+                    PrizeName = GamePrize.Name,
+                    WinningDescriptions = GamePrize.WinningCriteria.CriteriaDescriptions,
+                });
+            }
+
+            return true;
+        }
+
+        private async Task<bool> GenerateSession()
+        {
+            (bool IsSuccess, string Message) = await _backendService.GenerateUserSession();
 
             if (!IsSuccess)
             {
@@ -143,6 +203,28 @@ namespace HungryWormGame
             }
 
             return true;
+        }
+
+        private async Task<bool> SubmitScore()
+        {
+            (bool IsSuccess, string Message, GamePlayResult GamePlayResult) = await _backendService.SubmitUserGameScore(PlayerScoreHelper.PlayerScore.Score);
+
+            if (!IsSuccess)
+            {
+                var error = Message;
+                this.ShowError(error);
+                return false;
+            }
+
+            ShowGamePlayResult(GamePlayResult);
+
+            return true;
+        }
+
+        private void ShowGamePlayResult(GamePlayResult GamePlayResult)
+        {
+            if (GamePlayResult is not null && !GamePlayResult.PrizeName.IsNullOrBlank())
+                PopUpHelper.ShowGamePlayResultPopUp(GamePlayResult);
         }
 
         private void SetGameResults()
@@ -194,7 +276,7 @@ namespace HungryWormGame
 
         private void NavigateToPage(Type pageType)
         {
-            if (pageType == typeof(GamePage))
+            if (pageType == typeof(GamePlayPage))
                 SoundHelper.StopSound(SoundType.INTRO);
 
             SoundHelper.PlaySound(SoundType.MENU_SELECT);
@@ -322,9 +404,7 @@ namespace HungryWormGame
             dirt.SetTop(dirt.GetTop() + _gameSpeed);
 
             if (dirt.GetTop() > UnderView.Height)
-            {
                 RecyleSpot(dirt);
-            }
         }
 
         private void RecyleSpot(GameObject dirt)
@@ -356,9 +436,7 @@ namespace HungryWormGame
             Collectible.SetTop(Collectible.GetTop() + _gameSpeed);
 
             if (Collectible.GetTop() > UnderView.Height)
-            {
                 RecyleCollectible(Collectible);
-            }
         }
 
         private void RecyleCollectible(GameObject collectible)

@@ -113,6 +113,7 @@
                     HorizontalAlignment="Stretch"
                     Click="PlayButton_Click"
                     Content="Start Game"
+                    IsEnabled="False"
                     Tag="ActionButton" />
 
                 <StackPanel Margin="30,5,30,5">
@@ -179,11 +180,11 @@
 
                 <!--  Brand logo  -->
                 <HyperlinkButton
-                    Height="45"
+                    x:Name="BrandButton"
+                    Height="100"
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    NavigateUri="https://www.linkedin.com/in/asadullah-rifat/">
-                    Asadullah Rifat
+                    VerticalAlignment="Center">
+                    <Image Source="ms-appx:///Assets/Images/logo_brand.png" />
                 </HyperlinkButton>
 
                 <!--  Message text  -->

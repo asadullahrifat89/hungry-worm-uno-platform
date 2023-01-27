@@ -67,7 +67,7 @@ namespace HungryWormGame
 
             _systemNavigationManager = SystemNavigationManager.GetForCurrentView();
 
-            _goBackNotAllowedToPages = new List<Type>() { typeof(GamePage) };
+            _goBackNotAllowedToPages = new List<Type>() { typeof(GamePlayPage) };
             _goBackPageRoutes = new List<(Type IfGoingBackTo, Type RouteTo)>() { (IfGoingBackTo: typeof(GameOverPage), RouteTo: typeof(StartPage)) };
 
             LocalizationHelper.CurrentCulture = "en";

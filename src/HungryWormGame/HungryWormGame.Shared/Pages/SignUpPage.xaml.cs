@@ -57,24 +57,27 @@ namespace HungryWormGame
 
         #region Page
 
-        private void SignUpPage_Loaded(object sender, RoutedEventArgs e)
+        private async void SignUpPage_Loaded(object sender, RoutedEventArgs e)
         {
             this.SetLocalization();
 
             _signUpState = SignUpState.FullNameContainer;
             SetSignupState();
 
-            SizeChanged += GamePage_SizeChanged;
+            SizeChanged += GamePlayPage_SizeChanged;
+
+            await GetGameSeason();
+
             StartAnimation();
         }
 
         private void SignUpPage_Unloaded(object sender, RoutedEventArgs e)
         {
-            SizeChanged -= GamePage_SizeChanged;
+            SizeChanged -= GamePlayPage_SizeChanged;
             StopAnimation();
         }
 
-        private void GamePage_SizeChanged(object sender, SizeChangedEventArgs args)
+        private void GamePlayPage_SizeChanged(object sender, SizeChangedEventArgs args)
         {
             _windowWidth = args.NewSize.Width;
             _windowHeight = args.NewSize.Height;
@@ -134,36 +137,16 @@ namespace HungryWormGame
 
         #region Input Fields
 
-        private void UserFullNameBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void SignupField_TextChanged(object sender, TextChangedEventArgs e)
         {
             EnableNextButton();
-        }
-
-        private void UserEmailBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            EnableNextButton();
-        }
-
-        private void UserNameBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            EnableNextButton();
-        }
-
-        private void PasswordBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            EnableNextButton();
-        }
+        }      
 
         private async void PasswordBox_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Enter && SignupButton.IsEnabled)
                 await PerformSignup();
-        }
-
-        private void ConfirmPasswordBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            EnableNextButton();
-        }
+        }      
 
         private void ConfirmCheckBox_Checked(object sender, RoutedEventArgs e)
         {
@@ -182,6 +165,25 @@ namespace HungryWormGame
         #region Methods
 
         #region Logic
+
+        private async Task<bool> GetGameSeason()
+        {
+            (bool IsSuccess, string Message, Season Season) = await _backendService.GetGameSeason();
+
+            if (!IsSuccess)
+            {
+                var error = Message;
+                this.ShowError(error);
+                return false;
+            }
+
+            if (Season is not null && Season.TermsAndConditionsUrls is not null && Season.TermsAndConditionsUrls.Length > 0)
+                TermsAndConditionsButton.NavigateUri = new Uri(Season.TermsAndConditionsUrls.FirstOrDefault(x => x.Culture == LocalizationHelper.CurrentCulture).Value);
+            else
+                TermsAndConditionsButton.Visibility = Visibility.Collapsed;
+
+            return true;
+        }
 
         private void GoToSextSignupState()
         {
@@ -209,24 +211,20 @@ namespace HungryWormGame
             {
                 case SignUpState.FullNameContainer:
                     {
-                        NextButton.IsEnabled =
-                        !UserFullNameBox.Text.IsNullOrBlank()
-                        && IsValidFullName();
+                        var isEnabled = !UserFullNameBox.Text.IsNullOrBlank() && IsValidFullName() && (UserCityBox.Visibility != Visibility.Visible || !UserCityBox.Text.IsNullOrBlank());
+                        NextButton.Visibility = isEnabled ? Visibility.Visible : Visibility.Collapsed;
                     }
                     break;
                 case SignUpState.UserNameContainer:
                     {
-                        NextButton.IsEnabled =
-                        !UserNameBox.Text.IsNullOrBlank()
-                        && !UserEmailBox.Text.IsNullOrBlank()
-                        && IsValidEmail();
+                        var isEnabled = !UserNameBox.Text.IsNullOrBlank() && !UserEmailBox.Text.IsNullOrBlank() && IsValidEmail();
+                        NextButton.Visibility = isEnabled ? Visibility.Visible : Visibility.Collapsed;
                     }
                     break;
                 case SignUpState.PasswordContainer:
                     {
-                        NextButton.IsEnabled =
-                        IsStrongPassword()
-                        && DoPasswordsMatch();
+                        var isEnabled = IsStrongPassword() && DoPasswordsMatch();
+                        NextButton.Visibility = isEnabled ? Visibility.Visible : Visibility.Collapsed;
                     }
                     break;
                 case SignUpState.AcceptanceContainer:
@@ -272,6 +270,7 @@ namespace HungryWormGame
         {
             (bool IsSuccess, string Message) = await _backendService.SignupUser(
                 fullName: UserFullNameBox.Text.Trim(),
+                city: UserCityBox.Text,
                 userName: UserNameBox.Text.Trim(),
                 email: UserEmailBox.Text.ToLower().Trim(),
                 password: PasswordBox.Text.Trim(), 

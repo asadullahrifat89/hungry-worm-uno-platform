@@ -4,15 +4,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Hungry Worm"
+        "Value": "SELISE Hungry Worm"
       },
       {
         "Culture": "de",
-        "Value": "Hungry Worm"
+        "Value": "SELISE Hungry Worm"
       },
       {
         "Culture": "fr",
-        "Value": "Hungry Worm"
+        "Value": "SELISE Hungry Worm"
       }
     ]
   },
@@ -55,7 +55,7 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Deutsch"
+        "Value": "German"
       },
       {
         "Culture": "de",
@@ -63,7 +63,7 @@
       },
       {
         "Culture": "fr",
-        "Value": "Deutsch"
+        "Value": "Allemand"
       }
     ]
   },
@@ -72,15 +72,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "A cute 😘 hungry worm game on WebAssembly."
+        "Value": "Beat the high score and win the prize of the week!"
       },
       {
         "Culture": "de",
-        "Value": "Ein niedliches 😘 Spiel mit hungrigen Würmern auf WebAssembly."
+        "Value": "Schlagt den High Score und gewinnt den Wochenpreis!"
       },
       {
         "Culture": "fr",
-        "Value": "Un joli jeu de vers affamés 😘 sur WebAssembly."
+        "Value": "Battre le meilleure score et gagner le prix de la semaine!"
       }
     ]
   },
@@ -93,7 +93,7 @@
       },
       {
         "Culture": "de",
-        "Value": "Wie man spielt"
+        "Value": "So gehts"
       },
       {
         "Culture": "fr",
@@ -131,7 +131,7 @@
       },
       {
         "Culture": "fr",
-        "Value": "Tableau des leaders"
+        "Value": "Classement"
       }
     ]
   },
@@ -148,7 +148,7 @@
       },
       {
         "Culture": "fr",
-        "Value": "Connexion"
+        "Value": "Login"
       }
     ]
   },
@@ -165,7 +165,7 @@
       },
       {
         "Culture": "fr",
-        "Value": "Se Déconnecter"
+        "Value": "Se déconnecter"
       }
     ]
   },
@@ -178,11 +178,11 @@
       },
       {
         "Culture": "de",
-        "Value": "Du hast noch keinen Account?"
+        "Value": "Sie haben noch keinen Account?"
       },
       {
         "Culture": "fr",
-        "Value": "Tu n'as pas encore de compte?"
+        "Value": "Pas encore de compte?"
       }
     ]
   },
@@ -195,11 +195,11 @@
       },
       {
         "Culture": "de",
-        "Value": "Hergestellt mit ❤️ von"
+        "Value": "Kreiert mit ❤️ von"
       },
       {
         "Culture": "fr",
-        "Value": "Réalisé avec ❤️ par"
+        "Value": "Créé avec ❤️ par"
       }
     ]
   },
@@ -212,7 +212,7 @@
       },
       {
         "Culture": "de",
-        "Value": "👋 Willkommen Zurück!"
+        "Value": "👋 Willkommen zurück!"
       },
       {
         "Culture": "fr",
@@ -280,7 +280,7 @@
       },
       {
         "Culture": "de",
-        "Value": "Wie man spielt"
+        "Value": "So gehts"
       },
       {
         "Culture": "fr",
@@ -310,15 +310,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Move your mouse pointer or your finger on a touchscreen to guide the worm to food."
+        "Value": "Move the worm across the screen with your mouse pointer or your finger on the touchscreen and with it with food."
       },
       {
         "Culture": "de",
-        "Value": "Bewege deinen Mauszeiger oder deinen Finger auf einem Touchscreen, um den Wurm zum Futter zu führen."
+        "Value": "Bewegen Sie den Wurm mit dem Mauszeiger oder Ihrem Finger auf einem Touchscreen, um den Wurm zum Futter zu führen."
       },
       {
         "Culture": "fr",
-        "Value": "Déplacez le pointeur de votre souris ou votre doigt sur un écran tactile pour guider le ver vers la nourriture."
+        "Value": "Déplacez le ver sur l'écran tactile avec le curseur de votre souris ou avec votre doigt afin de pouvoir guider le ver vers la nourriture."
       }
     ]
   },
@@ -327,15 +327,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Health"
+        "Value": "Lives"
       },
       {
         "Culture": "de",
-        "Value": "Gesundheit"
+        "Value": "Leben"
       },
       {
         "Culture": "fr",
-        "Value": "Santé"
+        "Value": "Vies"
       }
     ]
   },
@@ -344,15 +344,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "This is your health bar. It depletes with time. When it runs out its game over."
+        "Value": "This is your live bar. It depletes with time and when it runs out its game over."
       },
       {
         "Culture": "de",
-        "Value": "Dies ist deine Gesundheitsleiste. Sie verbraucht sich mit der Zeit. Wenn sie aufgebraucht ist, ist das Spiel vorbei."
+        "Value": "Dies ist Ihre Lebensleiste. Diese nimmt von Zeit zu Zeit mehr ab und wenn sie aufgebraucht ist, ist das Spiel vorbei."
       },
       {
         "Culture": "fr",
-        "Value": "C'est votre barre de santé. Elle s'épuise avec le temps. Quand elle est épuisée, le jeu est terminé."
+        "Value": "Il s'agit de votre barre de vie. Elle diminue de temps en temps et lorsqu'elle est épuisée, le jeu est terminé."
       }
     ]
   },
@@ -378,15 +378,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Avoid bumping into enemies and loosing health."
+        "Value": "Avoid bumping into enemies and therefore loss of lives."
       },
       {
         "Culture": "de",
-        "Value": "Vermeide es, mit Feinden zusammenzustoßen und Gesundheit zu verlieren."
+        "Value": "Vermeiden Sie es, mit Feinden zusammenzustossen und Leben zu verlieren."
       },
       {
         "Culture": "fr",
-        "Value": "Évitez de vous heurter à des ennemis et de perdre de la santé."
+        "Value": "Évitez de vous heurter à des ennemis et de perdre des vies."
       }
     ]
   },
@@ -399,11 +399,11 @@
       },
       {
         "Culture": "de",
-        "Value": "Sammlerstücke"
+        "Value": "Sammelobjekte"
       },
       {
         "Culture": "fr",
-        "Value": "Pièces de collection"
+        "Value": "Objects de collection"
       }
     ]
   },
@@ -412,15 +412,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Collect these as much as you can to survive and earn points."
+        "Value": "Collect these as many as possible to survive and earn points."
       },
       {
         "Culture": "de",
-        "Value": "Sammle sie so oft wie möglich ein, um zu überleben und Punkte zu sammeln."
+        "Value": "So oft wie möglich einsammeln, um zu überleben und Punkte zu sammeln."
       },
       {
         "Culture": "fr",
-        "Value": "Collectez-les autant que vous le pouvez pour survivre et gagner des points."
+        "Value": "Ramasser le plus de fois possible pour survivre et gagner des points."
       }
     ]
   },
@@ -446,15 +446,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Collect these to pull collectibles like a magnet."
+        "Value": "Use these to pull collectibles like a magnet."
       },
       {
         "Culture": "de",
-        "Value": "Sammle diese, um Sammlerstücke wie ein Magnet anzuziehen."
+        "Value": "Ziehen Sammelobjekte magnetisch an."
       },
       {
         "Culture": "fr",
-        "Value": "Collectionnez-les pour attirer les objets de collection comme un aimant."
+        "Value": "attirent magnétiquement les objets à collectionner."
       }
     ]
   },
@@ -480,15 +480,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Log in, to have a chance to be at the top of the leaderboard."
+        "Value": "Log in to take part in the draw!"
       },
       {
         "Culture": "de",
-        "Value": "Melden Sie sich an, um die Chance zu haben, an der Spitze der Rangliste zu stehen."
+        "Value": "Loggen Sie sich ein, um an der Verlosung teilzunehmen."
       },
       {
         "Culture": "fr",
-        "Value": "Connectez-vous, pour avoir une chance d'être en tête du classement."
+        "Value": "Connectez-vous pour participer au tirage au sort."
       }
     ]
   },
@@ -505,7 +505,7 @@
       },
       {
         "Culture": "fr",
-        "Value": "Jeu Terminé"
+        "Value": "Jeu terminé"
       }
     ]
   },
@@ -548,7 +548,7 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Play Again"
+        "Value": "Play again"
       },
       {
         "Culture": "de",
@@ -595,6 +595,23 @@
     ]
   },
   {
+    "Key": "UserCityBox",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "City"
+      },
+      {
+        "Culture": "de",
+        "Value": "Stadt"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Ville"
+      }
+    ]
+  },
+  {
     "Key": "UserEmailBox",
     "CultureValues": [
       {
@@ -607,12 +624,29 @@
       },
       {
         "Culture": "fr",
-        "Value": "Adresse e-mail"
+        "Value": "Adresse mail"
       }
     ]
   },
   {
     "Key": "UserNameBox",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Username"
+      },
+      {
+        "Culture": "de",
+        "Value": "Benutzername"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Nom d'utilisateur"
+      }
+    ]
+  },
+  {
+    "Key": "UserNameEmailBox",
     "CultureValues": [
       {
         "Culture": "en",
@@ -684,15 +718,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Yes, I would like to subscribe to newsletters."
+        "Value": "Yes, I would like to receive the newsletter and benefit from promotions."
       },
       {
         "Culture": "de",
-        "Value": "Ja, ich möchte den Newsletter abonnieren."
+        "Value": "Ja, ich möchte den Newsletter abonnieren und von Aktionen profitieren."
       },
       {
         "Culture": "fr",
-        "Value": "Oui, je voudrais souscrire aux newsletters."
+        "Value": "Oui, je souhaite m'abonner à la newsletter et profiter des promotions."
       }
     ]
   },
@@ -722,11 +756,11 @@
       },
       {
         "Culture": "de",
-        "Value": "Du hast bereits einen Account?"
+        "Value": "Sie haben bereits einen Account?"
       },
       {
         "Culture": "fr",
-        "Value": "Tu as déjà un compte ??"
+        "Value": "Vous avez déjà un compte?"
       }
     ]
   },
@@ -803,15 +837,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Personal Best Score"
+        "Value": "Personal best score"
       },
       {
         "Culture": "de",
-        "Value": "Persönliche Beste Punktzahl"
+        "Value": "Persönliche Bestpunktzahl"
       },
       {
         "Culture": "fr",
-        "Value": "Meilleur Score Personnel"
+        "Value": "Meilleur score personnel"
       }
     ]
   },
@@ -837,15 +871,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Quit Game?"
+        "Value": "Quit game?"
       },
       {
         "Culture": "de",
-        "Value": "Spiel Verlassen?"
+        "Value": "Spiel verlassen?"
       },
       {
         "Culture": "fr",
-        "Value": "Quitter Le Jeu?"
+        "Value": "Quitter le jeu?"
       }
     ]
   },
@@ -859,7 +893,7 @@
       },
       {
         "Culture": "de",
-        "Value": "Daten laden..."
+        "Value": "Laden..."
       },
       {
         "Culture": "fr",
@@ -995,7 +1029,7 @@
       },
       {
         "Culture": "de",
-        "Value": "Das Passwort muss einen Kleinbuchstabencharakter enthalten"
+        "Value": "Das Passwort muss einen Kleinbuchstaben enthalten"
       },
       {
         "Culture": "fr",
@@ -1102,6 +1136,91 @@
       {
         "Culture": "fr",
         "Value": "JEU PAUSÉ"
+      }
+    ]
+  },
+  {
+    "Key": "SeasonToggle",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "💫 Season"
+      },
+      {
+        "Culture": "de",
+        "Value": "💫 Saison"
+      },
+      {
+        "Culture": "fr",
+        "Value": "💫 Saison"
+      }
+    ]
+  },
+  {
+    "Key": "DailyPrize_Tagline",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "🎁 Weekly prize 🎁"
+      },
+      {
+        "Culture": "de",
+        "Value": "🎁 Wöchentlicher Preis 🎁"
+      },
+      {
+        "Culture": "fr",
+        "Value": "🎁 Prix de la semaine 🎁"
+      }
+    ]
+  },
+  {
+    "Key": "ViewPrizeButton",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "🎁 View Prize 🎁"
+      },
+      {
+        "Culture": "de",
+        "Value": "🎁 Preis ansehen 🎁"
+      },
+      {
+        "Culture": "fr",
+        "Value": "🎁 Voir le prix 🎁"
+      }
+    ]
+  },
+  {
+    "Key": "TermsAndConditionsButton",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Conditions of participation"
+      },
+      {
+        "Culture": "de",
+        "Value": "Teilnahmebedingungen"
+      },
+      {
+        "Culture": "fr",
+        "Value": "Conditions de participation"
+      }
+    ]
+  },
+  {
+    "Key": "LOGIN_PROMPT",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Sign up for a chance to win."
+      },
+      {
+        "Culture": "de",
+        "Value": "Melde dich an, um eine Chance auf den Gewinn zu haben."
+      },
+      {
+        "Culture": "fr",
+        "Value": "Inscris-toi pour avoir une chance de gagner."
       }
     ]
   }
